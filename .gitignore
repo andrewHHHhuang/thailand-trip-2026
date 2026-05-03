@@ -1,0 +1,6 @@
+node_modules/
+.DS_Store
+*.log
+.env
+export_activities.py
+export_activities.js

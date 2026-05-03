@@ -1,0 +1,1461 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>哆啦團 🇹🇭 泰國行程 2026/06</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: 'Segoe UI', system-ui, -apple-system, sans-serif; background: #FFFBEB; color: #1A202C; }
+
+/* ── Header ── */
+.header {
+  background: linear-gradient(135deg, #F97316 0%, #EF4444 100%);
+  color: white; padding: 32px 32px 24px; text-align: center; position: relative;
+}
+.header h1 { font-size: 28px; margin-bottom: 8px; letter-spacing: 1px; font-weight: 800; }
+.header p { opacity: 0.9; font-size: 14px; margin-bottom: 16px; }
+.header-stats { display: flex; justify-content: center; gap: 16px; margin-top: 20px; flex-wrap: wrap; }
+.stat-card {
+  background: rgba(255,255,255,0.15); backdrop-filter: blur(10px);
+  border-radius: 16px; padding: 16px 24px; min-width: 140px;
+  border: 1px solid rgba(255,255,255,0.2);
+}
+.stat-value { font-size: 32px; font-weight: 800; line-height: 1; margin-bottom: 4px; }
+.stat-label { font-size: 12px; opacity: 0.85; }
+
+/* ── Section ── */
+.section { padding: 24px 32px; }
+.section-title {
+  font-size: 16px; font-weight: 700; margin-bottom: 16px;
+  padding-left: 12px; border-left: 4px solid #F97316;
+  display: flex; align-items: center; gap: 8px;
+}
+
+/* ── Tab Navigation ── */
+.tab-nav {
+  position: sticky; top: 0; z-index: 100;
+  background: white; border-bottom: 2px solid #FED7AA;
+  padding: 16px 32px 0; overflow-x: auto;
+  display: flex; gap: 8px;
+}
+.tab-btn {
+  padding: 10px 20px; border: 2px solid #FED7AA; background: white;
+  border-radius: 20px 20px 0 0; cursor: pointer; font-size: 13px;
+  font-weight: 600; color: #EA580C; transition: all 0.2s;
+  white-space: nowrap; border-bottom: none; position: relative; bottom: -2px;
+}
+.tab-btn:hover { background: #FFF7ED; }
+.tab-btn.active {
+  background: linear-gradient(135deg, #F97316 0%, #EF4444 100%);
+  color: white; border-color: #F97316;
+}
+.tab-content { display: none; }
+.tab-content.active { display: block; }
+
+/* ── Timeline (confirmed days) ── */
+.timeline { display: flex; gap: 10px; overflow-x: auto; padding-bottom: 8px; }
+.day-card {
+  min-width: 150px; background: white; border-radius: 12px;
+  padding: 14px; box-shadow: 0 2px 8px rgba(0,0,0,0.07);
+  border-top: 4px solid #00B4D8; flex-shrink: 0;
+}
+.day-card.bkk { border-top-color: #FF6B6B; }
+.day-card.solo { border-top-color: #9B59B6; border: 2px dashed #9B59B6; background: #FAF5FF; }
+.day-weekday { font-size: 10px; color: #888; text-transform: uppercase; letter-spacing: 0.5px; }
+.day-date { font-weight: 800; font-size: 18px; margin: 2px 0 4px; }
+.day-area { font-size: 11px; color: #666; margin-bottom: 10px; }
+.day-hotel { font-size: 10px; color: #999; padding: 3px 6px; background: #F7F7F7; border-radius: 4px; margin-bottom: 8px; }
+.ev { font-size: 11px; padding: 3px 8px; border-radius: 5px; margin-bottom: 3px; }
+.ev.am  { background: #FFF9E6; color: #B7791F; }
+.ev.pm  { background: #EBF4FF; color: #2B6CB0; }
+.ev.eve { background: #FAF5FF; color: #6B46C1; }
+.ev.ngt { background: #1A202C; color: #FC8181; }
+.solo-label { font-size: 11px; color: #9B59B6; font-weight: 700; text-align: center; margin-top: 4px; }
+.map-link { color: inherit; text-decoration: none; display: inline-flex; align-items: center; gap: 2px; }
+.map-link:hover { text-decoration: underline; }
+.map-pin { font-size: 9px; opacity: 0.55; }
+
+/* ── Discussion Section ── */
+.discuss-section {
+  padding: 20px 32px;
+  background: #FFFBEB;
+  border-top: 2px dashed #FCD34D;
+  border-bottom: 2px dashed #FCD34D;
+}
+.discuss-title {
+  font-size: 16px; font-weight: 700; margin-bottom: 16px;
+  padding-left: 12px; border-left: 4px solid #F59E0B;
+  display: flex; align-items: center; gap: 8px; color: #92400E;
+}
+.plan-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+.plan-card {
+  background: white; border-radius: 14px; padding: 18px;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.07);
+}
+.plan-card.plan-b { border-top: 4px solid #3B82F6; }
+.plan-card.plan-c { border-top: 4px solid #10B981; }
+.plan-name { font-weight: 800; font-size: 15px; margin-bottom: 4px; }
+.plan-b .plan-name { color: #1D4ED8; }
+.plan-c .plan-name { color: #065F46; }
+.plan-desc { font-size: 11px; color: #6B7280; margin-bottom: 14px; }
+.plan-day { margin-bottom: 12px; }
+.plan-day-label { font-size: 11px; font-weight: 700; color: #374151; margin-bottom: 6px; padding-bottom: 3px; border-bottom: 1px solid #F3F4F6; }
+.plan-ev { font-size: 12px; padding: 3px 0; color: #374151; display: flex; gap: 6px; }
+.plan-ev span { min-width: 14px; }
+.plan-note { font-size: 11px; color: #9CA3AF; background: #F9FAFB; border-radius: 6px; padding: 6px 8px; margin-top: 8px; }
+@media (max-width: 768px) {
+  .plan-grid { grid-template-columns: 1fr; }
+  .discuss-section { padding: 16px; }
+}
+
+/* ── Daily Panel (改為單日完整版面) ── */
+.daily-panel {
+  background: white; border-radius: 14px; padding: 24px;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+  border-left: 4px solid #F97316; max-width: 900px; margin: 0 auto;
+}
+.daily-panel.bkk { border-left-color: #EF4444; }
+.daily-title {
+  font-weight: 800; font-size: 20px; color: #EA580C;
+  margin-bottom: 4px; display: flex; align-items: center; gap: 8px;
+}
+.daily-panel.bkk .daily-title { color: #DC2626; }
+.daily-hotel {
+  font-size: 12px; color: #78716C; margin-bottom: 20px;
+  padding: 8px 12px; background: #FFF7ED; border-radius: 8px; display: inline-block;
+}
+.tag.locked {
+  background: #1E293B; color: #CBD5E1; font-size: 10.5px;
+  cursor: default; pointer-events: none; line-height: 1.4;
+}
+@media (max-width: 768px) { .group-grid { grid-template-columns: 1fr; } }
+
+/* ── Solo Planner ── */
+.solo-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+.solo-day-panel {
+  background: white; border-radius: 14px; padding: 18px;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+  border-top: 4px solid #9B59B6;
+}
+.solo-day-title {
+  font-weight: 800; font-size: 15px; color: #6B21A8; margin-bottom: 4px;
+}
+.solo-day-sub { font-size: 11px; color: #999; margin-bottom: 14px; }
+
+.time-slot { margin-bottom: 16px; }
+.slot-label {
+  font-size: 11px; font-weight: 700; color: #EA580C;
+  margin-bottom: 6px; display: flex; align-items: center; gap: 6px;
+}
+.slot-body {
+  min-height: 44px; border: 1.5px dashed #FED7AA; border-radius: 10px;
+  padding: 8px 12px; cursor: pointer; transition: all 0.15s;
+  display: flex; flex-wrap: wrap; gap: 6px; align-items: flex-start;
+}
+.slot-body:hover { border-color: #F97316; background: #FFF7ED; }
+.slot-body.filled { border-style: solid; border-color: #FB923C; background: #FFFBEB; }
+.slot-empty-hint { color: #FDBA74; font-size: 12px; display: flex; align-items: center; gap: 4px; }
+
+.tag {
+  display: inline-flex; align-items: center; gap: 4px;
+  background: #F97316; color: white; border-radius: 6px;
+  padding: 3px 10px; font-size: 11px; font-weight: 500;
+}
+.tag-remove { cursor: pointer; opacity: 0.8; font-weight: 700; }
+.tag-remove:hover { opacity: 1; }
+
+.notes-area {
+  width: 100%; border: 1.5px solid #EDE9FE; border-radius: 8px;
+  padding: 7px 9px; font-size: 12px; resize: none; font-family: inherit;
+  color: #374151; margin-top: 10px; background: #FAFAF9;
+}
+.notes-area:focus { outline: none; border-color: #7C3AED; background: white; }
+
+/* 6/25 警告 */
+.flight-notice {
+  background: #FFF3CD; border: 1.5px solid #FFC107; border-radius: 8px;
+  padding: 8px 10px; font-size: 11px; color: #856404; margin-bottom: 12px;
+  display: flex; align-items: center; gap: 6px;
+}
+
+/* ── Activity Pool ── */
+.region-section { margin-bottom: 28px; }
+.region-title {
+  font-size: 16px; font-weight: 800; color: #1A202C;
+  padding: 10px 14px; background: linear-gradient(135deg, #FFF7ED 0%, #FFEDD5 100%);
+  border-left: 4px solid #F97316; border-radius: 8px; margin-bottom: 16px;
+}
+.pool-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 14px; }
+.pool-card { background: white; border-radius: 12px; padding: 14px; box-shadow: 0 1px 6px rgba(0,0,0,0.06); }
+.pool-cat { font-size: 12px; font-weight: 700; margin-bottom: 10px; }
+.chips { display: flex; flex-wrap: wrap; gap: 5px; }
+.chip {
+  padding: 4px 10px; border-radius: 16px; font-size: 11px;
+  cursor: pointer; border: 1.5px solid; transition: all 0.15s; white-space: nowrap;
+}
+.chip:hover { transform: translateY(-1px); box-shadow: 0 2px 6px rgba(249,115,22,0.3); }
+.chip.nightlife  { background: #FFF7ED; color: #C2410C; border-color: #FDBA74; }
+.chip.nightlife:hover  { background: #FB923C; color: white; }
+.chip.shopping   { background: #FFFBEB; color: #D97706; border-color: #FCD34D; }
+.chip.shopping:hover   { background: #FBBF24; color: white; }
+.chip.food       { background: #FEF3C7; color: #92400E; border-color: #FDE68A; }
+.chip.food:hover       { background: #FCD34D; color: #78350F; }
+.chip.culture    { background: #FFF7ED; color: #EA580C; border-color: #FDBA74; }
+.chip.culture:hover    { background: #F97316; color: white; }
+.chip.relax      { background: #FFF7ED; color: #C2410C; border-color: #FED7AA; }
+.chip.relax:hover      { background: #FB923C; color: white; }
+.chip.pattaya    { background: #FFF8F0; color: #C2410C; border-color: #FDBA74; }
+.chip.pattaya:hover    { background: #FDBA74; color: #7C2D12; }
+.chip.pattaya-att  { background: #FFEDD5; color: #EA580C; border-color: #FED7AA; }
+.chip.pattaya-att:hover{ background: #FB923C; color: white; }
+.chip.attractions  { background: #FFEDD5; color: #EA580C; border-color: #FED7AA; }
+.chip.attractions:hover{ background: #FB923C; color: white; }
+.chip.transport  { background: #F3F4F6; color: #6B7280; border-color: #D1D5DB; }
+.chip.transport:hover  { background: #9CA3AF; color: white; }
+
+.chip-wrap { display: inline-flex; align-items: center; gap: 3px; }
+.chip-info-btn {
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 18px; height: 18px; border-radius: 50%; flex-shrink: 0;
+  background: rgba(0,0,0,0.1); color: #555; font-size: 10px;
+  font-style: italic; font-weight: 800; cursor: pointer;
+  border: none; line-height: 1; transition: background 0.15s;
+  position: relative; z-index: 10;
+  padding: 0; margin: 0;
+}
+.chip-info-btn:hover { background: rgba(0,0,0,0.22); color: #111; }
+.chip-info-btn:active { background: rgba(0,0,0,0.3); }
+
+/* Info Modal */
+.info-modal {
+  background: white; border-radius: 16px; padding: 22px;
+  width: 90%; max-width: 380px;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.22);
+}
+.info-modal-badge {
+  display: inline-block; font-size: 10px; font-weight: 700;
+  padding: 2px 8px; border-radius: 10px; margin-bottom: 10px;
+  text-transform: uppercase; letter-spacing: 0.5px;
+}
+.info-modal-name { font-weight: 800; font-size: 17px; margin-bottom: 8px; color: #1A202C; }
+.info-modal-desc { font-size: 13px; color: #4B5563; line-height: 1.65; margin-bottom: 12px; }
+.info-modal-tags { display: flex; flex-wrap: wrap; gap: 5px; margin-bottom: 16px; }
+.info-tag {
+  font-size: 10px; padding: 2px 8px; border-radius: 10px;
+  background: #F3F4F6; color: #6B7280;
+}
+.info-modal-footer { display: flex; gap: 8px; }
+.btn-info-add {
+  flex: 1; padding: 9px; background: #7C3AED; color: white;
+  border: none; border-radius: 8px; font-size: 13px; font-weight: 700;
+  cursor: pointer;
+}
+.btn-info-add:hover { background: #6D28D9; }
+.btn-info-close {
+  padding: 9px 14px; background: white; color: #374151;
+  border: 1.5px solid #E5E7EB; border-radius: 8px; font-size: 13px;
+  cursor: pointer;
+}
+.btn-info-close:hover { background: #F9FAFB; }
+.btn-maps {
+  display: inline-flex; align-items: center; gap: 5px;
+  padding: 9px 14px; background: #E8F5E9; color: #2E7D32;
+  border: 1.5px solid #A5D6A7; border-radius: 8px; font-size: 13px;
+  font-weight: 700; text-decoration: none; cursor: pointer;
+}
+.btn-maps:hover { background: #C8E6C9; }
+
+/* ── Modal ── */
+.overlay {
+  display: none; position: fixed; inset: 0;
+  background: rgba(0,0,0,0.45); z-index: 999;
+  align-items: center; justify-content: center;
+}
+.overlay.open { display: flex; }
+.modal {
+  background: white; border-radius: 16px; padding: 24px;
+  width: 92%; max-width: 480px; max-height: 82vh; overflow-y: auto;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.2);
+}
+.modal-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 18px; }
+.modal-head h3 { font-size: 16px; font-weight: 700; }
+.modal-close { font-size: 22px; cursor: pointer; color: #9CA3AF; background: none; border: none; line-height: 1; }
+.modal-close:hover { color: #374151; }
+.modal-section { margin-bottom: 16px; }
+.modal-section-title {
+  font-size: 11px; font-weight: 700; color: #9CA3AF;
+  text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 8px;
+}
+.custom-row { display: flex; gap: 8px; margin-top: 14px; }
+.custom-row input {
+  flex: 1; border: 1.5px solid #E5E7EB; border-radius: 8px;
+  padding: 8px 12px; font-size: 13px; font-family: inherit;
+}
+.custom-row input:focus { outline: none; border-color: #7C3AED; }
+.btn-add { background: #7C3AED; color: white; border: none; border-radius: 8px; padding: 8px 16px; cursor: pointer; font-size: 13px; font-weight: 600; }
+.btn-add:hover { background: #6D28D9; }
+
+/* ── Save Bar ── */
+.save-bar {
+  position: sticky; bottom: 0; background: white;
+  border-top: 1px solid #E5E7EB; padding: 12px 32px;
+  display: flex; justify-content: space-between; align-items: center;
+  box-shadow: 0 -4px 16px rgba(0,0,0,0.07);
+}
+.save-status { font-size: 12px; color: #9CA3AF; }
+.btns { display: flex; gap: 8px; }
+.btn { padding: 8px 18px; border-radius: 8px; border: none; cursor: pointer; font-size: 13px; font-weight: 600; }
+.btn-primary { background: linear-gradient(135deg, #F97316 0%, #EF4444 100%); color: white; }
+.btn-primary:hover { background: linear-gradient(135deg, #EA580C 0%, #DC2626 100%); }
+.btn-outline { background: white; color: #374151; border: 1.5px solid #E5E7EB; }
+.btn-outline:hover { background: #F9FAFB; }
+
+@media (max-width: 768px) {
+  .section { padding: 16px; }
+  .solo-grid { grid-template-columns: 1fr; }
+  .save-bar { padding: 12px 16px; }
+}
+</style>
+</head>
+<body>
+
+<div class="header">
+  <h1>🇹🇭 哆啦團 泰國行程 2026</h1>
+  <p>6月18日 — 6月25日 ✈ 芭達雅 + 曼谷</p>
+  <div class="header-stats">
+    <div class="stat-card">
+      <div class="stat-value" id="days-left">47</div>
+      <div class="stat-label">天後出發</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-value">🌤 32°C</div>
+      <div class="stat-label">芭達雅天氣</div>
+    </div>
+  </div>
+</div>
+
+<!-- ── Tab Navigation ── -->
+<div class="tab-nav">
+  <button class="tab-btn active" onclick="switchTab('tab-note')">📝 注意事項</button>
+  <button class="tab-btn" onclick="switchTab('tab-618')">6/18 芭達雅</button>
+  <button class="tab-btn" onclick="switchTab('tab-619')">6/19 芭達雅</button>
+  <button class="tab-btn" onclick="switchTab('tab-620')">6/20 芭達雅</button>
+  <button class="tab-btn" onclick="switchTab('tab-621')">6/21 芭達雅</button>
+  <button class="tab-btn" onclick="switchTab('tab-622')">6/22 → 曼谷</button>
+  <button class="tab-btn" onclick="switchTab('tab-623')">6/23 曼谷</button>
+  <button class="tab-btn" onclick="switchTab('tab-624')">6/24 曼谷 (Solo)</button>
+  <button class="tab-btn" onclick="switchTab('tab-625')">6/25 返台</button>
+  <button class="tab-btn" onclick="switchTab('tab-pool')">🎯 活動池</button>
+</div>
+
+<!-- ── Tab: 注意事項 ── -->
+<div id="tab-note" class="tab-content active section">
+  <div class="section-title">📝 出發前必備清單</div>
+  <div class="daily-panel">
+    <h3 style="font-size: 16px; margin-bottom: 12px; color: #EA580C;">✅ 必須項目</h3>
+    <ul style="line-height: 1.8; font-size: 13px; color: #57534E; padding-left: 20px;">
+      <li>護照（效期超過 6 個月）</li>
+      <li>電子入境卡 TDAC（72 小時前完成）</li>
+      <li>現金等值 20,000 泰銖以上</li>
+      <li>eSIM / SIM 卡</li>
+    </ul>
+    <h3 style="font-size: 16px; margin: 20px 0 12px; color: #EA580C;">💡 建議準備</h3>
+    <ul style="line-height: 1.8; font-size: 13px; color: #57534E; padding-left: 20px;">
+      <li>旅平險</li>
+      <li>個人藥品、胃藥</li>
+      <li>Grab 應用程式</li>
+      <li>防蚊液、防曬乳</li>
+      <li>雨具（6 月雨季）</li>
+    </ul>
+    <h3 style="font-size: 16px; margin: 20px 0 12px; color: #DC2626;">⚠️ 重要提醒</h3>
+    <ul style="line-height: 1.8; font-size: 13px; color: #57534E; padding-left: 20px;">
+      <li>小費需給紙鈔（禁銅板）</li>
+      <li>進寺廟需著長褲或長裙、脫鞋</li>
+      <li>不可觸摸泰國人頭部</li>
+      <li>交通使用 Grab 或 Bolt</li>
+    </ul>
+  </div>
+</div>
+
+<!-- ── Tab: 6/18 ── -->
+<div id="tab-618" class="tab-content section">
+  <div class="daily-panel">
+    <div class="daily-title">📅 6/18 (四) 　第一天：抵達芭達雅</div>
+    <div class="daily-hotel">🏨 <a class="map-link" href="https://maps.google.com/?q=558+Moo+5+Naklua+Soi+10+Banglamung+Pattaya+Navana+Nature+Escape" target="_blank">Navana Nature Escape 📍</a>　⚠️ Circuit 預登記 6/10 開放</div>
+
+    <div class="time-slot"><div class="slot-label">☀️ 早上</div><div class="slot-body filled" id="g18-am" onclick="openModal('g18','am')"></div></div>
+    <div class="time-slot"><div class="slot-label">🍽 午餐</div><div class="slot-body" id="g18-noon" onclick="openModal('g18','noon')"><span class="slot-empty-hint">＋ 點擊新增</span></div></div>
+    <div class="time-slot"><div class="slot-label">🌤 下午</div><div class="slot-body filled" id="g18-pm" onclick="openModal('g18','pm')"></div></div>
+    <div class="time-slot"><div class="slot-label">🌆 傍晚</div><div class="slot-body" id="g18-eve" onclick="openModal('g18','eve')"><span class="slot-empty-hint">＋ 點擊新增</span></div></div>
+    <div class="time-slot"><div class="slot-label">🌙 晚上</div><div class="slot-body" id="g18-ngt" onclick="openModal('g18','ngt')"><span class="slot-empty-hint">＋ 點擊新增</span></div></div>
+    <textarea class="notes-area" rows="2" placeholder="💬 備註 / 討論..." id="note-g18" onchange="save()"></textarea>
+  </div>
+</div>
+
+<!-- ── Tab: 6/19 ── -->
+<div id="tab-619" class="tab-content section">
+  <div class="daily-panel">
+    <div class="daily-title">📅 6/19 (五) 　芭達雅</div>
+    <div class="daily-hotel">🏨 <a class="map-link" href="https://maps.google.com/?q=12.96984,100.89511" target="_blank">The Zign Hotel 📍</a></div>
+
+    <div class="time-slot"><div class="slot-label">☀️ 早上</div><div class="slot-body" id="g19-am" onclick="openModal('g19','am')"><span class="slot-empty-hint">＋ 點擊新增</span></div></div>
+    <div class="time-slot"><div class="slot-label">🍽 午餐</div><div class="slot-body" id="g19-noon" onclick="openModal('g19','noon')"><span class="slot-empty-hint">＋ 點擊新增</span></div></div>
+    <div class="time-slot"><div class="slot-label">🌤 下午</div><div class="slot-body" id="g19-pm" onclick="openModal('g19','pm')"><span class="slot-empty-hint">＋ 點擊新增</span></div></div>
+    <div class="time-slot"><div class="slot-label">🌆 傍晚</div><div class="slot-body filled" id="g19-eve" onclick="openModal('g19','eve')"></div></div>
+    <div class="time-slot"><div class="slot-label">🌙 晚上</div><div class="slot-body filled" id="g19-ngt" onclick="openModal('g19','ngt')"></div></div>
+    <textarea class="notes-area" rows="2" placeholder="💬 備註 / 討論..." id="note-g19" onchange="save()"></textarea>
+  </div>
+</div>
+
+<!-- ── Tab: 6/20 ── -->
+<div id="tab-620" class="tab-content section">
+  <div class="daily-panel">
+    <div class="daily-title">📅 6/20 (六) 　芭達雅</div>
+    <div class="daily-hotel">🏨 <a class="map-link" href="https://maps.google.com/?q=12.96984,100.89511" target="_blank">The Zign Hotel 📍</a></div>
+    <div class="time-slot"><div class="slot-label">☀️ 早上</div><div class="slot-body" id="g20-am" onclick="openModal('g20','am')"><span class="slot-empty-hint">＋ 點擊新增</span></div></div>
+    <div class="time-slot"><div class="slot-label">🍽 午餐</div><div class="slot-body" id="g20-noon" onclick="openModal('g20','noon')"><span class="slot-empty-hint">＋ 點擊新增</span></div></div>
+    <div class="time-slot"><div class="slot-label">🌤 下午</div><div class="slot-body filled" id="g20-pm" onclick="openModal('g20','pm')"></div></div>
+    <div class="time-slot"><div class="slot-label">🌆 傍晚</div><div class="slot-body" id="g20-eve" onclick="openModal('g20','eve')"><span class="slot-empty-hint">＋ 點擊新增</span></div></div>
+    <div class="time-slot"><div class="slot-label">🌙 晚上</div><div class="slot-body filled" id="g20-ngt" onclick="openModal('g20','ngt')"></div></div>
+    <textarea class="notes-area" rows="2" placeholder="💬 備註 / 討論..." id="note-g20" onchange="save()"></textarea>
+  </div>
+</div>
+
+<!-- ── Tab: 6/21 ── -->
+<div id="tab-621" class="tab-content section">
+  <div class="daily-panel">
+    <div class="daily-title">📅 6/21 (日) 　芭達雅</div>
+    <div class="daily-hotel">🏨 <a class="map-link" href="https://maps.google.com/?q=12.96984,100.89511" target="_blank">The Zign Hotel 📍</a></div>
+    <div class="time-slot"><div class="slot-label">☀️ 早上</div><div class="slot-body" id="g21-am" onclick="openModal('g21','am')"><span class="slot-empty-hint">＋ 點擊新增</span></div></div>
+    <div class="time-slot"><div class="slot-label">🍽 午餐</div><div class="slot-body" id="g21-noon" onclick="openModal('g21','noon')"><span class="slot-empty-hint">＋ 點擊新增</span></div></div>
+    <div class="time-slot"><div class="slot-label">🌤 下午</div><div class="slot-body" id="g21-pm" onclick="openModal('g21','pm')"><span class="slot-empty-hint">＋ 點擊新增</span></div></div>
+    <div class="time-slot"><div class="slot-label">🌆 傍晚</div><div class="slot-body filled" id="g21-eve" onclick="openModal('g21','eve')"></div></div>
+    <div class="time-slot"><div class="slot-label">🌙 晚上</div><div class="slot-body" id="g21-ngt" onclick="openModal('g21','ngt')"><span class="slot-empty-hint">＋ 點擊新增</span></div></div>
+    <textarea class="notes-area" rows="2" placeholder="💬 備註 / 討論..." id="note-g21" onchange="save()"></textarea>
+  </div>
+</div>
+
+<!-- ── Tab: 6/22 ── -->
+<div id="tab-622" class="tab-content section">
+  <div class="daily-panel bkk">
+    <div class="daily-title">📅 6/22 (一) 　→ 曼谷</div>
+    <div class="daily-hotel">🏨 <a class="map-link" href="https://maps.google.com/?q=Passa+Hotel+63+Soi+Saladaeng+2+Bang+Rak+Bangkok+10500" target="_blank">Passa Hotel Bangkok 📍</a></div>
+    <div class="time-slot"><div class="slot-label">☀️ 早上</div><div class="slot-body" id="g22-am" onclick="openModal('g22','am')"><span class="slot-empty-hint">＋ 點擊新增</span></div></div>
+    <div class="time-slot"><div class="slot-label">🍽 午餐</div><div class="slot-body" id="g22-noon" onclick="openModal('g22','noon')"><span class="slot-empty-hint">＋ 點擊新增</span></div></div>
+    <div class="time-slot"><div class="slot-label">🌤 下午</div><div class="slot-body" id="g22-pm" onclick="openModal('g22','pm')"><span class="slot-empty-hint">＋ 點擊新增</span></div></div>
+    <div class="time-slot"><div class="slot-label">🌆 傍晚</div><div class="slot-body" id="g22-eve" onclick="openModal('g22','eve')"><span class="slot-empty-hint">＋ 點擊新增</span></div></div>
+    <div class="time-slot"><div class="slot-label">🌙 晚上</div><div class="slot-body" id="g22-ngt" onclick="openModal('g22','ngt')"><span class="slot-empty-hint">＋ 點擊新增</span></div></div>
+    <textarea class="notes-area" rows="2" placeholder="💬 備註 / 討論..." id="note-g22" onchange="save()"></textarea>
+  </div>
+</div>
+
+<!-- ── Tab: 6/23 ── -->
+<div id="tab-623" class="tab-content section">
+  <div class="daily-panel bkk">
+    <div class="daily-title">📅 6/23 (二) 　曼谷</div>
+    <div class="daily-hotel">🏨 <a class="map-link" href="https://maps.google.com/?q=The+Quarter+Silom+12+Suriyawong+Soi+Silom+6+Bang+Rak+Bangkok+10500" target="_blank">The Quarter Silom 📍</a>　👤 哆啦繼續留</div>
+    <div class="time-slot"><div class="slot-label">☀️ 早上</div><div class="slot-body" id="g23-am" onclick="openModal('g23','am')"><span class="slot-empty-hint">＋ 點擊新增</span></div></div>
+    <div class="time-slot"><div class="slot-label">🍽 午餐</div><div class="slot-body" id="g23-noon" onclick="openModal('g23','noon')"><span class="slot-empty-hint">＋ 點擊新增</span></div></div>
+    <div class="time-slot"><div class="slot-label">🌤 下午</div><div class="slot-body" id="g23-pm" onclick="openModal('g23','pm')"><span class="slot-empty-hint">＋ 點擊新增</span></div></div>
+    <div class="time-slot"><div class="slot-label">🌆 傍晚</div><div class="slot-body filled" id="g23-eve" onclick="openModal('g23','eve')"></div></div>
+    <div class="time-slot"><div class="slot-label">🌙 晚上（Solo）</div><div class="slot-body" id="g23-ngt" onclick="openModal('g23','ngt')"><span class="slot-empty-hint">＋ 點擊新增</span></div></div>
+    <textarea class="notes-area" rows="3" placeholder="💬 備註 / 討論..." id="note-g23" onchange="save()">⚠️ 行李規劃待確認：退房後行李放哪？選項：A) 寄放 Passa Hotel 吃完折返拿 B) 行李先送 The Quarter Silom（哆啦）／機場（其他人），吃完直奔機場 C) Gaysorn Amarin 商場行李寄放</textarea>
+  </div>
+</div>
+
+<!-- ── Tab: 6/24 Solo ── -->
+<div id="tab-624" class="tab-content section">
+  <div class="daily-panel" style="border-left-color: #9B59B6;">
+    <div class="daily-title" style="color: #6B21A8;">📅 6/24 (三) 　曼谷（Solo）</div>
+    <div class="daily-hotel" style="background: #FAF5FF;">完整一天 · Barber 週三開 · Mania 每日開</div>
+    <div class="time-slot"><div class="slot-label">☀️ 早上</div><div class="slot-body" id="d24-am" onclick="openModal('d24','am')"><span class="slot-empty-hint">＋ 點擊新增行程</span></div></div>
+    <div class="time-slot"><div class="slot-label">🌤 下午</div><div class="slot-body" id="d24-pm" onclick="openModal('d24','pm')"><span class="slot-empty-hint">＋ 點擊新增行程</span></div></div>
+    <div class="time-slot"><div class="slot-label">🌆 傍晚</div><div class="slot-body" id="d24-eve" onclick="openModal('d24','eve')"><span class="slot-empty-hint">＋ 點擊新增行程</span></div></div>
+    <div class="time-slot"><div class="slot-label">🌙 晚上</div><div class="slot-body" id="d24-ngt" onclick="openModal('d24','ngt')"><span class="slot-empty-hint">＋ 點擊新增行程</span></div></div>
+    <textarea class="notes-area" rows="2" placeholder="💬 備註 / 討論..." id="note-d24" onchange="save()"></textarea>
+  </div>
+</div>
+
+<!-- ── Tab: 6/25 返台 ── -->
+<div id="tab-625" class="tab-content section">
+  <div class="daily-panel" style="border-left-color: #9B59B6;">
+    <div class="daily-title" style="color: #6B21A8;">📅 6/25 (四) 　返台</div>
+    <div class="daily-hotel" style="background: #FAF5FF;">✈ CI 836 17:30 起飛 · 建議 15:00 前出發機場</div>
+    <div style="background: #FFF3CD; border: 1.5px solid #FFC107; border-radius: 8px; padding: 10px 12px; font-size: 12px; color: #856404; margin-bottom: 16px;">⚠️ 下午 15:00 前需出發往機場</div>
+    <div class="time-slot"><div class="slot-label">☀️ 早上</div><div class="slot-body" id="d25-am" onclick="openModal('d25','am')"><span class="slot-empty-hint">＋ 點擊新增行程</span></div></div>
+    <div class="time-slot"><div class="slot-label">🌤 中午前</div><div class="slot-body" id="d25-pm" onclick="openModal('d25','pm')"><span class="slot-empty-hint">＋ 點擊新增行程</span></div></div>
+    <div class="time-slot"><div class="slot-label">🚖 前往機場</div><div class="slot-body filled"><span class="tag locked">🛫 BKK→CI 836 17:30</span></div></div>
+    <textarea class="notes-area" rows="2" placeholder="💬 備註 / 討論..." id="note-d25" onchange="save()"></textarea>
+  </div>
+</div>
+
+<!-- ── Tab: Activity Pool ── -->
+<div id="tab-pool" class="tab-content section">
+  <div class="section-title">🎯 可選活動（點選加入行程）</div>
+
+  <!-- 曼谷區 -->
+  <div class="region-section">
+    <div class="region-title">🏙️ 曼谷區（6/22–6/25）</div>
+    <div class="pool-grid">
+      <div class="pool-card">
+        <div class="pool-cat">🍸 夜生活</div>
+        <div class="chips" id="pool-bangkok-nightlife"></div>
+      </div>
+      <div class="pool-card">
+        <div class="pool-cat">🛍 購物</div>
+        <div class="chips" id="pool-bangkok-shopping"></div>
+      </div>
+      <div class="pool-card">
+        <div class="pool-cat">🍜 美食</div>
+        <div class="chips" id="pool-bangkok-food"></div>
+      </div>
+      <div class="pool-card">
+        <div class="pool-cat">🏛 文化景點</div>
+        <div class="chips" id="pool-bangkok-culture"></div>
+      </div>
+      <div class="pool-card">
+        <div class="pool-cat">💆 放鬆</div>
+        <div class="chips" id="pool-bangkok-relax"></div>
+      </div>
+      <div class="pool-card">
+        <div class="pool-cat">🚖 交通</div>
+        <div class="chips" id="pool-bangkok-transport"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 芭達雅區 -->
+  <div class="region-section">
+    <div class="region-title">🏝️ 芭達雅區（6/18–6/21）</div>
+    <div class="pool-grid">
+      <div class="pool-card">
+        <div class="pool-cat">🍜 美食</div>
+        <div class="chips" id="pool-pattaya-food"></div>
+      </div>
+      <div class="pool-card">
+        <div class="pool-cat">🎡 景點</div>
+        <div class="chips" id="pool-pattaya-attractions"></div>
+      </div>
+      <div class="pool-card">
+        <div class="pool-cat">💆 放鬆</div>
+        <div class="chips" id="pool-pattaya-relax"></div>
+      </div>
+    </div>
+  </div>
+
+</div>
+</div>
+
+<!-- ── Info Modal ── -->
+<div class="overlay" id="info-overlay">
+  <div class="info-modal">
+    <div class="modal-head">
+      <div>
+        <div class="info-modal-badge" id="info-badge"></div>
+        <div class="info-modal-name" id="info-name"></div>
+      </div>
+      <button class="modal-close" onclick="closeInfo()">×</button>
+    </div>
+    <div class="info-modal-desc" id="info-desc"></div>
+    <div class="info-modal-tags" id="info-tags"></div>
+    <div class="info-modal-footer">
+      <button class="btn-info-add" id="info-add-btn" onclick="infoQuickAdd()">＋ 加入行程</button>
+      <a class="btn-maps" id="info-maps-btn" href="#" target="_blank" rel="noopener">📍 地圖</a>
+      <button class="btn-info-close" onclick="closeInfo()">關閉</button>
+    </div>
+  </div>
+</div>
+
+<!-- ── Modal ── -->
+<div class="overlay" id="modal-overlay">
+  <div class="modal">
+    <div class="modal-head">
+      <h3 id="modal-title">新增行程</h3>
+      <button class="modal-close" onclick="closeModal()">×</button>
+    </div>
+
+    <div style="font-weight: 700; font-size: 13px; color: #F97316; margin-bottom: 10px;">🏙️ 曼谷區</div>
+    <div class="modal-section">
+      <div class="modal-section-title">🍸 夜生活</div>
+      <div class="chips" id="mc-bangkok-nightlife"></div>
+    </div>
+    <div class="modal-section">
+      <div class="modal-section-title">🛍 購物</div>
+      <div class="chips" id="mc-bangkok-shopping"></div>
+    </div>
+    <div class="modal-section">
+      <div class="modal-section-title">🍜 美食</div>
+      <div class="chips" id="mc-bangkok-food"></div>
+    </div>
+    <div class="modal-section">
+      <div class="modal-section-title">🏛 文化景點</div>
+      <div class="chips" id="mc-bangkok-culture"></div>
+    </div>
+    <div class="modal-section">
+      <div class="modal-section-title">💆 放鬆</div>
+      <div class="chips" id="mc-bangkok-relax"></div>
+    </div>
+    <div class="modal-section">
+      <div class="modal-section-title">🚖 交通</div>
+      <div class="chips" id="mc-bangkok-transport"></div>
+    </div>
+
+    <div style="font-weight: 700; font-size: 13px; color: #F97316; margin: 18px 0 10px;">🏝️ 芭達雅區</div>
+    <div class="modal-section">
+      <div class="modal-section-title">🍜 美食</div>
+      <div class="chips" id="mc-pattaya-food"></div>
+    </div>
+    <div class="modal-section">
+      <div class="modal-section-title">🎡 景點</div>
+      <div class="chips" id="mc-pattaya-attractions"></div>
+    </div>
+    <div class="modal-section">
+      <div class="modal-section-title">💆 放鬆</div>
+      <div class="chips" id="mc-pattaya-relax"></div>
+    </div>
+
+    <div class="custom-row">
+      <input type="text" id="custom-input" placeholder="自訂行程..." onkeydown="if(event.key==='Enter')addCustom()">
+      <button class="btn-add" onclick="addCustom()">新增</button>
+    </div>
+  </div>
+</div>
+
+<!-- ── Slot Picker Modal ── -->
+<div class="overlay" id="slot-picker-overlay" style="display:none;">
+  <div class="modal">
+    <div class="modal-head">
+      <h3 id="slot-picker-title">選擇加入時段</h3>
+      <button class="modal-close" onclick="closeSlotPicker()">×</button>
+    </div>
+    <div id="slot-picker-content" style="max-height: 400px; overflow-y: auto;">
+      <!-- 動態生成時段選項 -->
+    </div>
+  </div>
+</div>
+
+<!-- ── Cloud Sync Settings Modal ── -->
+<div class="overlay" id="sync-settings-overlay" style="display:none;">
+  <div class="modal">
+    <div class="modal-head">
+      <h3>⚙️ 雲端同步設定</h3>
+      <button class="modal-close" onclick="closeSyncSettings()">×</button>
+    </div>
+    <div style="padding: 0 4px;">
+      <div style="margin-bottom: 16px;">
+        <label style="display: block; font-weight: 600; margin-bottom: 6px; color: #374151;">Google Apps Script Web App URL</label>
+        <input type="text" id="sync-url-input" placeholder="https://script.google.com/macros/s/..."
+          style="width: 100%; padding: 10px; border: 1px solid #D1D5DB; border-radius: 6px; font-size: 13px;">
+        <div style="margin-top: 8px; font-size: 12px; color: #6B7280;">
+          📖 設定步驟：<br>
+          1. 建立新的 Google Sheet<br>
+          2. 點選「擴充功能」→「Apps Script」<br>
+          3. 貼上提供的程式碼並儲存<br>
+          4. 點選「部署」→「新增部署作業」<br>
+          5. 類型選「網頁應用程式」，存取權限選「任何人」<br>
+          6. 複製 Web App URL 貼到上方
+        </div>
+      </div>
+      <div style="display: flex; gap: 8px; justify-content: flex-end;">
+        <button class="btn btn-outline" onclick="closeSyncSettings()">取消</button>
+        <button class="btn btn-primary" onclick="saveSyncSettings()">✓ 儲存設定</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ── Save Bar ── -->
+<div class="save-bar">
+  <span class="save-status" id="save-status">尚未儲存變更</span>
+  <div class="btns">
+    <button class="btn btn-outline" onclick="openSyncSettings()">⚙️ 雲端設定</button>
+    <button class="btn btn-outline" onclick="syncFromCloud()">☁️ 載入</button>
+    <button class="btn btn-outline" onclick="syncToCloud()">☁️ 同步</button>
+    <button class="btn btn-outline" onclick="clearAll()">清除重設</button>
+    <button class="btn btn-primary" onclick="save()">💾 儲存</button>
+  </div>
+</div>
+
+<script>
+// ── Tab Switching ──
+function switchTab(tabId) {
+  // 隱藏所有 tab content
+  document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active'));
+  // 移除所有 tab button 的 active
+  document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+
+  // 顯示目標 tab
+  document.getElementById(tabId).classList.add('active');
+  // 高亮對應 button
+  event.target.classList.add('active');
+}
+
+// ── 倒數計算 ──
+function updateCountdown() {
+  const departure = new Date('2026-06-18');
+  const today = new Date();
+  const diff = Math.ceil((departure - today) / (1000 * 60 * 60 * 24));
+  const el = document.getElementById('days-left');
+  if (el) el.textContent = diff > 0 ? diff : '已出發';
+}
+updateCountdown();
+
+// ── Data ──
+const ACTIVITIES = {
+  bangkok: {
+    nightlife: ['BEEF 夜店','Barber（週一公休）','Mania Sauna（每日）','Heaven Sauna（桑拿）','Cake（週一二公休）','HUGs 熊吧（週一二公休）','DJ Station','GOD 酒吧'],
+    shopping: ['ICONSIAM','Siam Paragon','CentralWorld','EmSphere','Siam Discovery','MBK Center','Chatuchak 週末市集','Jodd Fairs (Rama 9)','Asiatique 河濱夜市','Don Don Donki Thong Lo','Central Chidlom','Big C Supercenter','NaRaYa 曼谷包','Karmakamet 香氛'],
+    food: ['蒙天海南雞飯 Ruenton','Charoen Saeng Silom','Hai Somtam Convent','Jok Prince 王子粥','新記烤鴨 Prachak','Khao Soi Convent','榮泰豬肉粉 Rung Rueang','Tuang Dim Sum','午餐：Copper','Or Tor Kor 有機市場','Nahm 泰式米其林','Laem Charoen Seafood','Somboon Seafood 建興酒家','Supanniga Eating Room','Baan Phadthai','Here Hai 蟹肉炒飯','Krua Apsorn','Le Du 米其林一星','100 Mahaseth','中國城 Yaowarat 夜食','Jay Fai 米其林炒蟹','Thip Samai 炒河粉','Bo.lan 精緻泰菜','Gaggan Anand','Yakiniku Great','Seiniku-ten','Katsushin 勝利豬排','Mensho Tokyo BKK','No Name Noodle','Jidori Cuisine Ken','郭炎松牛肉粉 Wattana Panich','王春盛牛肉火鍋','Tasty Congee 正斗','CQK Mala Hotpot','ChaTraMue 手標茶','Peace Oriental Teahouse','Roots Coffee','Mae Varee 芒果糯米飯','After You Dessert Cafe','朱拉隆功大學美食街','巴哥咖啡廳','Savoey 海鮮'],
+    culture: ['臥佛寺 Wat Pho','鄭王廟 Wat Arun','大皇宮 Grand Palace','湄南河船遊','Jim Thompson House','四面佛 Erawan Shrine','River City 藝文展覽','MOCA 曼谷當代藝術館','龍蓮寺 Wat Mangkon'],
+    relax: ['Health Land Sathorn','Divana Virtue Spa','Yunomori Onsen Bangkok','Perception Blind Massage','V Club Men\'s Spa','The Prime Men\'s Spa','The Prime Massage','Senso Men\'s Club','Prince Men\'s Spa','The Six Men\'s Club','Uranus Men\'s Spa','飯店泳池','咖啡廳放空','健身房'],
+    transport: ['搭 BTS 捷運','Grab 叫車','嘟嘟車體驗','船班（昭披耶河）','Bolt 叫車']
+  },
+  pattaya: {
+    food: ['Mum Aroi 海鮮餐廳','蘭坡海鮮市場 Lan Pho','The Seafood Naklua 12','Ronin 日式料理','Izakaya BAKU 燒肉','Jae To 牛肉麵','Glass House Silver','Surf & Turf 海灘俱樂部','Radius @ Cape Dara','Somtum Na Mueang','La Baguette 法式烘焙','Terminal 21 美食街（芭達雅）','The Beach Club Pullman','Fat Coco 池畔餐廳','Jangwon 韓式燒烤','Siam Elephant 泰菜','Somtum Villa 泰北料理',"Jasmin's Café",'Khao Tom Pla 鮮魚湯飯','Shelter Coffee 精品咖啡','The Sky Gallery 鳥巢餐廳','3 Mermaids 鳥巢餐廳','Eak Fish Balls 魚丸','Khun Sri 美食','Rimpa Lapin ⚠️遠','Pupen Seafood ⚠️遠','Cabbages & Condoms ⚠️遠','Cafe des Amis ⚠️遠','Lobster Pot ⚠️觀光客店'],
+    attractions: ['真理聖殿 Sanctuary of Truth','珊瑚島 Koh Larn','農農熱帶花園 Nong Nooch','芭達雅觀景台 Pratumnak Hill','芭達雅水上市場 Floating Market','蒂芬妮人妖秀 Tiffany\'s Show','芭達雅 3D 美術館','迷你暹羅 Mini Siam','大佛山 Khao Phra Bat','月光市場 Thepprasit','芭達雅飛機夜市','芭達雅海灘','Terminal 21 Pattaya','La marche 購物','The Light 夜市','6996 成人秀','99 Show','89 Show','Walking Street','BoyzTown','綠山野生動物園','芭提雅私人定製一日遊','Jomtien Complex','The Oxygen Beach'],
+    relax: ['Siladon Spa Pattaya','Health Land Pattaya','Let\'s Relax Spa（芭達雅）','Grace Spa Pattaya','Yunomori Onsen Pattaya','Soda Massage（Jomtien）','Foxy Smile Massage','Burirom Massage','#1 Health Massage','Copa Body Club（Boyztown）','Relax @ Me ⚠️遠','Sensations Massage ⚠️遠','TBMI Pattaya ⚠️遠']
+  }
+};
+
+// ── Activity Info ──
+const ACTIVITY_INFO = {
+  'BEEF 夜店':           { label:'BEEF', cat:'nightlife', catLabel:'夜生活', desc:'曼谷最知名 Gay Bar，週一夜晚氣氛最旺盛。位於 Silom Soi 2，通常 23:00 後最熱鬧，建議晚點入場。', tags:['Silom 區','週一最旺','曼谷指標','Gay-friendly'], maps:'https://maps.google.com/?q=BEEF+Bar+Bangkok+Silom+Soi+2' },
+  'Barber（週一公休）':  { label:'Barber', cat:'nightlife', catLabel:'夜生活', desc:'Silom 人氣酒吧，裝潢復古，氣氛輕鬆，週二至週日營業。週一公休，請注意安排日期。', tags:['Silom Soi 4','週一公休','週二起開放'], maps:'https://maps.google.com/?q=Barber+Gay+Bar+Silom+Soi+4+Bangkok' },
+  'Mania Sauna（每日）': { label:'Mania Sauna', cat:'nightlife', catLabel:'夜生活', desc:'曼谷大型桑拿會所，設備完善，每日 24 小時營業。位於 Rama 4 路，Grab 可直達。', tags:['24hr 開放','Rama 4 路','每日可去'], maps:'https://maps.google.com/?q=Mania+Sauna+Bangkok+Rama+4' },
+  'Heaven Sauna（桑拿）': { label:'Heaven Sauna', cat:'nightlife', catLabel:'夜生活', desc:'Silom 區知名同志桑拿，以 Bear / Muscle Otter 客群為主，設施含深色空間、露台花園、按摩浴缸、健身房。位於 Soi Mahesak BIS Building 4F，開放時間 13:00–22:00，週二至週日確定開放（週一建議提前確認）。', tags:['Soi Mahesak','BIS Building 4F','13:00–22:00','Bear/Muscle Otter','週一需確認'], maps:'https://maps.google.com/?q=Heaven+Sauna+Bangkok+119+Soi+Mahesak' },
+  'Cake（週一二公休）':   { label:'Cake', cat:'nightlife', catLabel:'夜生活', desc:'曼谷人氣同志夜店「The Cutesy Nightclub」，以 Pop / Dance 音樂風格聞名。週三四日 20:00–00:00，週五六 21:00–03:00，週一二公休。', tags:['週三起開放','Silom 區','Pop Dance','週一二❌'], maps:'https://maps.google.com/?q=Cake+Bangkok+Nightclub+Silom' },
+  'HUGs 熊吧（週一二公休）': { label:'HUGs 熊吧', cat:'nightlife', catLabel:'夜生活', desc:'Silom Soi 4 主要的熊圈（Bear Bar）與卡拉 OK，歡迎所有年齡層。週三四日 20:00–01:00，週五六 20:00–02:00，週一二公休。', tags:['週三起開放','Silom Soi 4','熊圈卡拉OK','週一二❌'], maps:'https://maps.google.com/?q=HUGs+Bar+82+Silom+Soi+4+Bangkok' },
+
+  'ICONSIAM':              { label:'ICONSIAM', cat:'shopping', catLabel:'購物', desc:'昭披耶河畔超大型購物中心，含泰國傳統市集 SookSiam（必逛）、高端品牌與美食街。BTS Gold Line 可直達 ICONSIAM 站。', tags:['BTS Gold Line','河畔景觀','SookSiam 市集','高端品牌'], maps:'https://maps.google.com/?q=ICONSIAM+Bangkok' },
+  'Siam Paragon':          { label:'Siam Paragon', cat:'shopping', catLabel:'購物', desc:'曼谷頂級百貨，奢侈品牌與保養專櫃最齊全，B2 有大型水族館，地下美食街選擇豐富。Siam BTS 站直達。', tags:['Siam BTS','頂級百貨','保養專櫃','水族館'], maps:'https://maps.google.com/?q=Siam+Paragon+Bangkok' },
+  'CentralWorld':          { label:'CentralWorld', cat:'shopping', catLabel:'購物', desc:'全曼谷最大購物中心，品牌跨度廣，包含旗艦版 Apple Store 與全泰國最大連鎖藥妝店。BTS Chit Lom 步行可達。', tags:['Chit Lom BTS','最大商場','Apple Store','藥妝'], maps:'https://maps.google.com/?q=CentralWorld+Bangkok' },
+  'EmSphere':              { label:'EmSphere', cat:'shopping', catLabel:'購物', desc:'2023 年底開幕的曼谷新地標。工業設計風，擁有市中心唯一 IKEA 與大量潮流設計品牌，氣氛年輕。BTS Phrom Phong 站直達。', tags:['2023年新開','IKEA','潮流品牌','Phrom Phong BTS'], maps:'https://maps.google.com/?q=EmSphere+Bangkok' },
+  'Siam Discovery':        { label:'Siam Discovery', cat:'shopping', catLabel:'購物', desc:'採開放式櫃位設計，引進大量國際與泰國設計師精品、科技 Gadgets 及居家小物，風格鮮明。Siam BTS 站直達。', tags:['設計師選物','科技Gadgets','Siam BTS','開放式空間'], maps:'https://maps.google.com/?q=Siam+Discovery+Bangkok' },
+  'MBK Center':            { label:'MBK', cat:'shopping', catLabel:'購物', desc:'平價購物商場，電子產品、手機配件、泰式紀念品一應俱全，可殺價。National Stadium BTS 站步行可達。', tags:['平價購物','可殺價','電子產品','National Stadium BTS'], maps:'https://maps.google.com/?q=MBK+Center+Bangkok' },
+  'Chatuchak 週末市集':    { label:'Chatuchak', cat:'shopping', catLabel:'購物', desc:'全球最大露天市集，超過 15,000 個攤位。注意：週一至週四幾乎不營業，週五為批發日，一般遊客建議鎖定週六或週日前往。Mo Chit BTS / MRT 站。', tags:['週六日限定','Mo Chit BTS','超過 15,000 攤','文創古著'], maps:'https://maps.google.com/?q=Chatuchak+Weekend+Market+Bangkok' },
+  'Jodd Fairs (Rama 9)':   { label:'Jodd Fairs (MRT Phra Ram 9)', cat:'shopping', catLabel:'購物', desc:'原 Ratchada 舊址已遷移，目前交通最便利的版本位於 MRT Phra Ram 9 站旁。街頭美食（招牌火山排骨）、文創服飾與設計攤位聚集，氣氛熱鬧。另有 2023 年新開的 Dan Neramit（城堡造景版），風格略有不同。', tags:['MRT Phra Ram 9','火山排骨','文創設計','已遷址'], maps:'https://maps.google.com/?q=Jodd+Fairs+Phra+Ram+9+Bangkok' },
+  'Asiatique 河濱夜市':    { label:'Asiatique', cat:'shopping', catLabel:'購物', desc:'昭披耶河畔復古倉庫改建的景點，含餐廳、酒吧、摩天輪。注意：目前購物力較弱，觀光化程度高，更適合做為景觀餐飲與夕陽打卡的目的地而非購物。每日 17:00 後開放，免費接駁船從 Saphan Taksin 出發。', tags:['每日 17:00 開','景觀打卡','摩天輪','⚠️購物力減弱'], maps:'https://maps.google.com/?q=Asiatique+The+Riverfront+Bangkok' },
+  'Don Don Donki Thong Lo':{ label:'Don Don Donki', cat:'shopping', catLabel:'購物', desc:'24 小時營業的唐吉訶德，位於 Thong Lo 區。提供大量日系藥妝、生鮮食品與生活用品，品質穩定，適合採購日本商品。BTS Thong Lo 站步行可達。', tags:['24hr 營業','日系藥妝','生鮮食品','Thong Lo BTS'], maps:'https://maps.google.com/?q=Don+Don+Donki+Thong+Lo+Bangkok' },
+  'Central Chidlom':       { label:'Central Chidlom', cat:'shopping', catLabel:'購物', desc:'曼谷老牌高級百貨，保養品櫃位動線規劃優良，適合想避開觀光人潮、精準採購保養品（Kiehl\'s、NeoStrata 等）的人。BTS Chit Lom 站直達。', tags:['Chit Lom BTS','保養品採購','動線佳','高端百貨'], maps:'https://maps.google.com/?q=Central+Chidlom+Bangkok' },
+
+  // ── 曼谷美食（具體店家清單 30+）──
+  // 泰式在地小吃（Silom / Bang Rak 住宿周邊）
+  '蒙天海南雞飯 Ruenton':    { label:'蒙天海南雞飯 Ruenton', cat:'food', catLabel:'美食', desc:'位於蒙天酒店（Montien）內的米其林必比登海南雞飯。雞肉極嫩、份量大，距住宿步行可達（Surawong）。人均約 300–500 THB。', tags:['米其林必比登','Surawong 步行可達','雞肉極嫩','300–500 THB'], maps:'https://maps.google.com/?q=Ruenton+Khao+Man+Gai+Montien+Bangkok' },
+  'Charoen Saeng Silom':     { label:'Charoen Saeng 滷豬腳飯', cat:'food', catLabel:'美食', desc:'米其林推薦的泰式滷豬腳飯，肉質入口即化。位於 Silom，距住宿極近。注意：營業時間僅至 13:00，常提早售賣完畢。人均約 50–100 THB。', tags:['米其林推薦','Silom 近住宿','僅至 13:00','50–100 THB'], maps:'https://maps.google.com/?q=Charoen+Saeng+Silom+Bangkok' },
+  'Hai Somtam Convent':      { label:'Hai Somtam 伊善', cat:'food', catLabel:'美食', desc:'位於 Sala Daeng Convent 路上的老牌泰北伊善料理，距住宿極近。烤豬頸肉與青木瓜沙拉口味穩定、上菜快速。人均約 150–300 THB。', tags:['Sala Daeng 近住宿','伊善料理','豬頸肉','150–300 THB'], maps:'https://maps.google.com/?q=Hai+Somtam+Convent+Bangkok' },
+  'Jok Prince 王子粥':       { label:'Jok Prince 王子戲院豬肉粥', cat:'food', catLabel:'美食', desc:'帶有獨特炭燒味的米其林推薦廣東粥，以大塊豬肉丸為特色。位於 Bang Rak（近 BTS Saphan Taksin），適合早晨或宵夜。人均約 50–80 THB。', tags:['米其林推薦','炭燒粥','Saphan Taksin BTS','50–80 THB'], maps:'https://maps.google.com/?q=Jok+Prince+Bangkok+Bang+Rak' },
+  '新記烤鴨 Prachak':        { label:'新記烤鴨 Prachak', cat:'food', catLabel:'美食', desc:'百年歷史廣式烤鴨店，提供烤鴨麵與燒肉飯，醬汁偏泰式微甜風味。位於 Bang Rak（近 BTS Saphan Taksin）。人均約 100–200 THB。', tags:['百年老店','廣式烤鴨','Saphan Taksin BTS','100–200 THB'], maps:'https://maps.google.com/?q=Prachak+Roast+Duck+Bangkok+Bang+Rak' },
+  'Khao Soi Convent':        { label:'Khao Soi Convent', cat:'food', catLabel:'美食', desc:'專賣泰北清邁咖哩麵（Khao Soi），麵條分炸脆麵與水煮麵雙重口感，湯頭濃郁。位於 Sala Daeng Convent 路，距住宿極近。人均約 60–100 THB。', tags:['泰北 Khao Soi','Sala Daeng 近住宿','雙重口感','60–100 THB'], maps:'https://maps.google.com/?q=Khao+Soi+Convent+Bangkok' },
+  '榮泰豬肉粉 Rung Rueang':   { label:'榮泰豬肉粉', cat:'food', catLabel:'美食', desc:'連續多年米其林必比登推薦的泰式粿條店，可自選湯底、麵條與配料，豬絞肉與魚丸為招牌。位於 Sukhumvit 26（近 BTS Phrom Phong）。人均約 60–100 THB。', tags:['米其林必比登','泰式粿條','Phrom Phong BTS','60–100 THB'], maps:'https://maps.google.com/?q=Rung+Rueang+Pork+Noodle+Sukhumvit+Bangkok' },
+  'Tuang Dim Sum':           { label:'Tuang Dim Sum 港點', cat:'food', catLabel:'美食', desc:'前五星級飯店主廚開設的平價港式點心，燒賣與蝦餃水準極高，常需排隊候位。位於 Charoen Krung（Asiatique 附近）。人均約 150–300 THB。', tags:['港式點心','平價高水準','Charoen Krung','150–300 THB'], maps:'https://maps.google.com/?q=Tuang+Dim+Sum+Bangkok+Charoen+Krung' },
+  // 泰菜餐廳與海鮮料理
+  '午餐：Copper':            { label:'Copper Beyond Buffet', cat:'food', catLabel:'美食', desc:'Copper Beyond Buffet，高檔 Live Cooking 自助餐廳，泰式與國際料理兼備。Gaysorn Amarin 3F，午餐 12:00–14:30，約 1,499 THB / 人，需透過 LINE @copperbeyondbuffet 訂位。', tags:['午餐 12:00–14:30','LINE 訂位','1,499 THB','Live Cooking'], maps:'https://maps.google.com/?q=Copper+Beyond+Buffet+Gaysorn+Amarin+Bangkok' },
+  'Or Tor Kor 有機市場':     { label:'Or Tor Kor', cat:'food', catLabel:'美食', desc:'泰國政府認證的高品質農產品市場，新鮮熱帶水果（山竹、榴槤）、即食熟食、醃漬品質量俱佳。位於 Chatuchak 旁，BTS Mo Chit 步行可達。', tags:['Mo Chit BTS','有機市場','熱帶水果','高品質'], maps:'https://maps.google.com/?q=Or+Tor+Kor+Market+Bangkok' },
+  'Nahm 泰式米其林':         { label:'Nahm', cat:'food', catLabel:'美食', desc:'曼谷米其林一星正宗泰國料理，料理強調傳統食譜與在地食材。位於 Como Metropolitan Hotel，需提前至少 1 週訂位，價位偏高。', tags:['米其林一星','Como Metropolitan','需提前訂位','傳統泰式'], maps:'https://maps.google.com/?q=Nahm+Restaurant+Bangkok+Como+Metropolitan' },
+  'Laem Charoen Seafood':    { label:'Laem Charoen Seafood', cat:'food', catLabel:'美食', desc:'知名海鮮餐廳，Silom Complex 百貨內有分店（距住宿近）。招牌為炸鱸魚佐魚露醬與咖哩炒蟹。人均約 500–1,000 THB。', tags:['Silom Complex','炸鱸魚','咖哩炒蟹','500–1,000 THB'], maps:'https://maps.google.com/?q=Laem+Charoen+Seafood+Silom+Complex+Bangkok' },
+  'Somboon Seafood 建興酒家':{ label:'Somboon 建興酒家', cat:'food', catLabel:'美食', desc:'泰國咖哩炒蟹的創始名店，Surawong 本店距離住宿不遠。適合多人聚餐分享，咖哩炒蟹是必點。人均約 600–1,200 THB。', tags:['咖哩炒蟹創始店','Surawong 近住宿','多人聚餐','600–1,200 THB'], maps:'https://maps.google.com/?q=Somboon+Seafood+Surawong+Bangkok' },
+  'Supanniga Eating Room':   { label:'Supanniga', cat:'food', catLabel:'美食', desc:'提供泰國東部與東北部家傳菜色的精緻泰菜餐廳，環境優雅。推薦高麗菜炒魚露與泰式紅燒肉。Sathorn 分店距住宿近。人均約 500–800 THB。', tags:['精緻泰菜','Sathorn','高麗菜炒魚露','500–800 THB'], maps:'https://maps.google.com/?q=Supanniga+Eating+Room+Sathorn+Bangkok' },
+  'Baan Phadthai':           { label:'Baan Phadthai', cat:'food', catLabel:'美食', desc:'米其林必比登推薦的炒河粉專賣店，使用多種中藥材調味，配料可選烤豬肉或大頭蝦。位於 Charoen Krung。是 Thip Samai 的高品質替代選擇。人均約 200–400 THB。', tags:['米其林必比登','升級版炒河粉','Charoen Krung','200–400 THB'], maps:'https://maps.google.com/?q=Baan+Phadthai+Bangkok+Charoen+Krung' },
+  'Here Hai 蟹肉炒飯':       { label:'Here Hai 蟹肉炒飯', cat:'food', catLabel:'美食', desc:'曼谷目前最火紅的蟹肉炒飯名店，米其林必比登推薦，蟹肉份量浮誇。位於 Ekkamai，需提早排隊或訂位。人均約 400–800 THB。', tags:['米其林必比登','蟹肉浮誇','Ekkamai','需訂位'], maps:'https://maps.google.com/?q=Here+Hai+Crab+Fried+Rice+Ekkamai+Bangkok' },
+  'Krua Apsorn':             { label:'Krua Apsorn', cat:'food', catLabel:'美食', desc:'泰國王室也喜愛的平價道地泰菜，位於曼谷舊城區。黃咖哩炒蟹肉與泰式烘蛋為必點菜色。人均約 200–500 THB。', tags:['王室喜愛','曼谷舊城區','黃咖哩炒蟹','200–500 THB'], maps:'https://maps.google.com/?q=Krua+Apsorn+Bangkok' },
+  'Le Du 米其林一星':        { label:'Le Du', cat:'food', catLabel:'美食', desc:'曾獲亞洲 50 最佳餐廳第一名的米其林一星，以現代法式手法演繹泰國在地食材。位於 Silom，距住宿近。需提前訂位。人均約 3,500–5,000 THB。', tags:['米其林一星','Asia 50 Best','Silom 近住宿','3,500–5,000 THB'], maps:'https://maps.google.com/?q=Le+Du+Restaurant+Bangkok+Silom' },
+  '100 Mahaseth':            { label:'100 Mahaseth', cat:'food', catLabel:'美食', desc:'創意泰式料理，大量使用在地原生食材，以「鼻子到尾巴」哲學烹飪，提供平易近人的精緻泰菜體驗。位於 Bang Rak，建議訂位。人均約 600–1,000 THB。', tags:['創意泰菜','Bang Rak','600–1,000 THB','訂位建議'], maps:'https://maps.google.com/?q=100+Mahaseth+Restaurant+Bangkok+Bang+Rak' },
+  '中國城 Yaowarat 夜食':    { label:'中國城夜食', cat:'food', catLabel:'美食', desc:'曼谷中國城（Yaowarat Road）夜間美食天堂，螃蟹粉絲煲、燕窩、烤鴨、燒臘一條街。建議 19:00 後前往，Grab 最方便。', tags:['Yaowarat Road','夜間市集','螃蟹粉絲煲','燕窩'], maps:'https://maps.google.com/?q=Yaowarat+Road+Chinatown+Bangkok' },
+  // 米其林傳奇（含警示）
+  'Jay Fai 米其林炒蟹':      { label:'Jay Fai 炒蟹 ⚠️', cat:'food', catLabel:'美食', desc:'⚠️ 候位難度極高，通常需清晨 6 點排隊，或提前數月以 Email 預訂，對短暫停留曼谷的行程時間成本極高。曼谷街頭米其林一星傳奇，主廚 Jay Fai 親自炒的蟹肉蛋捲約 1,500 THB。', tags:['⚠️候位困難','米其林一星','需數月前訂','炒蟹蛋捲'], maps:'https://maps.google.com/?q=Jay+Fai+Bangkok+Michelin+Maha+Chai+Road' },
+  'Thip Samai 炒河粉':       { label:'Thip Samai', cat:'food', catLabel:'美食', desc:'曼谷最知名的炒河粉老店（Pad Thai），以蛋皮包裹炒河粉為招牌，超過 60 年歷史。注意：此店以番茄醬為底，口味偏甜，常需排隊 20–40 分鐘。若想品嚐米其林推薦版本可改去 Baan Phadthai。一份約 120–180 THB。', tags:['炒河粉','60年老店','偏甜口味','可能需排隊'], maps:'https://maps.google.com/?q=Thip+Samai+Pad+Thai+Bangkok+Phra+Nakhon' },
+  'Bo.lan 精緻泰菜':         { label:'Bo.lan ⚠️已轉型', cat:'food', catLabel:'美食', desc:'⚠️ 已結束常規 Fine Dining 營運，目前轉型為雜貨店與不定期客座活動，不再提供日常訂位。建議出發前確認是否有特別活動場次，否則不納入正常行程規劃。', tags:['⚠️已結束Fine Dining','轉型雜貨店','需提前確認'], maps:'https://maps.google.com/?q=Bolan+Restaurant+Bangkok+Sukhumvit' },
+  'Gaggan Anand':            { label:'Gaggan Anand', cat:'food', catLabel:'美食', desc:'全球百大餐廳常客，主廚 Gaggan 以前衛印度泰式融合料理聞名，多道菜以圖示呈現。完整套餐含稅費約 10,000–14,000 THB，需提前數月搶訂，屬特殊體驗級別。', tags:['全球百大','印度泰式融合','10,000–14,000 THB','需數月前訂位'], maps:'https://maps.google.com/?q=Gaggan+Anand+Restaurant+Bangkok' },
+  // 日式燒肉、拉麵與串燒
+  'Yakiniku Great':          { label:'Yakiniku Great', cat:'food', catLabel:'美食', desc:'高品質日本和牛專賣店，提供稀有部位，曼谷評價頂尖的日式燒肉。位於 Sukhumvit 49（近 BTS Thong Lo），需提前訂位。人均約 1,500–3,000 THB。', tags:['頂級和牛','Thong Lo BTS','需訂位','1,500–3,000 THB'], maps:'https://maps.google.com/?q=Yakiniku+Great+Bangkok+Thong+Lo' },
+  'Seiniku-ten':             { label:'Seiniku-ten 和牛吃到飽', cat:'food', catLabel:'美食', desc:'提供單點與高品質 A5 級和牛吃到飽方案的日式燒肉店，肉品選擇豐富。位於 Thong Lo。人均約 600–1,000 THB。', tags:['A5和牛吃到飽','Thong Lo','選擇豐富','600–1,000 THB'], maps:'https://maps.google.com/?q=Seiniku-ten+Bangkok+Thong+Lo' },
+  'Katsushin 勝利豬排':      { label:'Katsushin 豬排', cat:'food', catLabel:'美食', desc:'隱身在 Silom 巷弄內，被譽為曼谷最好吃的日式炸豬排之一，肉汁豐富、外皮酥脆。位於 Surawong，距住宿近。人均約 300–500 THB。', tags:['Silom 巷弄','曼谷最佳豬排','近住宿','300–500 THB'], maps:'https://maps.google.com/?q=Katsushin+Tonkatsu+Bangkok+Silom' },
+  'Mensho Tokyo BKK':        { label:'Mensho Tokyo', cat:'food', catLabel:'美食', desc:'來自東京的知名拉麵品牌，以極濃郁的雞白湯與特色鴨肉拉麵聞名，麵體為自製粗麵。位於 Phrom Phong。人均約 300–500 THB。', tags:['東京拉麵品牌','雞白湯','鴨肉拉麵','300–500 THB'], maps:'https://maps.google.com/?q=Mensho+Tokyo+Bangkok+Phrom+Phong' },
+  'No Name Noodle':          { label:'No Name Noodle', cat:'food', catLabel:'美食', desc:'曼谷目前最難預約的拉麵店，主打清湯醬油與鹽味拉麵，每日限量。需透過線上系統搶位。位於 Phrom Phong。人均約 400–600 THB。', tags:['最難預約','清湯醬油拉麵','每日限量','Phrom Phong'], maps:'https://maps.google.com/?q=No+Name+Noodle+Bangkok+Phrom+Phong' },
+  'Jidori Cuisine Ken':      { label:'Jidori Ken 燒鳥', cat:'food', catLabel:'美食', desc:'曼谷最具代表性的正統日式燒鳥（Yakitori）居酒屋，雞肉串燒火候控制極佳。位於 Sukhumvit 26。人均約 500–1,000 THB。', tags:['正統燒鳥','Yakitori','Sukhumvit 26','500–1,000 THB'], maps:'https://maps.google.com/?q=Jidori+Cuisine+Ken+Bangkok' },
+  // 牛肉麵與中式火鍋
+  '郭炎松牛肉粉 Wattana Panich':{ label:'郭炎松牛肉粉', cat:'food', catLabel:'美食', desc:'擁有幾十年不熄火的巨型老滷鍋，湯頭蘊含濃厚中藥與牛骨香氣，牛肉燉得極度軟爛。位於 Ekkamai。人均約 100–200 THB。', tags:['老滷鍋','中藥牛骨湯','Ekkamai','100–200 THB'], maps:'https://maps.google.com/?q=Wattana+Panich+Beef+Noodle+Ekkamai+Bangkok' },
+  '王春盛牛肉火鍋':           { label:'王春盛牛肉火鍋', cat:'food', catLabel:'美食', desc:'炭火加熱的泰式牛肉火鍋與粿條店，牛雜處理乾淨，湯底清甜，深受當地華人喜愛。位於 Khlong Toei。人均約 100–300 THB。', tags:['炭火火鍋','牛雜清乾淨','Khlong Toei','100–300 THB'], maps:'https://maps.google.com/?q=Heng+Chun+Seng+Beef+Hotpot+Bangkok' },
+  'Tasty Congee 正斗':       { label:'Tasty Congee 正斗', cat:'food', catLabel:'美食', desc:'香港米其林一星品牌在曼谷的分店，標準港式鮮蝦雲吞麵與乾炒牛河水準穩定。位於 Siam Paragon。人均約 200–400 THB。', tags:['香港米其林','雲吞麵','Siam Paragon','200–400 THB'], maps:'https://maps.google.com/?q=Tasty+Congee+Bangkok+Siam+Paragon' },
+  'CQK Mala Hotpot':         { label:'CQK 重慶麻辣火鍋', cat:'food', catLabel:'美食', desc:'曼谷極具人氣的重慶麻辣火鍋，裝潢氣派，湯底道地，營業至凌晨。多間分店（如 Samyan），適合作為宵夜選項。人均約 600–1,000 THB。', tags:['重慶麻辣','營業至凌晨','宵夜選項','600–1,000 THB'], maps:'https://maps.google.com/?q=CQK+Mala+Hotpot+Bangkok+Samyan' },
+  // 咖啡茶飲與甜點
+  'ChaTraMue 手標茶':        { label:'ChaTraMue 手標茶', cat:'food', catLabel:'美食', desc:'泰國最經典的泰式奶茶連鎖品牌，可調整甜度，各捷運站常見。Sala Daeng BTS 站內有分店，距住宿極近。一杯約 45–60 THB。', tags:['泰式奶茶經典','Sala Daeng BTS','可調甜度','45–60 THB'], maps:'https://maps.google.com/?q=ChaTraMue+Sala+Daeng+Bangkok' },
+  'Peace Oriental Teahouse': { label:'Peace Oriental Tea', cat:'food', catLabel:'美食', desc:'專注於頂級東方茶飲與抹茶的靜謐茶室，抹茶拿鐵與柚子茶品質極佳，提供避開喧囂的空間。位於 Langsuan / Sukhumvit 49。人均約 150–300 THB。', tags:['頂級抹茶','靜謐空間','Langsuan','150–300 THB'], maps:'https://maps.google.com/?q=Peace+Oriental+Teahouse+Bangkok' },
+  'Roots Coffee':            { label:'Roots Coffee', cat:'food', catLabel:'美食', desc:'曼谷知名精品咖啡烘焙品牌，住宿附近的 Saladaeng 分店提供優質義式咖啡與泰國在地豆手沖。距住宿近。人均約 100–200 THB。', tags:['Saladaeng 近住宿','精品咖啡','在地豆手沖','100–200 THB'], maps:'https://maps.google.com/?q=Roots+Coffee+Saladaeng+Bangkok' },
+  'Mae Varee 芒果糯米飯':    { label:'Mae Varee 芒果糯米飯', cat:'food', catLabel:'美食', desc:'曼谷名氣最大的芒果糯米飯專賣店，芒果品質穩定，糯米有三色可選（白、藍、黃）。僅提供外帶。位於 Thong Lo BTS 站旁。一份約 150 THB。', tags:['芒果糯米飯','僅外帶','Thong Lo BTS','三色糯米'], maps:'https://maps.google.com/?q=Mae+Varee+Mango+Sticky+Rice+Thong+Lo+Bangkok' },
+  'After You Dessert Cafe':  { label:'After You', cat:'food', catLabel:'美食', desc:'泰國國民甜點店，以泰式奶茶雪酥冰（Kakigori）與蜜糖吐司最為知名。Silom Complex 分店距住宿極近。人均約 200–300 THB。', tags:['泰國國民甜點','蜜糖吐司','Silom Complex','200–300 THB'], maps:'https://maps.google.com/?q=After+You+Dessert+Silom+Complex+Bangkok' },
+
+  '臥佛寺 Wat Pho':        { label:'臥佛寺', cat:'culture', catLabel:'文化景點', desc:'泰國最古老寺廟之一，供奉 46 公尺長金身臥佛。泰式按摩發源地，廟內設有按摩學校。鄰近大皇宮步行可達。注意：票價已於 2024 年起調漲為 300 THB（外籍遊客）。', tags:['46m 臥佛','泰式按摩發源地','大皇宮旁','票價 300 THB'], maps:'https://maps.google.com/?q=Wat+Pho+Bangkok' },
+  '鄭王廟 Wat Arun':       { label:'鄭王廟', cat:'culture', catLabel:'文化景點', desc:'昭披耶河西岸地標，主塔高 79 公尺，以碎瓷片裝飾。除攀登塔身，周邊有大量泰服租借店（含髮妝約 150–300 THB），目前是極熱門的打卡體驗。搭渡輪前往（3–5 THB），票價 200 THB。', tags:['79m 高塔','泰服租借','渡輪 3 THB','票價 200 THB'], maps:'https://maps.google.com/?q=Wat+Arun+Bangkok' },
+  '大皇宮 Grand Palace':   { label:'大皇宮', cat:'culture', catLabel:'文化景點', desc:'泰國王室宮殿，含玉佛寺（Wat Phra Kaew），建築華麗。必須著長褲或長裙入場（現場可借衣），票價 500 THB，建議早上 08:30 前入場避開人潮。', tags:['票價 500 THB','著長褲長裙','早上去人少','含玉佛寺'], maps:'https://maps.google.com/?q=Grand+Palace+Bangkok' },
+  '四面佛 Erawan Shrine':  { label:'四面佛', cat:'culture', catLabel:'文化景點', desc:'曼谷香火最鼎盛的信仰中心，位於 Gaysorn Amarin（6/23 吃 Copper）旁邊，可於用餐前後順道參觀。全天免費，周邊有傳統舞蹈表演。', tags:['Chit Lom BTS','Copper 旁邊','免費參觀','6/23 可順道'], maps:'https://maps.google.com/?q=Erawan+Shrine+Bangkok' },
+  'River City 藝文展覽':   { label:'River City Bangkok', cat:'culture', catLabel:'文化景點', desc:'昭披耶河畔藝術與古董中心。若對沉浸式光影藝術或數位互動展覽有興趣，此處經常舉辦國際級大型投影展覽。免費入場，特展另行購票。', tags:['河畔藝文','沉浸式展覽','免費入場','數位互動'], maps:'https://maps.google.com/?q=River+City+Bangkok+Shopping+Complex' },
+  'MOCA 曼谷當代藝術館':   { label:'MOCA Bangkok', cat:'culture', catLabel:'文化景點', desc:'泰國最大的當代藝術私人美術館，五層樓空間展示泰國現代藝術家的雕塑與畫作，採光極佳。位於曼谷北區，距 BTS 恰圖恰一帶。票價 280 THB。', tags:['當代藝術','五層樓','票價 280 THB','泰國藝術家'], maps:'https://maps.google.com/?q=Museum+of+Contemporary+Art+Bangkok+MOCA' },
+  'Jim Thompson House':    { label:'Jim Thompson', cat:'culture', catLabel:'文化景點', desc:'美國商人 Jim Thompson 建造的傳統泰式柚木建築群，收藏東南亞藝術品，叢林造景優美。導覽行程約 1 小時，票價 200 THB（含導覽）。National Stadium BTS 步行可達。', tags:['導覽 1 小時','泰式建築','藝術收藏','National Stadium BTS'], maps:'https://maps.google.com/?q=Jim+Thompson+House+Bangkok' },
+  '龍蓮寺 Wat Mangkon':    { label:'龍蓮寺', cat:'culture', catLabel:'文化景點', desc:'曼谷最大、香火最旺的華人佛寺，建築融合潮州與中式風格。MRT Wat Mangkon 站步行可達，周邊即是中國城老街區，適合連帶探索移民文化與街頭美食。免費參觀。', tags:['MRT Wat Mangkon','華人佛寺','中國城','免費參觀'], maps:'https://maps.google.com/?q=Wat+Mangkon+Bangkok+Chinatown' },
+  '湄南河船遊':             { label:'湄南河', cat:'culture', catLabel:'文化景點', desc:'搭乘昭披耶河快船遊覽沿岸景點，橘旗船（15 THB）串聯大皇宮、臥佛寺、鄭王廟等主要景點，觀景又省錢。Saphan Taksin 站（BTS 可達）為主要起點。', tags:['橘旗船 15 THB','串聯景點','Saphan Taksin 起站'], maps:'https://maps.google.com/?q=Sathorn+Pier+Central+Bangkok+Saphan+Taksin' },
+
+  // ── 曼谷按摩（一般不限客群）──
+  'Health Land Sathorn':    { label:'Health Land', cat:'relax', catLabel:'放鬆', desc:'曼谷規模最大的連鎖按摩品牌，Sathorn 館距住宿近。建築氣派，傳統泰式按摩價格實惠品質穩定，性價比極高。人均約 600–1,200 THB。', tags:['Sathorn 近住宿','連鎖品質穩定','600–1,200 THB','傳統泰式'], maps:'https://maps.google.com/?q=Health+Land+Sathorn+Bangkok' },
+  'Divana Virtue Spa':      { label:'Divana Virtue Spa', cat:'relax', catLabel:'放鬆', desc:'屢獲大獎的頂級 SPA，位於 Surawong 優雅歐式洋房內，距住宿步行可達。精油芳療與臉部保養水準極高，技師手法細膩。人均約 1,500–3,500 THB。', tags:['Surawong 步行可達','頂級SPA','精油芳療','1,500–3,500 THB'], maps:'https://maps.google.com/?q=Divana+Virtue+Spa+Bangkok+Surawong' },
+  'Yunomori Onsen Bangkok': { label:'Yunomori Onsen & Spa', cat:'relax', catLabel:'放鬆', desc:'結合正宗日式溫泉與泰式按摩的複合式會館，位於 Sathorn Soi 10。水質乾淨，適合先泡湯再進行深層肌肉放鬆。人均約 1,000–2,000 THB。', tags:['日式溫泉','Sathorn Soi 10','先泡湯再按摩','1,000–2,000 THB'], maps:'https://maps.google.com/?q=Yunomori+Onsen+Spa+Bangkok+Sathorn' },
+  'Perception Blind Massage':{ label:'Perception 盲人按摩', cat:'relax', catLabel:'放鬆', desc:'曼谷知名盲人按摩中心，師傅觸覺敏銳，能精準找到穴位與肌肉緊繃處，按壓深層。位於 Sathorn / Silom 區，價格親民。人均約 400–800 THB。', tags:['盲人按摩','Sathorn/Silom','深層穴位','400–800 THB'], maps:'https://maps.google.com/?q=Perception+Blind+Massage+Bangkok+Sathorn' },
+  // ── 曼谷按摩（男同志／熊族取向）──
+  'V Club Men\'s Spa':      { label:'V Club Men\'s Spa', cat:'relax', catLabel:'放鬆', desc:'曼谷規模極大的頂級男模會館，位於 Silom Soi 6。師傅陣容龐大且體態多樣（含肌肉與壯熊），硬體設備豪華乾淨。人均約 1,500–3,500 THB。', tags:['Silom Soi 6','壯熊/肌肉','豪華設備','1,500–3,500 THB'], maps:'https://maps.google.com/?q=V+Club+Mens+Spa+Silom+Bangkok' },
+  'The Prime Men\'s Spa':   { label:'The Prime Men\'s Spa', cat:'relax', catLabel:'放鬆', desc:'評價極高的高質感男士 SPA 會館，位於 Surawong。隱密性高，服務態度專業，師傅素質穩定。人均約 1,500–3,000 THB。', tags:['Surawong','隱密高質感','服務專業','1,500–3,000 THB'], maps:'https://maps.google.com/?q=The+Prime+Mens+Spa+Bangkok+Surawong' },
+  'Senso Men\'s Club':      { label:'Senso Men\'s Club', cat:'relax', catLabel:'放鬆', desc:'曼谷老字號同志按摩會館，位於 Surawong，距住宿步行可達。師傅選擇多元，價格相對透明合理。人均約 1,200–2,500 THB。', tags:['Surawong 步行可達','老字號','價格透明','1,200–2,500 THB'], maps:'https://maps.google.com/?q=Senso+Mens+Club+Bangkok+Surawong' },
+  'Prince Men\'s Spa':      { label:'Prince Men\'s Spa', cat:'relax', catLabel:'放鬆', desc:'位於 Silom 核心區域，環境舒適。提供各類精油與深層組織按摩，客群以外國同志旅客為主。人均約 1,200–2,500 THB。', tags:['Silom','深層組織','外國旅客為主','1,200–2,500 THB'], maps:'https://maps.google.com/?q=Prince+Mens+Spa+Silom+Bangkok' },
+  'The Six Men\'s Club':    { label:'The Six Men\'s Club', cat:'relax', catLabel:'放鬆', desc:'穩定經營的男同志按摩店，位於 Surawong。師傅體態涵蓋一般、陽光至壯熊，服務細心，不會有強迫推銷的壓力。人均約 1,200–2,500 THB。', tags:['Surawong','壯熊可選','無強迫推銷','1,200–2,500 THB'], maps:'https://maps.google.com/?q=The+Six+Mens+Club+Bangkok+Surawong' },
+  'Uranus Men\'s Spa':      { label:'Uranus Men\'s Spa', cat:'relax', catLabel:'放鬆', desc:'位於 V Club 同條巷弄（Silom Soi 6），另一間廣受同志社群歡迎的按摩店。師傅排班穩定，性價比不錯。人均約 1,200–2,500 THB。', tags:['Silom Soi 6','排班穩定','性價比佳','1,200–2,500 THB'], maps:'https://maps.google.com/?q=Uranus+Mens+Spa+Silom+Bangkok' },
+  '飯店泳池':               { label:'飯店泳池', cat:'relax', catLabel:'放鬆', desc:'The Quarter Silom 飯店附設泳池，免費使用。適合午後放空或輕鬆游泳，無需額外費用。', tags:['免費使用','The Quarter Silom','下午最舒適'], maps:'https://maps.google.com/?q=The+Quarter+Silom+12+Suriyawong+Soi+Silom+6+Bang+Rak+Bangkok+10500' },
+  '咖啡廳放空':              { label:'咖啡廳', cat:'relax', catLabel:'放鬆', desc:'曼谷咖啡文化興盛，Silom 周邊巷弄藏有多家網美咖啡廳。推薦探索 Silom Soi 周邊或 Sathorn 區小店。', tags:['網美咖啡廳','Silom 巷弄','Sathorn 區','值得探索'], maps:'https://maps.google.com/?q=cafes+Silom+Sathorn+Bangkok' },
+  '健身房':                  { label:'健身房', cat:'relax', catLabel:'放鬆', desc:'飯店健身房免費使用，或就近找 Fitness First（日費約 300 THB）。維持重訓或有氧訓練習慣，早上 06:00 即開放。', tags:['飯店免費','Fitness First','早上 06:00 起','日費 300 THB'], maps:'https://maps.google.com/?q=Fitness+First+Silom+Bangkok' },
+
+  '搭 BTS 捷運':         { label:'BTS 捷運', cat:'transport', catLabel:'交通', desc:'曼谷空鐵，覆蓋 Silom、Sukhumvit 等主要區域。單程 16–59 THB，Rabbit Card 儲值卡更便利。避開 08:00–09:00 與 17:30–19:00 尖峰時段。', tags:['16–59 THB','Rabbit Card','尖峰請避開'], maps:'https://maps.google.com/?q=BTS+Sala+Daeng+Station+Silom+Bangkok' },
+  'Grab 叫車':           { label:'Grab', cat:'transport', catLabel:'交通', desc:'東南亞版 Uber，計費透明無議價困擾，曼谷交通首選。建議出發前下載 App 並綁定付款方式，在飯店外等待接送。', tags:['計費透明','必裝 App','飯店外等候','無需議價'], maps:'https://maps.google.com/?q=The+Quarter+Silom+Bangkok' },
+  '嘟嘟車體驗':          { label:'嘟嘟車', cat:'transport', catLabel:'交通', desc:'泰國三輪摩托計程車，短程觀光代步首選。務必出發前談好價錢，拒絕繞路帶去購物行程。體驗感十足但不適合長途。', tags:['先議價','短程適合','拒絕購物導覽','體驗感'], maps:'https://maps.google.com/?q=Silom+Road+Bangkok' },
+  '船班（昭披耶河）':    { label:'昭披耶河船', cat:'transport', catLabel:'交通', desc:'昭披耶河公共快船，最便宜且最有景觀的水上交通。橘旗船 15 THB 串聯主要景點，Saphan Taksin（BTS 可達）為主要起點。', tags:['15 THB','橘旗船','Saphan Taksin 起','串聯景點'], maps:'https://maps.google.com/?q=Sathorn+Central+Pier+Bangkok' },
+
+  // ── 芭達雅景點 ──
+  '真理聖殿 Sanctuary of Truth':   { label:'真理聖殿', cat:'pattaya-att', catLabel:'芭達雅景點', desc:'強烈推薦。全木造無釘建築，高達 105 公尺，以印度教與佛教木雕藝術覆蓋全身，極為壯觀。位於北芭達雅海岸，距 The Zign Hotel 約 5 分鐘車程，極近且必看。票價約 500 THB，開放 08:00–18:00。', tags:['強烈推薦','北芭達雅','距飯店 ~5min','票價 500 THB'], maps:'https://maps.google.com/?q=Sanctuary+of+Truth+Pattaya' },
+  '珊瑚島 Koh Larn':               { label:'珊瑚島', cat:'pattaya-att', catLabel:'芭達雅景點', desc:'芭達雅最熱門的離島一日遊，透明海水、白沙灘、浮潛體驗俱佳。從 Bali Hai Pier（南芭達雅）搭渡輪約 30 分鐘，單程船票約 30 THB。建議全天安排（09:00 出發）。', tags:['離島','渡輪 30min','浮潛','全天行程'], maps:'https://maps.google.com/?q=Koh+Larn+Pattaya+Coral+Island' },
+  '農農熱帶花園 Nong Nooch':        { label:'農農熱帶花園', cat:'pattaya-att', catLabel:'芭達雅景點', desc:'世界級熱帶植物園，占地廣闊，含仙人掌園、蝴蝶園與每日泰式文化表演（象秀、武術）。距市中心約 15 km，Grab 約 30 分鐘，票價含表演約 600 THB。', tags:['植物園','象秀表演','距市中心 15km','600 THB'], maps:'https://maps.google.com/?q=Nong+Nooch+Tropical+Garden+Pattaya' },
+  '芭達雅觀景台 Pratumnak Hill':    { label:'觀景台', cat:'pattaya-att', catLabel:'芭達雅景點', desc:'Pratumnak 山丘頂的芭達雅灣全景觀景台，可俯瞰整個芭達雅海灣與城市，日落時段最美。距 Central Pattaya 約 15 分鐘，免費參觀。', tags:['免費','日落景點','俯瞰芭達雅灣','15min 車程'], maps:'https://maps.google.com/?q=Pattaya+Viewpoint+Pratumnak+Hill' },
+  '芭達雅水上市場 Floating Market': { label:'水上市場', cat:'pattaya-att', catLabel:'芭達雅景點', desc:'四方水上市場（Four Regions Floating Market），以木橋連接各區，販售泰國四地區傳統食物與手工藝品。距市中心約 30 分鐘，票價 200 THB，每日開放。', tags:['四方市場','傳統工藝','200 THB','距市中心 ~30min'], maps:'https://maps.google.com/?q=Four+Regions+Floating+Market+Pattaya' },
+  'Tiffany\'s Show 人妖秀':         { label:"Tiffany's Show", cat:'pattaya-att', catLabel:'芭達雅景點', desc:'泰國最經典、規模最大的跨性別歌舞秀，舞台華麗、服裝精緻，具備極高的娛樂與文化代表性。位於北芭達雅，距 The Zign Hotel 約 10 分鐘，票價約 700–1,200 THB，每晚 18:00、19:30、21:00 三場。', tags:['北芭達雅','距飯店 ~10min','三場演出','700–1,200 THB'], maps:'https://maps.google.com/?q=Tiffany+Show+Pattaya' },
+  '芭達雅 3D 美術館':               { label:'Art in Paradise', cat:'pattaya-att', catLabel:'芭達雅景點', desc:'室內冷氣景點，透過視覺錯位技術繪製的大型 3D 壁畫，與畫面互動拍出視覺錯覺照片。距飯店約 10 分鐘，適合喜歡互動藝術的行程安排。票價約 400 THB。', tags:['室內冷氣','3D互動','打卡拍照','票價 400 THB'], maps:'https://maps.google.com/?q=Art+in+Paradise+3D+Museum+Pattaya' },
+  '迷你暹羅 Mini Siam':             { label:'迷你暹羅', cat:'pattaya-att', catLabel:'芭達雅景點', desc:'匯集泰國歷史名勝（大皇宮、鄭王廟）與世界知名建築的微縮模型園區，適合快速瀏覽各國地標。距飯店約 10 分鐘。票價約 300 THB。', tags:['微縮模型','世界地標','300 THB','10 分鐘'], maps:'https://maps.google.com/?q=Mini+Siam+Pattaya' },
+  '大佛山 Khao Phra Bat':           { label:'大佛山', cat:'pattaya-att', catLabel:'芭達雅景點', desc:'山丘上的大型金色佛像，可俯瞰芭達雅城市與海灣，山頂亦有寺廟群。位於北芭達雅，免費參觀，需步行上山，建議早上前往避免烈日。', tags:['免費','北芭達雅','金色大佛','需步行上山'], maps:'https://maps.google.com/?q=Wat+Khao+Phra+Bat+Pattaya+Big+Buddha' },
+  '月光市場 Thepprasit':            { label:'月光市場', cat:'pattaya-att', catLabel:'芭達雅景點', desc:'芭達雅規模最大的週末夜市，販售服裝、3C、食物、紀念品，價格比觀光區便宜。位於南芭達雅 Thepprasit Road，週五六日 17:00–23:00，Grab 前往約 25 分鐘。', tags:['週五六日限定','17:00–23:00','南芭達雅','Grab 約 25min'], maps:'https://maps.google.com/?q=Thepprasit+Night+Market+Pattaya' },
+  '芭達雅飛機夜市':                 { label:'芭達雅飛機夜市', cat:'pattaya-att', catLabel:'芭達雅景點', desc:'以退役飛機為裝置藝術的特色夜市，結合街頭美食、飲料攤與網紅打卡區。位於 Jomtien 區，每日傍晚開放，Grab 約 20 分鐘。', tags:['退役飛機裝置','打卡夜市','每日傍晚','Grab ~20min'], maps:'https://maps.google.com/?q=Pattaya+Airplane+Night+Market+Jomtien' },
+  '按摩街 Pattaya 2nd Road':        { label:'按摩街', cat:'pattaya-att', catLabel:'芭達雅景點', desc:'Pattaya 2nd Road 集中大量按摩店，提供泰式按摩、足底按摩、油壓等服務。1 小時約 200–350 THB，品質參差，建議選擇評價較高的店面，全天開放。', tags:['200–350 THB/hr','全天開放','中央芭達雅','評價需確認'], maps:'https://maps.google.com/?q=Pattaya+2nd+Road+massage+shops' },
+  // ── 芭達雅按摩（一般不限客群）──
+  'Siladon Spa Pattaya':            { label:'Siladon Spa', cat:'pattaya-att', catLabel:'芭達雅景點', desc:'距 The Zign Hotel 極近。位於傳統泰式柚木高腳屋內，環境古色古香，精油按摩與身體磨砂服務口碑極佳。人均約 800–2,000 THB，建議電話提前預約。', tags:['距飯店極近','柚木高腳屋','精油磨砂','800–2,000 THB'], maps:'https://maps.google.com/?q=Siladon+Spa+Pattaya' },
+  'Health Land Pattaya':            { label:'Health Land Pattaya', cat:'pattaya-att', catLabel:'芭達雅景點', desc:'位於北芭達雅主要幹道，佔地極廣，與曼谷分店同樣提供高性價比的標準泰式按摩，按壓力道充足，品質穩定。人均約 600–1,200 THB。', tags:['北芭達雅','連鎖穩定品質','600–1,200 THB','按壓充足'], maps:'https://maps.google.com/?q=Health+Land+Pattaya' },
+  'Let\'s Relax Spa（芭達雅）':     { label:"Let's Relax (Terminal 21)", cat:'pattaya-att', catLabel:'芭達雅景點', desc:'位於 Terminal 21 百貨內，逛街後前往極為順路，環境明亮整潔。泰式按摩 1 小時約 800–1,500 THB，品質與曼谷分店一樣穩定，建議線上預約。', tags:['Terminal 21 內','逛街順路','800–1,500 THB','連鎖穩定'], maps:'https://maps.google.com/?q=Let\'s+Relax+Spa+Terminal+21+Pattaya' },
+  'Grace Spa Pattaya':              { label:'Grace Spa', cat:'pattaya-att', catLabel:'芭達雅景點', desc:'鄰近 The Zign Hotel 區域，全獨立小木屋包廂，私密性極高。以熱石按摩（Hot Stone）與草藥球熱敷為招牌。人均約 1,000–2,500 THB。', tags:['鄰近飯店','木屋包廂','熱石草藥球','1,000–2,500 THB'], maps:'https://maps.google.com/?q=Grace+Spa+Pattaya' },
+  'Yunomori Onsen Pattaya':         { label:'Yunomori Onsen Pattaya', cat:'pattaya-att', catLabel:'芭達雅景點', desc:'設施規模龐大的日式溫泉會館，位於 Thepprasit 區。提供最安全、乾淨且徹底放鬆的環境。Onsen 入場約 500 THB，加按摩套餐約 1,000–2,000 THB。', tags:['日式溫泉','Thepprasit','大型設施','1,000–2,000 THB'], maps:'https://maps.google.com/?q=Yunomori+Onsen+Spa+Pattaya' },
+  // ── 芭達雅按摩（男同志／熊族取向）⚠️ 集中於南區 Jomtien，距飯店 20–30 分鐘 ──
+  'Harem Men\'s Spa ⚠️遠':         { label:'Harem Men\'s Spa ⚠️遠', cat:'pattaya-att', catLabel:'芭達雅景點', desc:'⚠️ 位於 Jomtien Complex（南區），距 The Zign Hotel 約 20–30 分鐘車程。芭達雅最知名的同志按摩會館，師傅人數多，涵蓋一般體態至肌肉壯碩型，環境維護良好。人均約 1,000–2,000 THB。', tags:['⚠️南區Jomtien','同志會館','肌肉/壯碩型','1,000–2,000 THB'], maps:'https://maps.google.com/?q=Harem+Mens+Spa+Jomtien+Pattaya' },
+  'Spartacus Men\'s Massage ⚠️遠': { label:'Spartacus Men\'s Massage ⚠️遠', cat:'pattaya-att', catLabel:'芭達雅景點', desc:'⚠️ 位於 Boyztown（南區），距 The Zign Hotel 約 20–30 分鐘。主打體格健壯與肌肉型師傅，提供多種力道偏重的深層組織按摩選項。人均約 1,200–2,500 THB。', tags:['⚠️南區Boyztown','肌肉型師傅','深層組織','1,200–2,500 THB'], maps:'https://maps.google.com/?q=Spartacus+Mens+Massage+Pattaya+Boyztown' },
+  'Relax @ Me ⚠️遠':               { label:'Relax @ Me ⚠️遠', cat:'pattaya-att', catLabel:'芭達雅景點', desc:'⚠️ 位於南區 Soi Day Night，距飯店約 20–30 分鐘。由訓練有素的男技師提供足部按摩與泰式油壓，房間乾淨且設有隔簾，價格合理。人均約 800–1,500 THB。', tags:['⚠️南區','男技師','足部油壓','800–1,500 THB'], maps:'https://maps.google.com/?q=Relax+Me+Massage+Pattaya+Soi+Day+Night' },
+  'Sensations Massage ⚠️遠':       { label:'Sensations Massage ⚠️遠', cat:'pattaya-att', catLabel:'芭達雅景點', desc:'⚠️ 位於 Jomtien Complex（南區），距飯店約 20–30 分鐘。老字號同志按摩，氛圍輕鬆，具備不同體型師傅可選。人均約 1,000–2,000 THB。', tags:['⚠️Jomtien Complex','老字號','輕鬆氛圍','1,000–2,000 THB'], maps:'https://maps.google.com/?q=Sensations+Massage+Jomtien+Pattaya' },
+  'TBMI Pattaya ⚠️遠':             { label:'TBMI 盲人按摩 ⚠️遠', cat:'pattaya-att', catLabel:'芭達雅景點', desc:'⚠️ 位於 Jomtien Complex（南區），距飯店約 20–30 分鐘。雖非純同志店，但在同志社群中極受歡迎。提供高 CP 值專業盲人按摩，可指定男師傅，設有私人包廂。人均約 300–600 THB。', tags:['⚠️Jomtien Complex','盲人按摩','高CP值','300–600 THB'], maps:'https://maps.google.com/?q=TBMI+Thai+Blind+Massage+Jomtien+Pattaya' },
+
+  // ── 芭達雅美食（20 精選＋遠距選項）──
+  // 以 The Zign Hotel (北芭達雅 Naklua Soi 12) 為出發點
+  'Mum Aroi 海鮮餐廳':         { label:'Mum Aroi', cat:'pattaya', catLabel:'芭達雅美食', desc:'北芭達雅指標性海景餐廳，咖哩炒蟹非常出名，距 The Zign Hotel 約 5 分鐘車程，是周邊最具口碑的海鮮選擇。人均約 500–1,000 THB，建議提前訂位。', tags:['北芭達雅','海景餐廳','咖哩螃蟹','建議訂位'], maps:'https://maps.google.com/?q=Mum+Aroi+Seafood+Restaurant+Pattaya' },
+  '蘭坡海鮮市場 Lan Pho':      { label:'蘭坡海鮮市場', cat:'pattaya', catLabel:'芭達雅美食', desc:'距飯店約 6 分鐘。芭達雅最大的活海鮮市場，自選活海鮮後交由市場旁攤位代客料理（清蒸或炭烤），加工費依重量計，價格透明，是最划算的海鮮吃法。人均約 300–600 THB。', tags:['北芭達雅','自選活海鮮','代客料理','300–600 THB'], maps:'https://maps.google.com/?q=Lan+Pho+Naklua+Market+Pattaya' },
+  'The Seafood Naklua 12':     { label:'The Seafood', cat:'pattaya', catLabel:'芭達雅美食', desc:'飯店同條街（Naklua Soi 12），步行或搭飯店接駁車即可抵達。口味在地，菜色新鮮，適合抵達當天或不想出遠門的快速用餐。人均約 400–800 THB。', tags:['步行可達','同條街','400–800 THB','抵達當天首選'], maps:'https://maps.google.com/?q=The+Seafood+Naklua+12+Pattaya' },
+  'Ronin 日式料理':             { label:'Ronin', cat:'pattaya', catLabel:'芭達雅美食', desc:'隱身北芭達雅巷弄的高質感日式餐廳，裝潢極具美感，主打精緻壽司與生魚片料理。距飯店約 6 分鐘。人均約 1,000–2,000 THB。', tags:['北芭達雅','精緻日料','壽司生魚片','1,000–2,000 THB'], maps:'https://maps.google.com/?q=Ronin+Japanese+Restaurant+Pattaya' },
+  'Izakaya BAKU 燒肉':         { label:'Izakaya BAKU', cat:'pattaya', catLabel:'芭達雅美食', desc:'提供高品質日式燒肉（Yakiniku）與居酒屋料理，有牛舌、牛小排與內臟類，設有日式下沉式座位（Horigotatsu）。距飯店約 15 分鐘。人均約 600–1,000 THB。', tags:['日式燒肉','牛舌牛小排','居酒屋','600–1,000 THB'], maps:'https://maps.google.com/?q=Izakaya+BAKU+Pattaya' },
+  'Jae To 牛肉麵':              { label:'Jae To 牛肉麵', cat:'pattaya', catLabel:'芭達雅美食', desc:'北芭達雅在地傳奇泰式牛肉麵（ร้านเจ๊โต），距飯店約 8 分鐘。湯頭濃郁深厚，牛筋與牛肉塊軟爛入味，是早餐或快速午餐的首選。一碗約 80–150 THB。', tags:['北芭達雅','泰式牛肉麵','80–150 THB','在地傳奇'], maps:'https://maps.google.com/?q=Jae+To+Beef+Noodles+Pattaya' },
+  'Glass House Silver':         { label:'Glass House Silver', cat:'pattaya', catLabel:'芭達雅美食', desc:'著名 Glass House 在 Wongamat 沙灘的分店，全玻璃屋設計緊鄰沙灘。提供泰菜與西式餐點，日落時段氣氛極佳，距飯店約 5 分鐘，不需跑去南區。人均約 600–1,200 THB。', tags:['Wongamat 沙灘','全玻璃設計','600–1,200 THB','日落時段'], maps:'https://maps.google.com/?q=Glass+House+Silver+Wongamat+Pattaya' },
+  'Surf & Turf 海灘俱樂部':    { label:'Surf & Turf Beach Club', cat:'pattaya', catLabel:'芭達雅美食', desc:'位於 Wongamat 沙灘旁的半開放式海灘俱樂部，提供沙發躺椅、窯烤披薩、海鮮與調酒，步調悠閒。距飯店約 5 分鐘。人均約 500–1,000 THB。', tags:['Wongamat 海灘','悠閒風格','調酒披薩','500–1,000 THB'], maps:'https://maps.google.com/?q=Surf+Turf+Beach+Club+Wongamat+Pattaya' },
+  'Radius @ Cape Dara':         { label:'Radius @ Cape Dara', cat:'pattaya', catLabel:'芭達雅美食', desc:'坐擁芭達雅最美夕陽海景的景觀餐廳，提供自助餐或單點。距飯店約 10 分鐘，適合慶生或最後一晚聚餐。人均約 800–1,500 THB。', tags:['夕陽海景','自助或單點','800–1,500 THB','10 分鐘'], maps:'https://maps.google.com/?q=Radius+Cape+Dara+Resort+Pattaya' },
+  'Somtum Na Mueang':           { label:'Somtum Na Mueang', cat:'pattaya', catLabel:'芭達雅美食', desc:'北芭達雅傳奇平價伊善料理餐廳，距飯店約 8 分鐘。青木瓜沙拉、炸雞翅與涼拌菜色出色，是想吃正統泰北口味的首選。人均約 150–300 THB。', tags:['北芭達雅','青木瓜沙拉','炸雞翅','150–300 THB'], maps:'https://maps.google.com/?q=Somtum+Na+Mueang+Pattaya' },
+  'La Baguette 法式烘焙':      { label:'La Baguette', cat:'pattaya', catLabel:'芭達雅美食', desc:'芭達雅最知名的法式烘焙坊，可頌、杏仁塔與各式精緻法式甜點水準極高。距飯店約 10 分鐘，適合安排為早午餐或下午茶。人均約 200–400 THB。', tags:['法式烘焙','可頌甜點','200–400 THB','早午餐或下午茶'], maps:'https://maps.google.com/?q=La+Baguette+French+Bakery+Pattaya' },
+  'Terminal 21 美食街（芭達雅）': { label:'Terminal 21 Pier 21', cat:'pattaya', catLabel:'芭達雅美食', desc:'Terminal 21 Pattaya 地下美食街（Pier 21），網羅各式泰式料理、麵食、飲料，冷氣舒適，價格比路邊攤還便宜。換匯 T.T. Currency Exchange 在 G 樓 2 號出口旁。距飯店約 10 分鐘。人均約 50–150 THB。', tags:['T21 地下','50–150 THB','冷氣舒適','換匯可順道'], maps:'https://maps.google.com/?q=Terminal+21+Pattaya' },
+  'The Beach Club Pullman':     { label:'The Beach Club (Pullman)', cat:'pattaya', catLabel:'芭達雅美食', desc:'位於 Pullman G Hotel 內的海灘俱樂部，定期舉辦海灘派對，氣氛熱鬧。調酒與炸物水準佳，距飯店約 8 分鐘。人均約 400–800 THB。', tags:['Pullman Hotel','海灘派對','400–800 THB','8 分鐘'], maps:'https://maps.google.com/?q=Beach+Club+Pullman+Pattaya+G+Hotel' },
+  'Fat Coco 池畔餐廳':          { label:'Fat Coco', cat:'pattaya', catLabel:'芭達雅美食', desc:'A-One Hotel 內的色彩繽紛熱帶風格池畔餐廳，有大型泳池，提供海鮮披薩與各式特調飲品，適合拍照打卡。距飯店約 12 分鐘。人均約 400–800 THB。', tags:['網美泳池','A-One Hotel','400–800 THB','義式餐點'], maps:'https://maps.google.com/?q=Fat+Coco+Beach+Club+Pattaya' },
+  'Jangwon 韓式燒烤':           { label:'Jangwon', cat:'pattaya', catLabel:'芭達雅美食', desc:'位於 Pattaya 2nd Road 的知名韓式燒烤，小菜豐富無限續加，專人桌邊代烤，肉品品質穩定。距飯店約 15 分鐘。人均約 500–800 THB。', tags:['韓式燒烤','小菜無限','桌邊代烤','500–800 THB'], maps:'https://maps.google.com/?q=Jangwon+Korean+BBQ+Pattaya' },
+  'Siam Elephant 泰菜':         { label:'Siam Elephant', cat:'pattaya', catLabel:'芭達雅美食', desc:'飯店周邊精緻泰式餐廳，環境優雅，菜色不過辣，適合怕辣或不習慣街頭小吃的成員。距飯店約 5 分鐘。人均約 400–700 THB。', tags:['北芭達雅','精緻泰菜','400–700 THB','5 分鐘'], maps:'https://maps.google.com/?q=Siam+Elephant+Restaurant+Pattaya' },
+  'Somtum Villa 泰北料理':      { label:'Somtum Villa', cat:'pattaya', catLabel:'芭達雅美食', desc:'位於 Z Space 複合式園區，工業摩登風格，推薦烤豬頸肉（Kor Moo Yang）與招牌炒飯。距飯店約 12 分鐘。人均約 200–400 THB。', tags:['工業風','豬頸肉','200–400 THB','Z Space'], maps:'https://maps.google.com/?q=Somtum+Villa+Pattaya' },
+  "Jasmin's Café":              { label:"Jasmin's Café", cat:'pattaya', catLabel:'芭達雅美食', desc:'評價極高的溫馨咖啡廳，咖啡水準穩定，泰式家常菜（綠咖哩、打拋豬）同樣細緻。距飯店約 15 分鐘。人均約 200–400 THB。', tags:['精品咖啡','泰式家常','200–400 THB','15 分鐘'], maps:'https://maps.google.com/?q=Jasmins+Cafe+Pattaya' },
+  'Khao Tom Pla 鮮魚湯飯':      { label:'Khao Tom Pla Jae Juk', cat:'pattaya', catLabel:'芭達雅美食', desc:'鮮甜的海鮮粥與鮮魚湯飯專賣店，是早上開胃或深夜宵夜的首選。現煎泰式脆餅也是必點小吃。距飯店約 8 分鐘。人均約 150–300 THB。', tags:['鮮魚湯飯','宵夜首選','150–300 THB','8 分鐘'], maps:'https://maps.google.com/?q=Khao+Tom+Pla+Jae+Juk+Pattaya' },
+  'Shelter Coffee 精品咖啡':    { label:'Shelter Coffee', cat:'pattaya', catLabel:'芭達雅美食', desc:'北芭達雅知名精品咖啡店，環境清新舒適，提供高品質手沖咖啡，適合早起安靜喝一杯。距飯店約 7 分鐘。', tags:['北芭達雅','精品手沖','7 分鐘','清晨首選'], maps:'https://maps.google.com/?q=Shelter+Coffee+Pattaya' },
+  // ⚠️ 距離較遠（建議評估交通成本）
+  'Rimpa Lapin ⚠️遠':           { label:'Rimpa Lapin ⚠️需包車', cat:'pattaya', catLabel:'芭達雅美食', desc:'⚠️ 距飯店約 45 分鐘以上（單程），地點偏僻，用餐後 Grab 叫車困難，建議出發前直接包車來回。沿山壁建造的懸崖景觀餐廳，可無死角俯瞰芭達雅海岸線，黃昏最美。人均約 600–1,200 THB。', tags:['⚠️需包車','懸崖景觀','Na Jomtien','600–1,200 THB'], maps:'https://maps.google.com/?q=Rimpa+Lapin+Pattaya' },
+  'Pupen Seafood ⚠️遠':         { label:'Pupen Seafood ⚠️需評估', cat:'pattaya', catLabel:'芭達雅美食', desc:'⚠️ 位於中天海灘末端，與北芭達雅完全反方向，距飯店約 30–40 分鐘（單程），來回交通時間與車資成本較高。在地人家庭聚餐熱門大型海鮮餐廳，門口有巨型螃蟹地標。人均約 500–1,000 THB。', tags:['⚠️距離遠','Jomtien 末端','在地家庭餐廳','500–1,000 THB'], maps:'https://maps.google.com/?q=Pupen+Seafood+Jomtien+Pattaya' },
+  'Cabbages & Condoms ⚠️遠':    { label:'Cabbages & Condoms ⚠️需專程', cat:'pattaya', catLabel:'芭達雅美食', desc:'⚠️ 位於帕塔納克山區，距飯店約 25–35 分鐘，需特別專程安排前往。半山腰知名庭院餐廳，擁有極佳夕陽海景，提供正宗泰菜，收益部分用於泰國公益。人均約 500–800 THB。', tags:['⚠️需專程','帕塔納克山','夕陽海景','500–800 THB'], maps:'https://maps.google.com/?q=Cabbages+Condoms+Pattaya' },
+  'Cafe des Amis ⚠️遠':         { label:'Cafe des Amis ⚠️Fine Dining', cat:'pattaya', catLabel:'芭達雅美食', desc:'⚠️ 距飯店約 25–40 分鐘，晚餐時段極易遭遇塞車，需大幅提早出發。隱身住宅區內的頂級法式 Fine Dining，威靈頓牛排與香煎鵝肝為招牌，適合特殊慶祝場合。人均約 1,500–3,000 THB。', tags:['⚠️塞車風險','Fine Dining','法式歐陸','1,500–3,000 THB'], maps:'https://maps.google.com/?q=Cafe+des+Amis+Pattaya' },
+  'Lobster Pot ⚠️觀光客店':     { label:'Lobster Pot ⚠️', cat:'pattaya', catLabel:'芭達雅美食', desc:'⚠️ 屬典型觀光客店，常有價格不透明及餐點份量不符預期的反映，建議避開。位於 Walking Street 上的老牌龍蝦餐廳。', tags:['⚠️建議避開','觀光客店','Walking Street','龍蝦'], maps:'https://maps.google.com/?q=Lobster+Pot+Restaurant+Pattaya' },
+
+  // ── 曼谷區新增活動 ──
+  'DJ Station':                 { label:'DJ Station', cat:'nightlife', catLabel:'夜生活', desc:'曼谷 Silom 區最知名的同志夜店之一，多層樓設計，音樂以 EDM 和流行舞曲為主，週末人潮最多。位於 Silom Soi 2，約 23:00 後最熱鬧。', tags:['Silom Soi 2','EDM 舞曲','週末最旺','多層樓'], maps:'https://maps.google.com/?q=DJ+Station+Bangkok+Silom' },
+  'GOD 酒吧':                   { label:'GOD', cat:'nightlife', catLabel:'夜生活', desc:'Silom 區人氣酒吧，裝潢現代時尚，氣氛活潑，提供調酒與啤酒。週五週六最熱鬧，建議 22:00 後前往。', tags:['Silom 區','現代時尚','週末熱鬧','調酒'], maps:'https://maps.google.com/?q=GOD+Bar+Bangkok+Silom' },
+  'Big C Supercenter':          { label:'Big C', cat:'shopping', catLabel:'購物', desc:'泰國大型連鎖超市，提供零食、泰式調味料、藥妝等伴手禮，價格實惠。Chit Lom 區有分店，可於 Copper 用餐後順道採購。營業至 22:00。', tags:['Chit Lom','零食伴手禮','藥妝','實惠'], maps:'https://maps.google.com/?q=Big+C+Supercenter+Chit+Lom+Bangkok' },
+  'NaRaYa 曼谷包':              { label:'NaRaYa', cat:'shopping', catLabel:'購物', desc:'泰國知名曼谷包品牌，輕便耐用，款式多樣，適合當伴手禮。Central World、EmQuartier 等商場皆有專櫃。', tags:['曼谷包','伴手禮','輕便','專櫃'], maps:'https://maps.google.com/?q=NaRaYa+Central+World+Bangkok' },
+  'Karmakamet 香氛':            { label:'Karmakamet', cat:'shopping', catLabel:'購物', desc:'泰國高級香氛品牌，提供精油、香氛蠟燭、身體保養品等，包裝精緻適合送禮。Siam Paragon、EmQuartier 有專櫃。', tags:['泰國香氛','精緻伴手禮','精油蠟燭','高級'], maps:'https://maps.google.com/?q=Karmakamet+Siam+Paragon+Bangkok' },
+  '朱拉隆功大學美食街':         { label:'朱拉美食街', cat:'food', catLabel:'美食', desc:'朱拉隆功大學周邊的平價美食街，提供各式泰式小吃、飲料、甜點，是在地學生與上班族最愛，價格便宜份量足。BTS National Stadium 步行可達。人均約 50–150 THB。', tags:['學生美食街','平價小吃','50–150 THB','National Stadium BTS'], maps:'https://maps.google.com/?q=Chulalongkorn+University+Food+Street+Bangkok' },
+  '巴哥咖啡廳':                 { label:'巴哥咖啡廳', cat:'food', catLabel:'美食', desc:'曼谷知名的巴哥犬主題咖啡廳，可與可愛的巴哥互動拍照，提供咖啡、甜點與輕食。需提前預約，營業時間 10:00–19:00。人均約 200–400 THB。', tags:['網美咖啡廳','巴哥犬','需預約','200–400 THB'], maps:'https://maps.google.com/?q=Corgi+In+The+Garden+Bangkok' },
+  'Savoey 海鮮':                { label:'Savoey', cat:'food', catLabel:'美食', desc:'曼谷知名連鎖海鮮餐廳，咖哩炒蟹、清蒸魚、炒空心菜為招牌菜色，份量大適合多人分享。Terminal 21 Asok 等多個分店。人均約 400–800 THB。', tags:['連鎖海鮮','咖哩炒蟹','多人分享','400–800 THB'], maps:'https://maps.google.com/?q=Savoey+Seafood+Terminal+21+Bangkok' },
+  'The Prime Massage':          { label:'The Prime Massage', cat:'relax', catLabel:'放鬆', desc:'曼谷高評價按摩店，提供泰式按摩、精油按摩、足底按摩等服務，環境乾淨舒適，技師手法專業。Silom 區分店，建議提前預約。人均約 500–1,000 THB。', tags:['Silom 區','專業按摩','建議預約','500–1,000 THB'], maps:'https://maps.google.com/?q=The+Prime+Massage+Bangkok+Silom' },
+  'Bolt 叫車':                  { label:'Bolt', cat:'transport', catLabel:'交通', desc:'東南亞叫車服務，與 Grab 類似，有時價格更便宜。建議出發前下載 App 並綁定付款方式，可作為 Grab 的替代選擇。', tags:['叫車 App','價格優惠','替代選擇','需綁卡'], maps:'https://maps.google.com/?q=Bolt+App' },
+
+  // ── 芭達雅區新增活動 ──
+  'The Sky Gallery 鳥巢餐廳':   { label:'Sky Gallery', cat:'pattaya', catLabel:'芭達雅美食', desc:'芭達雅知名鳥巢造型網美餐廳，位於高處可俯瞰海景，黃昏時刻最美。提供泰式與西式料理，需提前訂位。人均約 500–1,000 THB。', tags:['網美餐廳','鳥巢造型','海景夕陽','需訂位'], maps:'https://maps.google.com/?q=The+Sky+Gallery+Pattaya' },
+  '3 Mermaids 鳥巢餐廳':        { label:'3 Mermaids', cat:'pattaya', catLabel:'芭達雅美食', desc:'另一間芭達雅鳥巢造型餐廳，裝潢唯美，提供海鮮與泰式料理，適合拍照打卡。黃昏場次最受歡迎，建議提前訂位。人均約 500–1,000 THB。', tags:['網美餐廳','鳥巢造型','海鮮泰菜','需訂位'], maps:'https://maps.google.com/?q=3+Mermaids+Restaurant+Pattaya' },
+  'Eak Fish Balls 魚丸':        { label:'Eak Fish Balls', cat:'pattaya', catLabel:'芭達雅美食', desc:'芭達雅在地人推薦的魚丸專賣店，魚丸彈牙鮮甜，湯頭清爽，是早餐或宵夜的好選擇。價格便宜，人均約 50–100 THB。', tags:['在地美食','魚丸專賣','平價小吃','50–100 THB'], maps:'https://maps.google.com/?q=Eak+Fish+Balls+Pattaya' },
+  'Khun Sri 美食':              { label:'Khun Sri', cat:'pattaya', catLabel:'芭達雅美食', desc:'芭達雅在地人喜愛的泰式小吃店，提供炒飯、炒麵、湯品等家常料理，價格實惠，份量足。人均約 60–150 THB。', tags:['在地小吃','泰式家常','平價','60–150 THB'], maps:'https://maps.google.com/?q=Khun+Sri+Pattaya' },
+  '芭達雅海灘':                 { label:'芭達雅海灘', cat:'pattaya-att', catLabel:'芭達雅景點', desc:'芭達雅主要海灘，長達 4 公里，適合散步、游泳、看夕陽。日落時間約 18:00–18:30，傍晚最美。海灘周邊有眾多餐廳與酒吧。', tags:['主要海灘','看夕陽','免費','18:00 日落'], maps:'https://maps.google.com/?q=Pattaya+Beach' },
+  'Terminal 21 Pattaya':        { label:'Terminal 21', cat:'pattaya-att', catLabel:'芭達雅景點', desc:'芭達雅大型購物中心，以機場航站樓為主題，每層樓代表不同國家城市。提供購物、美食街、電影院等，營業至 22:00。', tags:['購物中心','美食街','主題裝潢','22:00 關'], maps:'https://maps.google.com/?q=Terminal+21+Pattaya' },
+  'La marche 購物':             { label:'La marche', cat:'pattaya-att', catLabel:'芭達雅景點', desc:'芭達雅購物區，提供服飾、配件、紀念品等，價格合理。適合逛街購物，晚上較熱鬧。', tags:['購物區','服飾配件','晚上熱鬧','合理價格'], maps:'https://maps.google.com/?q=La+marche+Pattaya' },
+  'The Light 夜市':             { label:'The Light', cat:'pattaya-att', catLabel:'芭達雅景點', desc:'芭達雅夜市，提供小吃、服飾、手工藝品等，氣氛熱鬧。營業時間約 17:00–23:00。', tags:['夜市','小吃','17:00–23:00','手工藝品'], maps:'https://maps.google.com/?q=The+Light+Night+Market+Pattaya' },
+  '6996 成人秀':                { label:'6996 Show', cat:'pattaya-att', catLabel:'芭達雅景點', desc:'芭達雅知名成人秀表演，一場約 1 小時。提前買票比現場便宜，票價約 800 THB。其他選擇：99 Show、89 Show。', tags:['成人秀','1 小時','800 THB','提前買票'], maps:'https://maps.google.com/?q=6996+Show+Pattaya' },
+  '99 Show':                    { label:'99 Show', cat:'pattaya-att', catLabel:'芭達雅景點', desc:'芭達雅成人秀表演之一，與 6996 Show 類似，一場約 1 小時。建議提前購票，票價約 800 THB。', tags:['成人秀','1 小時','800 THB','提前買票'], maps:'https://maps.google.com/?q=99+Show+Pattaya' },
+  '89 Show':                    { label:'89 Show', cat:'pattaya-att', catLabel:'芭達雅景點', desc:'芭達雅成人秀表演之一，與 6996 Show、99 Show 類似，一場約 1 小時。建議提前購票，票價約 800 THB。', tags:['成人秀','1 小時','800 THB','提前買票'], maps:'https://maps.google.com/?q=89+Show+Pattaya' },
+  'Walking Street':             { label:'Walking Street', cat:'pattaya-att', catLabel:'芭達雅景點', desc:'芭達雅最知名的夜生活街區，長約 1 公里，聚集酒吧、夜店、餐廳、成人秀場等。約 18:00 開始熱鬧，深夜最盛。', tags:['夜生活','酒吧夜店','18:00 開始','深夜最旺'], maps:'https://maps.google.com/?q=Walking+Street+Pattaya' },
+  'BoyzTown':                   { label:'BoyzTown', cat:'pattaya-att', catLabel:'芭達雅景點', desc:'芭達雅同志友善酒吧街區，氣氛輕鬆友善，提供各式酒吧與表演。約 20:00 開始營業，深夜最熱鬧。', tags:['Gay-friendly','酒吧街','20:00 開始','輕鬆友善'], maps:'https://maps.google.com/?q=BoyzTown+Pattaya' },
+  '綠山野生動物園':             { label:'綠山動物園', cat:'pattaya-att', catLabel:'芭達雅景點', desc:'距芭達雅約 1 小時車程的大型開放式野生動物園，可近距離接觸長頸鹿、斑馬等動物，適合一日遊。需包車前往，門票約 500 THB。', tags:['野生動物園','一日遊','需包車','500 THB'], maps:'https://maps.google.com/?q=Khao+Kheow+Open+Zoo' },
+  '芭提雅私人定製一日遊':       { label:'芭提雅定製遊', cat:'pattaya-att', catLabel:'芭達雅景點', desc:'客製化芭達雅一日遊行程，可依需求安排景點、用餐地點與時間。適合想彈性安排行程的旅客，需提前預約。', tags:['客製化','一日遊','彈性安排','需預約'], maps:'https://maps.google.com/?q=Pattaya+Private+Tour' },
+  'Jomtien Complex':            { label:'Jomtien Complex', cat:'pattaya-att', catLabel:'芭達雅景點', desc:'中天海灘區的同志友善酒吧與餐廳聚集地，氣氛悠閒，提供海鮮、烤肉等。約 18:00 開始營業。', tags:['Jomtien','Gay-friendly','海鮮餐廳','18:00 開始'], maps:'https://maps.google.com/?q=Jomtien+Complex+Pattaya' },
+  'Soda Massage（Jomtien）':    { label:'Soda Massage', cat:'relax', catLabel:'放鬆', desc:'Jomtien Complex 區域內最大的男士按摩會館，近期翻新，環境舒適。提供泰式按摩、油壓等多種服務。位於 Jomtien Complex 內，營業至深夜。', tags:['Jomtien Complex','Gay-friendly','男士按摩','近期翻新'], maps:'https://maps.google.com/?q=Soda+Massage+Jomtien+Complex+Pattaya' },
+  'Foxy Smile Massage':         { label:'Foxy Smile', cat:'relax', catLabel:'放鬆', desc:'Jomtien Complex 內知名的男士按摩店，服務品質穩定，價格合理。提供多種按摩選項，環境整潔。', tags:['Jomtien Complex','Gay-friendly','男士按摩'], maps:'https://maps.google.com/?q=Foxy+Smile+Massage+Jomtien+Pattaya' },
+  'Burirom Massage':            { label:'Burirom', cat:'relax', catLabel:'放鬆', desc:'Jomtien Complex 區域內的按摩店，提供傳統泰式按摩與油壓服務。師傅技術好，環境乾淨舒適。', tags:['Jomtien Complex','泰式按摩','男士按摩'], maps:'https://maps.google.com/?q=Burirom+Massage+Jomtien+Pattaya' },
+  '#1 Health Massage':          { label:'#1 Health', cat:'relax', catLabel:'放鬆', desc:'Jomtien Complex 內的人氣按摩店，以健康按摩為主，師傅經驗豐富。環境整潔，價格公道。', tags:['Jomtien Complex','健康按摩','男士按摩'], maps:'https://maps.google.com/?q=1+Health+Massage+Jomtien+Pattaya' },
+  'Copa Body Club（Boyztown）': { label:'Copa Body Club', cat:'relax', catLabel:'放鬆', desc:'位於 Boyztown 區域的知名男士按摩會館，環境高級，服務專業。提供各式按摩與 SPA 療程，是 Boyztown 區域的指標店家。', tags:['Boyztown','Gay-friendly','男士按摩','高級會館'], maps:'https://maps.google.com/?q=Copa+Body+Club+Boyztown+Pattaya' },
+  'The Oxygen Beach':           { label:'The Oxygen Beach', cat:'pattaya-att', catLabel:'芭達雅景點', desc:'Jomtien Complex 內的海灘酒吧，提供調酒、啤酒與輕食，可邊看海邊放鬆。氣氛悠閒，適合傍晚前往。', tags:['海灘酒吧','Jomtien','調酒','傍晚推薦'], maps:'https://maps.google.com/?q=The+Oxygen+Beach+Jomtien+Pattaya' },
+};
+
+// Pool category mapping
+const POOL_CATS = {
+  bangkok: {
+    nightlife: ['BEEF 夜店','Barber（週一公休）','Mania Sauna（每日）','Heaven Sauna（桑拿）','Cake（週一二公休）','HUGs 熊吧（週一二公休）','DJ Station','GOD 酒吧'],
+    shopping: ['ICONSIAM','Siam Paragon','CentralWorld','EmSphere','Siam Discovery','MBK Center','Chatuchak 週末市集','Jodd Fairs (Rama 9)','Asiatique 河濱夜市','Don Don Donki Thong Lo','Central Chidlom','Big C Supercenter','NaRaYa 曼谷包','Karmakamet 香氛'],
+    food: ['蒙天海南雞飯 Ruenton','Charoen Saeng Silom','Hai Somtam Convent','Jok Prince 王子粥','新記烤鴨 Prachak','Khao Soi Convent','榮泰豬肉粉 Rung Rueang','Tuang Dim Sum','午餐：Copper','Or Tor Kor 有機市場','Nahm 泰式米其林','Laem Charoen Seafood','Somboon Seafood 建興酒家','Supanniga Eating Room','Baan Phadthai','Here Hai 蟹肉炒飯','Krua Apsorn','Le Du 米其林一星','100 Mahaseth','中國城 Yaowarat 夜食','Jay Fai 米其林炒蟹','Thip Samai 炒河粉','Bo.lan 精緻泰菜','Gaggan Anand','Yakiniku Great','Seiniku-ten','Katsushin 勝利豬排','Mensho Tokyo BKK','No Name Noodle','Jidori Cuisine Ken','郭炎松牛肉粉 Wattana Panich','王春盛牛肉火鍋','Tasty Congee 正斗','CQK Mala Hotpot','ChaTraMue 手標茶','Peace Oriental Teahouse','Roots Coffee','Mae Varee 芒果糯米飯','After You Dessert Cafe','朱拉隆功大學美食街','巴哥咖啡廳','Savoey 海鮮'],
+    culture: ['臥佛寺 Wat Pho','鄭王廟 Wat Arun','大皇宮 Grand Palace','湄南河船遊','Jim Thompson House','四面佛 Erawan Shrine','River City 藝文展覽','MOCA 曼谷當代藝術館','龍蓮寺 Wat Mangkon'],
+    relax: ['Health Land Sathorn','Divana Virtue Spa','Yunomori Onsen Bangkok','Perception Blind Massage','V Club Men\'s Spa','The Prime Men\'s Spa','The Prime Massage','Senso Men\'s Club','Prince Men\'s Spa','The Six Men\'s Club','Uranus Men\'s Spa','飯店泳池','咖啡廳放空','健身房'],
+    transport: ['搭 BTS 捷運','Grab 叫車','嘟嘟車體驗','船班（昭披耶河）','Bolt 叫車']
+  },
+  pattaya: {
+    food: ['Mum Aroi 海鮮餐廳','蘭坡海鮮市場 Lan Pho','The Seafood Naklua 12','Ronin 日式料理','Izakaya BAKU 燒肉','Jae To 牛肉麵','Glass House Silver','Surf & Turf 海灘俱樂部','Radius @ Cape Dara','Somtum Na Mueang','La Baguette 法式烘焙','Terminal 21 美食街（芭達雅）','The Beach Club Pullman','Fat Coco 池畔餐廳','Jangwon 韓式燒烤','Siam Elephant 泰菜','Somtum Villa 泰北料理',"Jasmin's Café",'Khao Tom Pla 鮮魚湯飯','Shelter Coffee 精品咖啡','The Sky Gallery 鳥巢餐廳','3 Mermaids 鳥巢餐廳','Eak Fish Balls 魚丸','Khun Sri 美食','Rimpa Lapin ⚠️遠','Pupen Seafood ⚠️遠','Cabbages & Condoms ⚠️遠','Cafe des Amis ⚠️遠','Lobster Pot ⚠️觀光客店'],
+    attractions: ['真理聖殿 Sanctuary of Truth','珊瑚島 Koh Larn','農農熱帶花園 Nong Nooch','芭達雅觀景台 Pratumnak Hill','芭達雅水上市場 Floating Market','蒂芬妮人妖秀 Tiffany\'s Show','芭達雅 3D 美術館','迷你暹羅 Mini Siam','大佛山 Khao Phra Bat','月光市場 Thepprasit','芭達雅飛機夜市','芭達雅海灘','Terminal 21 Pattaya','La marche 購物','The Light 夜市','6996 成人秀','99 Show','89 Show','Walking Street','BoyzTown','綠山野生動物園','芭提雅私人定製一日遊','Jomtien Complex','The Oxygen Beach'],
+    relax: ['Siladon Spa Pattaya','Health Land Pattaya','Let\'s Relax Spa（芭達雅）','Grace Spa Pattaya','Yunomori Onsen Pattaya','Soda Massage（Jomtien）','Foxy Smile Massage','Burirom Massage','#1 Health Massage','Copa Body Club（Boyztown）','Relax @ Me ⚠️遠','Sensations Massage ⚠️遠','TBMI Pattaya ⚠️遠']
+  }
+};
+
+const LOCKED_ITEMS = {
+  'g18-am':  ['🛫 CI 831 09:25（TPE）→ 12:10 抵達 BKK'],
+  'g18-pm':  ['🚗 包車前往芭達雅', '🍵 手標茶・換匯（BKK 機場）'],
+  'g19-am':  ['🍳 飯店早餐'],
+  'g19-eve': ['🏷 Circuit 手環領取 15:00–19:00｜The Zign Lobby'],
+  'g19-ngt': ['🎉 Opening Night Party｜The Zign Ballroom（All-Access・約 22:00）'],
+  'g20-am':  ['🍳 飯店早餐'],
+  'g20-pm':  ['🏊 Aftersun Pool + Beach Party｜The Zign Pool（THB 3,000・約 15:00）'],
+  'g20-ngt': ['🎉 Night Party｜The Zign Ballroom（All-Access・約 22:00）'],
+  'g21-am':  ['🍳 飯店早餐'],
+  'g21-eve': ['🏝 Main Event: The Beach Party｜The Zign Private Beach（THB 3,000・約 17:00）'],
+  'g22-am':  ['🏨 芭達雅退房（10:30–11:00）→ 曼谷'],
+  'g22-noon':['🚗 抵達 Passa Hotel（13:00–13:30）入住/寄放行李'],
+  'g22-eve': ['🍽 Copper Beyond Buffet｜Gaysorn Amarin 3F（17:00 場次，約 19:00 結束）'],
+  'g22-ngt': ['🍸 BEEF 夜店（22:00 後）｜中間可於 Chit Lom 區採購（Big C / Central World / NaRaYa / Karmakamet）'],
+  'g23-am':  ['🍳 飯店早餐 → 退房（Passa Hotel）'],
+  'g23-noon':['🍽 Savoey 午餐（11:00 或 11:30 抵達，12:30–13:00 結束）'],
+  'g23-pm':  ['🚗 前往機場（最遲 14:00 出發，15:00 抵達 BKK）'],
+  'g23-eve': ['✈ CI 836 17:30 各自回台（Suvarnabhumi Airport）'],
+};
+
+const SLOTS = [
+  'g18-am','g18-noon','g18-pm','g18-eve','g18-ngt',
+  'g19-am','g19-noon','g19-pm','g19-eve','g19-ngt',
+  'g20-am','g20-noon','g20-pm','g20-eve','g20-ngt',
+  'g21-am','g21-noon','g21-pm','g21-eve','g21-ngt',
+  'g22-am','g22-noon','g22-pm','g22-eve','g22-ngt',
+  'g23-am','g23-noon','g23-pm','g23-eve','g23-ngt',
+  'd23-am','d23-pm','d23-eve','d23-ngt',
+  'd24-am','d24-pm','d24-eve','d24-ngt',
+  'd25-am','d25-pm'
+];
+let state = { items: {}, notes: {} };
+let currentSlot = null;
+
+// ── Init ──
+function init() {
+  const saved = localStorage.getItem('thailand2026');
+  if (saved) state = JSON.parse(saved);
+  renderAll();
+  ['g18','g19','g20','g21','g22','g23','d23','d24','d25'].forEach(d => {
+    const el = document.getElementById('note-' + d);
+    if (el) {
+      if (state.notes[d]) el.value = state.notes[d];
+      el.addEventListener('change', save);
+    }
+  });
+  populateModal();
+  renderPool();
+  updateStatus('已載入儲存的行程');
+
+  // 自動從雲端載入（如果有設定 URL）
+  syncFromCloud(true);
+}
+
+function renderAll() {
+  SLOTS.forEach(slotId => renderSlot(slotId));
+  // 同時渲染備註
+  ['g18','g19','g20','g21','g22','g23','d23','d24','d25'].forEach(d => {
+    const el = document.getElementById('note-' + d);
+    if (el) el.value = state.notes[d] || '';
+  });
+}
+
+function renderSlot(slotId) {
+  const el = document.getElementById(slotId);
+  if (!el) return;
+  const locked = LOCKED_ITEMS[slotId] || [];
+  const items = state.items[slotId] || [];
+  el.innerHTML = '';
+  if (locked.length === 0 && items.length === 0) {
+    el.classList.remove('filled');
+    el.innerHTML = '<span class="slot-empty-hint">＋ 點擊新增</span>';
+  } else {
+    el.classList.add('filled');
+    locked.forEach(item => {
+      const tag = document.createElement('span');
+      tag.className = 'tag locked';
+      tag.textContent = item;
+      el.appendChild(tag);
+    });
+    items.forEach((item, i) => {
+      const tag = document.createElement('span');
+      tag.className = 'tag';
+      tag.innerHTML = `${item} <span class="tag-remove" onclick="removeItem('${slotId}',${i},event)">✕</span>`;
+      el.appendChild(tag);
+    });
+  }
+}
+
+// ── Modal ──
+function openModal(day, slot) {
+  currentSlot = day + '-' + slot;
+  const labels = { am:'早上', noon:'午餐', pm:'下午', eve:'傍晚', ngt:'晚上' };
+  const days = {
+    g18:'6/18 (四)', g19:'6/19 (五)', g20:'6/20 (六)',
+    g21:'6/21 (日)', g22:'6/22 (一)', g23:'6/23 (二)',
+    d23:'6/23 (二)', d24:'6/24 (三)', d25:'6/25 (四)'
+  };
+  document.getElementById('modal-title').textContent = `新增行程 — ${days[day] || day} ${labels[slot] || slot}`;
+  document.getElementById('custom-input').value = '';
+  document.getElementById('modal-overlay').classList.add('open');
+}
+
+function closeModal() {
+  document.getElementById('modal-overlay').classList.remove('open');
+  currentSlot = null;
+}
+
+function populateModal() {
+  const catColors = {
+    nightlife:'nightlife', shopping:'shopping', food:'food',
+    culture:'culture', relax:'relax', transport:'transport',
+    attractions:'pattaya-att'
+  };
+
+  // 遍歷兩個區域：bangkok 和 pattaya
+  Object.entries(ACTIVITIES).forEach(([region, categories]) => {
+    Object.entries(categories).forEach(([cat, acts]) => {
+      const el = document.getElementById(`mc-${region}-${cat}`);
+      if (!el) return;
+      el.innerHTML = '';
+      acts.forEach(key => {
+        const info = ACTIVITY_INFO[key];
+        const label = info ? info.label : key;
+        const wrap = document.createElement('span');
+        wrap.className = 'chip-wrap';
+
+        const chip = document.createElement('span');
+        chip.className = 'chip ' + (catColors[cat] || 'culture');
+        chip.textContent = label;
+        chip.onclick = () => addToSlot(key);
+
+        const infoBtn = document.createElement('button');
+        infoBtn.className = 'chip-info-btn';
+        infoBtn.textContent = 'i';
+        infoBtn.title = '查看說明';
+        infoBtn.onclick = (e) => { e.stopPropagation(); showInfo(key); };
+
+        wrap.appendChild(chip);
+        wrap.appendChild(infoBtn);
+        el.appendChild(wrap);
+      });
+    });
+  });
+}
+
+function addToSlot(item) {
+  if (!currentSlot) return;
+  if (!state.items[currentSlot]) state.items[currentSlot] = [];
+  if (!state.items[currentSlot].includes(item)) {
+    state.items[currentSlot].push(item);
+    renderSlot(currentSlot);
+    save();
+  }
+  closeModal();
+}
+
+function addCustom() {
+  const val = document.getElementById('custom-input').value.trim();
+  if (!val) return;
+  addToSlot(val);
+}
+
+function removeItem(slotId, idx, e) {
+  e.stopPropagation();
+  state.items[slotId].splice(idx, 1);
+  renderSlot(slotId);
+  save();
+}
+
+// ── Quick Add (from pool) ──
+// ── Slot Picker ──
+let pendingActivity = null;
+
+function openSlotPicker(item) {
+  pendingActivity = item;
+  const info = ACTIVITY_INFO[item];
+  const label = info ? info.label : item;
+
+  document.getElementById('slot-picker-title').textContent = `選擇加入時段：${label}`;
+
+  const slotGroups = [
+    { date: '6/18 (四)', prefix: 'g18', slots: [
+      { id: 'g18-noon', label: '中午', icon: '☀️' },
+      { id: 'g18-eve', label: '傍晚', icon: '🌅' },
+      { id: 'g18-ngt', label: '晚上', icon: '🌙' }
+    ]},
+    { date: '6/19 (五)', prefix: 'g19', slots: [
+      { id: 'g19-am', label: '早上', icon: '🌄' },
+      { id: 'g19-noon', label: '中午', icon: '☀️' },
+      { id: 'g19-pm', label: '下午', icon: '🌤' }
+    ]},
+    { date: '6/20 (六)', prefix: 'g20', slots: [
+      { id: 'g20-am', label: '早上', icon: '🌄' },
+      { id: 'g20-noon', label: '中午', icon: '☀️' },
+      { id: 'g20-eve', label: '傍晚', icon: '🌅' }
+    ]},
+    { date: '6/21 (日)', prefix: 'g21', slots: [
+      { id: 'g21-am', label: '早上', icon: '🌄' },
+      { id: 'g21-noon', label: '中午', icon: '☀️' },
+      { id: 'g21-pm', label: '下午', icon: '🌤' },
+      { id: 'g21-ngt', label: '晚上', icon: '🌙' }
+    ]},
+    { date: '6/22 (一)', prefix: 'g22', slots: [
+      { id: 'g22-am', label: '早上', icon: '🌄' },
+      { id: 'g22-noon', label: '中午', icon: '☀️' },
+      { id: 'g22-pm', label: '下午', icon: '🌤' },
+      { id: 'g22-eve', label: '傍晚', icon: '🌅' },
+      { id: 'g22-ngt', label: '晚上', icon: '🌙' }
+    ]},
+    { date: '6/23 (二)', prefix: 'g23', slots: [
+      { id: 'g23-am', label: '早上', icon: '🌄' },
+      { id: 'g23-noon', label: '中午', icon: '☀️' },
+      { id: 'g23-pm', label: '下午', icon: '🌤' },
+      { id: 'g23-ngt', label: '晚上', icon: '🌙' }
+    ]},
+    { date: '6/23 (二) 哆啦延伸', prefix: 'd23', slots: [
+      { id: 'd23-am', label: '早上', icon: '🌄' },
+      { id: 'd23-pm', label: '下午', icon: '🌤' },
+      { id: 'd23-eve', label: '傍晚', icon: '🌅' },
+      { id: 'd23-ngt', label: '晚上', icon: '🌙' }
+    ]},
+    { date: '6/24 (三)', prefix: 'd24', slots: [
+      { id: 'd24-am', label: '早上', icon: '🌄' },
+      { id: 'd24-pm', label: '下午', icon: '🌤' },
+      { id: 'd24-eve', label: '傍晚', icon: '🌅' },
+      { id: 'd24-ngt', label: '晚上', icon: '🌙' }
+    ]},
+    { date: '6/25 (四)', prefix: 'd25', slots: [
+      { id: 'd25-am', label: '早上', icon: '🌄' },
+      { id: 'd25-pm', label: '下午', icon: '🌤' }
+    ]}
+  ];
+
+  const content = document.getElementById('slot-picker-content');
+  content.innerHTML = '';
+
+  slotGroups.forEach(group => {
+    const dateHeader = document.createElement('div');
+    dateHeader.style.cssText = 'font-weight: 700; font-size: 13px; color: #F97316; margin: 12px 0 8px; padding-bottom: 6px; border-bottom: 1px solid #FFE4E6;';
+    dateHeader.textContent = group.date;
+    content.appendChild(dateHeader);
+
+    const slotsContainer = document.createElement('div');
+    slotsContainer.style.cssText = 'display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 8px; margin-bottom: 8px;';
+
+    group.slots.forEach(slot => {
+      const isLocked = LOCKED_ITEMS[slot.id] && LOCKED_ITEMS[slot.id].length > 0;
+      const alreadyHas = state.items[slot.id] && state.items[slot.id].includes(item);
+
+      const btn = document.createElement('button');
+      btn.className = 'slot-picker-btn';
+      btn.textContent = `${slot.icon} ${slot.label}`;
+
+      if (isLocked) {
+        btn.style.cssText = 'background: #FEE2E2; color: #991B1B; cursor: not-allowed; opacity: 0.5; padding: 10px; border: 1px solid #FECACA; border-radius: 6px; font-size: 13px; font-weight: 600; text-align: center;';
+        btn.disabled = true;
+        btn.title = '此時段已有鎖定行程';
+      } else if (alreadyHas) {
+        btn.style.cssText = 'background: #E0F2FE; color: #075985; cursor: default; padding: 10px; border: 1px solid #BAE6FD; border-radius: 6px; font-size: 13px; font-weight: 600; text-align: center;';
+        btn.disabled = true;
+        btn.title = '此時段已包含此活動';
+      } else {
+        btn.style.cssText = 'background: linear-gradient(135deg, #FFF7ED 0%, #FFEDD5 100%); color: #1A202C; cursor: pointer; padding: 10px; border: 1px solid #FED7AA; border-radius: 6px; font-size: 13px; font-weight: 600; text-align: center; transition: all 0.15s;';
+        btn.onmouseover = () => btn.style.background = 'linear-gradient(135deg, #FFEDD5 0%, #FED7AA 100%)';
+        btn.onmouseout = () => btn.style.background = 'linear-gradient(135deg, #FFF7ED 0%, #FFEDD5 100%)';
+        btn.onclick = () => addToSelectedSlot(slot.id);
+      }
+
+      slotsContainer.appendChild(btn);
+    });
+
+    content.appendChild(slotsContainer);
+  });
+
+  document.getElementById('slot-picker-overlay').style.display = 'flex';
+}
+
+function closeSlotPicker() {
+  document.getElementById('slot-picker-overlay').style.display = 'none';
+  pendingActivity = null;
+}
+
+function addToSelectedSlot(slotId) {
+  if (!pendingActivity) return;
+
+  currentSlot = slotId;
+  addToSlot(pendingActivity);
+
+  const info = ACTIVITY_INFO[pendingActivity];
+  const label = info ? info.label : pendingActivity;
+  updateStatus(`已新增「${label}」至 ${slotId}`);
+
+  closeSlotPicker();
+}
+
+// ── Save / Load ──
+function save() {
+  ['g18','g19','g20','g21','g22','g23','d23','d24','d25'].forEach(d => {
+    const el = document.getElementById('note-' + d);
+    if (el) state.notes[d] = el.value;
+  });
+  localStorage.setItem('thailand2026', JSON.stringify(state));
+  updateStatus('已儲存 ' + new Date().toLocaleTimeString('zh-TW'));
+}
+
+function clearAll() {
+  if (!confirm('確定要清除所有行程嗎？')) return;
+  state = { items: {}, notes: {} };
+  ['g18','g19','g20','g21','g22','g23','d23','d24','d25'].forEach(d => {
+    const el = document.getElementById('note-' + d);
+    if (el) el.value = '';
+  });
+  renderAll();
+  localStorage.removeItem('thailand2026');
+  updateStatus('已清除');
+}
+
+function updateStatus(msg) {
+  document.getElementById('save-status').textContent = msg;
+}
+
+// ── Cloud Sync ──
+function openSyncSettings() {
+  const url = localStorage.getItem('syncUrl') || '';
+  document.getElementById('sync-url-input').value = url;
+  document.getElementById('sync-settings-overlay').style.display = 'flex';
+}
+
+function closeSyncSettings() {
+  document.getElementById('sync-settings-overlay').style.display = 'none';
+}
+
+function saveSyncSettings() {
+  const url = document.getElementById('sync-url-input').value.trim();
+  if (!url) {
+    alert('請輸入 Google Apps Script Web App URL');
+    return;
+  }
+  localStorage.setItem('syncUrl', url);
+  updateStatus('✓ 雲端設定已儲存');
+  closeSyncSettings();
+}
+
+async function syncToCloud() {
+  const url = localStorage.getItem('syncUrl');
+  if (!url) {
+    alert('請先設定 Google Apps Script URL（點選「⚙️ 雲端設定」）');
+    openSyncSettings();
+    return;
+  }
+
+  // 先儲存到 localStorage
+  save();
+
+  updateStatus('☁️ 正在同步到雲端...');
+
+  try {
+    const response = await fetch(url, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded',
+      },
+      body: 'data=' + encodeURIComponent(JSON.stringify(state))
+    });
+
+    const result = await response.json();
+
+    if (result.success) {
+      updateStatus('✓ 已同步到雲端 ' + new Date().toLocaleTimeString('zh-TW'));
+    } else {
+      updateStatus('✗ 同步失敗：' + (result.error || '未知錯誤'));
+      console.error('Sync error:', result);
+    }
+  } catch (error) {
+    updateStatus('✗ 同步失敗：網路錯誤');
+    console.error('Sync error:', error);
+    alert('同步失敗，請檢查網路連線和 Apps Script URL 是否正確');
+  }
+}
+
+async function syncFromCloud(silent = false) {
+  const url = localStorage.getItem('syncUrl');
+  if (!url) {
+    if (!silent) {
+      alert('請先設定 Google Apps Script URL（點選「⚙️ 雲端設定」）');
+      openSyncSettings();
+    }
+    return;
+  }
+
+  updateStatus('☁️ 正在從雲端載入...');
+
+  try {
+    const response = await fetch(url);
+    const data = await response.json();
+
+    if (data.error) {
+      updateStatus('✗ 載入失敗：' + data.error);
+      console.error('Load error:', data);
+      return;
+    }
+
+    // 如果資料不是空的，載入它
+    if (data && (data.items || data.notes)) {
+      state = data;
+      renderAll();
+      localStorage.setItem('thailand2026', JSON.stringify(state));
+      updateStatus('✓ 已從雲端載入 ' + new Date().toLocaleTimeString('zh-TW'));
+    } else {
+      if (!silent) {
+        updateStatus('⚠ 雲端尚無資料');
+      } else {
+        updateStatus('已載入本地儲存的行程');
+      }
+    }
+  } catch (error) {
+    if (!silent) {
+      updateStatus('✗ 載入失敗：網路錯誤');
+      console.error('Load error:', error);
+      alert('載入失敗，請檢查網路連線和 Apps Script URL 是否正確');
+    } else {
+      updateStatus('已載入本地儲存的行程（雲端連線失敗）');
+      console.log('Silent sync failed:', error);
+    }
+  }
+}
+
+// ── Pool Rendering ──
+function renderPool() {
+  const catColors = {
+    nightlife:'nightlife', shopping:'shopping', food:'food',
+    culture:'culture', relax:'relax', transport:'transport',
+    attractions:'pattaya-att'
+  };
+
+  // 遍歷兩個區域：bangkok 和 pattaya
+  Object.entries(POOL_CATS).forEach(([region, categories]) => {
+    // 遍歷每個區域下的分類
+    Object.entries(categories).forEach(([cat, acts]) => {
+      const container = document.getElementById(`pool-${region}-${cat}`);
+      if (!container) return;
+      container.innerHTML = '';
+
+      acts.forEach(key => {
+        const info = ACTIVITY_INFO[key];
+        const label = info ? info.label : key;
+        const wrap = document.createElement('span');
+        wrap.className = 'chip-wrap';
+
+        const chip = document.createElement('span');
+        chip.className = 'chip ' + (catColors[cat] || 'culture');
+        chip.textContent = label;
+        chip.onclick = () => openSlotPicker(key);
+
+        const infoBtn = document.createElement('button');
+        infoBtn.className = 'chip-info-btn';
+        infoBtn.textContent = 'i';
+        infoBtn.title = '查看說明';
+        infoBtn.onclick = (e) => { e.stopPropagation(); showInfo(key); };
+
+        wrap.appendChild(chip);
+        wrap.appendChild(infoBtn);
+        container.appendChild(wrap);
+      });
+    });
+  });
+}
+
+// ── Info Modal ──
+let currentInfoKey = null;
+function showInfo(key) {
+  const info = ACTIVITY_INFO[key];
+  if (!info) return;
+  currentInfoKey = key;
+
+  const catLabels = { nightlife:'🍸 夜生活', shopping:'🛍 購物', food:'🍜 美食', culture:'🏛 文化', relax:'💆 放鬆', transport:'🚖 交通', pattaya:'🦞 芭達雅美食', 'pattaya-att':'🏝 芭達雅景點', attractions:'🎡 景點' };
+  const catColors = { nightlife:'#FC8181', shopping:'#F59E0B', food:'#22C55E', culture:'#3B82F6', relax:'#14B8A6', transport:'#8B5CF6', pattaya:'#F97316', 'pattaya-att':'#0E7490', attractions:'#EA580C' };
+  const color = catColors[info.cat] || '#9CA3AF';
+
+  const badge = document.getElementById('info-badge');
+  badge.textContent = catLabels[info.cat] || info.catLabel;
+  badge.style.background = color + '22';
+  badge.style.color = color;
+
+  document.getElementById('info-name').textContent = key;
+  document.getElementById('info-desc').textContent = info.desc;
+
+  const tagsEl = document.getElementById('info-tags');
+  tagsEl.innerHTML = '';
+  (info.tags || []).forEach(t => {
+    const span = document.createElement('span');
+    span.className = 'info-tag';
+    span.textContent = t;
+    tagsEl.appendChild(span);
+  });
+
+  const mapsBtn = document.getElementById('info-maps-btn');
+  if (info.maps) {
+    mapsBtn.href = info.maps;
+    mapsBtn.style.display = 'inline-flex';
+  } else {
+    mapsBtn.style.display = 'none';
+  }
+
+  document.getElementById('info-overlay').classList.add('open');
+}
+
+function closeInfo() {
+  document.getElementById('info-overlay').classList.remove('open');
+  currentInfoKey = null;
+}
+
+function infoQuickAdd() {
+  if (!currentInfoKey) return;
+  quickAdd(currentInfoKey);
+  closeInfo();
+}
+
+
+// ── Close modal on overlay click ──
+document.getElementById('modal-overlay').addEventListener('click', function(e) {
+  if (e.target === this) closeModal();
+});
+document.getElementById('info-overlay').addEventListener('click', function(e) {
+  if (e.target === this) closeInfo();
+});
+
+init();
+</script>
+</body>
+</html>
