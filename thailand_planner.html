@@ -492,7 +492,10 @@ body { font-family: 'Segoe UI', system-ui, -apple-system, sans-serif; background
 
 <!-- ── Tab: Activity Pool ── -->
 <div id="tab-pool" class="tab-content section">
-  <div class="section-title">🎯 可選活動（點選加入行程）</div>
+  <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 20px;">
+    <div class="section-title" style="margin: 0;">🎯 可選活動（點選加入行程）</div>
+    <button class="btn btn-primary" onclick="openAddActivityModal()" style="padding: 8px 16px; font-size: 13px;">➕ 新增活動</button>
+  </div>
 
   <!-- 曼谷區 -->
   <div class="region-section">
@@ -660,6 +663,68 @@ body { font-family: 'Segoe UI', system-ui, -apple-system, sans-serif; background
       <div style="display: flex; gap: 8px; justify-content: flex-end;">
         <button class="btn btn-outline" onclick="closeSyncSettings()">取消</button>
         <button class="btn btn-primary" onclick="saveSyncSettings()">✓ 儲存設定</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ── Add Activity Modal ── -->
+<div class="overlay" id="add-activity-overlay" style="display:none;">
+  <div class="modal" style="max-width: 500px;">
+    <div class="modal-head">
+      <h3>➕ 新增活動</h3>
+      <button class="modal-close" onclick="closeAddActivityModal()">×</button>
+    </div>
+    <div style="padding: 0 4px;">
+      <div style="margin-bottom: 12px;">
+        <label style="display: block; font-weight: 600; margin-bottom: 6px; color: #374151; font-size: 13px;">區域 *</label>
+        <select id="add-region" style="width: 100%; padding: 10px; border: 1px solid #D1D5DB; border-radius: 6px; font-size: 13px;" onchange="updateCategoryOptions()">
+          <option value="">請選擇區域</option>
+          <option value="bangkok">🏙️ 曼谷</option>
+          <option value="pattaya">🏝️ 芭達雅</option>
+        </select>
+      </div>
+
+      <div style="margin-bottom: 12px;">
+        <label style="display: block; font-weight: 600; margin-bottom: 6px; color: #374151; font-size: 13px;">分類 *</label>
+        <select id="add-category" style="width: 100%; padding: 10px; border: 1px solid #D1D5DB; border-radius: 6px; font-size: 13px;">
+          <option value="">請選擇分類</option>
+        </select>
+      </div>
+
+      <div style="margin-bottom: 12px;">
+        <label style="display: block; font-weight: 600; margin-bottom: 6px; color: #374151; font-size: 13px;">活動名稱 *</label>
+        <input type="text" id="add-fullname" placeholder="例：Mania — Silom 泰式按摩（90分鐘）"
+          style="width: 100%; padding: 10px; border: 1px solid #D1D5DB; border-radius: 6px; font-size: 13px;">
+      </div>
+
+      <div style="margin-bottom: 12px;">
+        <label style="display: block; font-weight: 600; margin-bottom: 6px; color: #374151; font-size: 13px;">顯示名稱</label>
+        <input type="text" id="add-label" placeholder="例：Mania（如不填則使用活動名稱）"
+          style="width: 100%; padding: 10px; border: 1px solid #D1D5DB; border-radius: 6px; font-size: 13px;">
+      </div>
+
+      <div style="margin-bottom: 12px;">
+        <label style="display: block; font-weight: 600; margin-bottom: 6px; color: #374151; font-size: 13px;">描述</label>
+        <textarea id="add-desc" placeholder="活動的詳細描述..." rows="3"
+          style="width: 100%; padding: 10px; border: 1px solid #D1D5DB; border-radius: 6px; font-size: 13px; resize: vertical;"></textarea>
+      </div>
+
+      <div style="margin-bottom: 12px;">
+        <label style="display: block; font-weight: 600; margin-bottom: 6px; color: #374151; font-size: 13px;">標籤</label>
+        <input type="text" id="add-tags" placeholder="用逗號分隔，例：按摩, 放鬆, Silom"
+          style="width: 100%; padding: 10px; border: 1px solid #D1D5DB; border-radius: 6px; font-size: 13px;">
+      </div>
+
+      <div style="margin-bottom: 16px;">
+        <label style="display: block; font-weight: 600; margin-bottom: 6px; color: #374151; font-size: 13px;">Google Maps 連結</label>
+        <input type="text" id="add-maps" placeholder="https://maps.app.goo.gl/..."
+          style="width: 100%; padding: 10px; border: 1px solid #D1D5DB; border-radius: 6px; font-size: 13px;">
+      </div>
+
+      <div style="display: flex; gap: 8px; justify-content: flex-end;">
+        <button class="btn btn-outline" onclick="closeAddActivityModal()">取消</button>
+        <button class="btn btn-primary" onclick="saveNewActivity()">✓ 新增</button>
       </div>
     </div>
   </div>
@@ -1272,6 +1337,117 @@ function openSyncSettings() {
 
 function closeSyncSettings() {
   document.getElementById('sync-settings-overlay').style.display = 'none';
+}
+
+// ── Add Activity Modal ──
+function openAddActivityModal() {
+  // 清空表單
+  document.getElementById('add-region').value = '';
+  document.getElementById('add-category').value = '';
+  document.getElementById('add-fullname').value = '';
+  document.getElementById('add-label').value = '';
+  document.getElementById('add-desc').value = '';
+  document.getElementById('add-tags').value = '';
+  document.getElementById('add-maps').value = '';
+
+  // 清空分類選項
+  document.getElementById('add-category').innerHTML = '<option value="">請選擇分類</option>';
+
+  document.getElementById('add-activity-overlay').style.display = 'flex';
+}
+
+function closeAddActivityModal() {
+  document.getElementById('add-activity-overlay').style.display = 'none';
+}
+
+function updateCategoryOptions() {
+  const region = document.getElementById('add-region').value;
+  const categorySelect = document.getElementById('add-category');
+
+  categorySelect.innerHTML = '<option value="">請選擇分類</option>';
+
+  if (region === 'bangkok') {
+    categorySelect.innerHTML += '<option value="nightlife">🍸 夜生活</option>';
+    categorySelect.innerHTML += '<option value="shopping">🛍 購物</option>';
+    categorySelect.innerHTML += '<option value="food">🍜 美食</option>';
+    categorySelect.innerHTML += '<option value="culture">🏛 文化景點</option>';
+    categorySelect.innerHTML += '<option value="relax">💆 放鬆</option>';
+    categorySelect.innerHTML += '<option value="transport">🚖 交通</option>';
+  } else if (region === 'pattaya') {
+    categorySelect.innerHTML += '<option value="food">🍜 美食</option>';
+    categorySelect.innerHTML += '<option value="attractions">🎡 景點</option>';
+    categorySelect.innerHTML += '<option value="relax">💆 放鬆</option>';
+  }
+}
+
+function saveNewActivity() {
+  const region = document.getElementById('add-region').value;
+  const category = document.getElementById('add-category').value;
+  const fullname = document.getElementById('add-fullname').value.trim();
+  const label = document.getElementById('add-label').value.trim();
+  const desc = document.getElementById('add-desc').value.trim();
+  const tagsInput = document.getElementById('add-tags').value.trim();
+  const maps = document.getElementById('add-maps').value.trim();
+
+  // 驗證必填欄位
+  if (!region) {
+    alert('請選擇區域');
+    return;
+  }
+  if (!category) {
+    alert('請選擇分類');
+    return;
+  }
+  if (!fullname) {
+    alert('請輸入活動名稱');
+    return;
+  }
+
+  // 處理標籤
+  const tags = tagsInput ? tagsInput.split(',').map(t => t.trim()).filter(t => t) : [];
+
+  // 確保 ACTIVITIES 和 ACTIVITY_INFO 存在對應結構
+  if (!ACTIVITIES[region]) {
+    ACTIVITIES[region] = {};
+  }
+  if (!ACTIVITIES[region][category]) {
+    ACTIVITIES[region][category] = [];
+  }
+
+  // 檢查活動是否已存在
+  if (ACTIVITIES[region][category].includes(fullname)) {
+    alert('此活動已存在於活動池中');
+    return;
+  }
+
+  // 添加到 ACTIVITIES
+  ACTIVITIES[region][category].push(fullname);
+
+  // 添加到 ACTIVITY_INFO
+  ACTIVITY_INFO[fullname] = {
+    label: label || fullname,
+    desc: desc || '',
+    tags: tags,
+    maps: maps || ''
+  };
+
+  // 重新渲染活動池
+  renderPool();
+  renderModal();
+
+  // 自動同步
+  autoSync();
+
+  // 關閉 modal
+  closeAddActivityModal();
+
+  // 顯示成功訊息
+  updateStatus('✓ 活動已新增');
+
+  // 切換到活動池 tab
+  switchTab('tab-pool');
+  document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+  document.querySelectorAll('.tab-btn')[1].classList.add('active');
 }
 
 function saveSyncSettings() {
