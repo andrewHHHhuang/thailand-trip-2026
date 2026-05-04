@@ -1272,11 +1272,14 @@ function saveSyncSettings() {
 }
 
 async function syncToCloud() {
-  const url = localStorage.getItem('syncUrl');
+  // 預設 URL（如果 localStorage 沒有設定）
+  const defaultUrl = 'https://script.google.com/macros/s/AKfycbyynUqSDqIz8OjuVMl71Tnmo7nd2lcP1E8Ae_hsen8Fg8dvPalnkdrKIX8yx4gtQcpq/exec';
+  let url = localStorage.getItem('syncUrl');
+
+  // 如果沒有設定，使用預設 URL 並儲存
   if (!url) {
-    alert('請先設定 Google Apps Script URL（點選「⚙️ 雲端設定」）');
-    openSyncSettings();
-    return;
+    url = defaultUrl;
+    localStorage.setItem('syncUrl', url);
   }
 
   // 先儲存到 localStorage
@@ -1309,13 +1312,14 @@ async function syncToCloud() {
 }
 
 async function syncFromCloud(silent = false) {
-  const url = localStorage.getItem('syncUrl');
+  // 預設 URL（如果 localStorage 沒有設定）
+  const defaultUrl = 'https://script.google.com/macros/s/AKfycbyynUqSDqIz8OjuVMl71Tnmo7nd2lcP1E8Ae_hsen8Fg8dvPalnkdrKIX8yx4gtQcpq/exec';
+  let url = localStorage.getItem('syncUrl');
+
+  // 如果沒有設定，使用預設 URL 並儲存
   if (!url) {
-    if (!silent) {
-      alert('請先設定 Google Apps Script URL（點選「⚙️ 雲端設定」）');
-      openSyncSettings();
-    }
-    return;
+    url = defaultUrl;
+    localStorage.setItem('syncUrl', url);
   }
 
   updateStatus('☁️ 正在從雲端載入...');
