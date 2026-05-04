@@ -667,13 +667,10 @@ body { font-family: 'Segoe UI', system-ui, -apple-system, sans-serif; background
 
 <!-- ── Save Bar ── -->
 <div class="save-bar">
-  <span class="save-status" id="save-status">尚未儲存變更</span>
+  <span class="save-status" id="save-status">✓ 自動同步已啟用</span>
   <div class="btns">
     <button class="btn btn-outline" onclick="openSyncSettings()">⚙️ 雲端設定</button>
-    <button class="btn btn-outline" onclick="syncFromCloud()">☁️ 載入</button>
-    <button class="btn btn-outline" onclick="syncToCloud()">☁️ 同步</button>
     <button class="btn btn-outline" onclick="clearAll()">清除重設</button>
-    <button class="btn btn-primary" onclick="save()">💾 儲存</button>
   </div>
 </div>
 
@@ -975,7 +972,7 @@ function init() {
   });
   populateModal();
   renderPool();
-  updateStatus('已載入儲存的行程');
+  updateStatus('✓ 自動同步已啟用');
 
   // 自動從雲端載入（如果有設定 URL）
   syncFromCloud(true);
@@ -1224,13 +1221,30 @@ function addToSelectedSlot(slotId) {
 }
 
 // ── Save / Load ──
-function save() {
+let syncTimeout = null;
+
+// Debounce 函數：延遲執行，避免頻繁同步
+function autoSync() {
+  // 先儲存到 localStorage
   ['g18','g19','g20','g21','g22','g23','d23','d24','d25'].forEach(d => {
     const el = document.getElementById('note-' + d);
     if (el) state.notes[d] = el.value;
   });
   localStorage.setItem('thailand2026', JSON.stringify(state));
-  updateStatus('已儲存 ' + new Date().toLocaleTimeString('zh-TW'));
+
+  // 清除之前的計時器
+  if (syncTimeout) clearTimeout(syncTimeout);
+
+  // 設定新的計時器：3 秒後同步到雲端
+  updateStatus('⏳ 等待同步中...');
+  syncTimeout = setTimeout(async () => {
+    updateStatus('☁️ 正在同步到雲端...');
+    await syncToCloud();
+  }, 3000);
+}
+
+function save() {
+  autoSync();
 }
 
 function clearAll() {
