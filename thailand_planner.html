@@ -766,7 +766,7 @@ updateCountdown();
 // ── Data ──
 const ACTIVITIES = {
   bangkok: {
-    nightlife: ['BEEF 夜店','Barber（週一公休）','Mania Sauna（每日）','Heaven Sauna（桑拿）','Cake（週一二公休）','HUGs 熊吧（週一二公休）','DJ Station','GOD 酒吧'],
+    nightlife: ['BEEF 夜店','Barber（週一公休）','Mania Sauna（每日）','Heaven Sauna（桑拿）','Cake（週一二公休）','HUGs 熊吧（週一二公休）','DJ Station','GOD 酒吧','Boy Camp'],
     shopping: ['ICONSIAM','Siam Paragon','CentralWorld','EmSphere','Siam Discovery','MBK Center','Chatuchak 週末市集','Jodd Fairs (Rama 9)','Asiatique 河濱夜市','Don Don Donki Thong Lo','Central Chidlom','Big C Supercenter','NaRaYa 曼谷包','Karmakamet 香氛'],
     food: ['蒙天海南雞飯 Ruenton','Charoen Saeng Silom','Hai Somtam Convent','Jok Prince 王子粥','新記烤鴨 Prachak','Khao Soi Convent','榮泰豬肉粉 Rung Rueang','Tuang Dim Sum','午餐：Copper','Or Tor Kor 有機市場','Nahm 泰式米其林','Laem Charoen Seafood','Somboon Seafood 建興酒家','Supanniga Eating Room','Baan Phadthai','Here Hai 蟹肉炒飯','Krua Apsorn','Le Du 米其林一星','100 Mahaseth','中國城 Yaowarat 夜食','Jay Fai 米其林炒蟹','Thip Samai 炒河粉','Bo.lan 精緻泰菜','Gaggan Anand','Yakiniku Great','Seiniku-ten','Katsushin 勝利豬排','Mensho Tokyo BKK','No Name Noodle','Jidori Cuisine Ken','郭炎松牛肉粉 Wattana Panich','王春盛牛肉火鍋','Tasty Congee 正斗','CQK Mala Hotpot','ChaTraMue 手標茶','Peace Oriental Teahouse','Roots Coffee','Mae Varee 芒果糯米飯','After You Dessert Cafe','朱拉隆功大學美食街','巴哥咖啡廳','Savoey 海鮮'],
     culture: ['臥佛寺 Wat Pho','鄭王廟 Wat Arun','大皇宮 Grand Palace','湄南河船遊','Jim Thompson House','四面佛 Erawan Shrine','River City 藝文展覽','MOCA 曼谷當代藝術館','龍蓮寺 Wat Mangkon'],
@@ -788,6 +788,7 @@ const ACTIVITY_INFO = {
   'Heaven Sauna（桑拿）': { label:'Heaven Sauna', cat:'nightlife', catLabel:'夜生活', desc:'Silom 區知名同志桑拿，以 Bear / Muscle Otter 客群為主，設施含深色空間、露台花園、按摩浴缸、健身房。位於 Soi Mahesak BIS Building 4F，開放時間 13:00–22:00，週二至週日確定開放（週一建議提前確認）。', tags:['Soi Mahesak','BIS Building 4F','13:00–22:00','Bear/Muscle Otter','週一需確認'], maps:'https://maps.google.com/?q=Heaven+Sauna+Bangkok+119+Soi+Mahesak' },
   'Cake（週一二公休）':   { label:'Cake', cat:'nightlife', catLabel:'夜生活', desc:'曼谷人氣同志夜店「The Cutesy Nightclub」，以 Pop / Dance 音樂風格聞名。週三四日 20:00–00:00，週五六 21:00–03:00，週一二公休。', tags:['週三起開放','Silom 區','Pop Dance','週一二❌'], maps:'https://maps.google.com/?q=Cake+Bangkok+Nightclub+Silom' },
   'HUGs 熊吧（週一二公休）': { label:'HUGs 熊吧', cat:'nightlife', catLabel:'夜生活', desc:'Silom Soi 4 主要的熊圈（Bear Bar）與卡拉 OK，歡迎所有年齡層。週三四日 20:00–01:00，週五六 20:00–02:00，週一二公休。', tags:['週三起開放','Silom Soi 4','熊圈卡拉OK','週一二❌'], maps:'https://maps.google.com/?q=HUGs+Bar+82+Silom+Soi+4+Bangkok' },
+  'Boy Camp':               { label:'Boy Camp', cat:'nightlife', catLabel:'夜生活', desc:'曼谷人氣同志酒吧，主打「工業廢墟風」（Industrial-Chic style），裝潢前衛具特色。營業時間通常為 20:00–02:00（建議出發前至 IG 確認當日駐唱或特別活動）。', tags:['工業廢墟風','同志夜店','人氣新據點'], maps:'https://maps.app.goo.gl/2Z9P3e4k7JS7bjRT9' },
 
   'ICONSIAM':              { label:'ICONSIAM', cat:'shopping', catLabel:'購物', desc:'昭披耶河畔超大型購物中心，含泰國傳統市集 SookSiam（必逛）、高端品牌與美食街。BTS Gold Line 可直達 ICONSIAM 站。', tags:['BTS Gold Line','河畔景觀','SookSiam 市集','高端品牌'], maps:'https://maps.google.com/?q=ICONSIAM+Bangkok' },
   'Siam Paragon':          { label:'Siam Paragon', cat:'shopping', catLabel:'購物', desc:'曼谷頂級百貨，奢侈品牌與保養專櫃最齊全，B2 有大型水族館，地下美食街選擇豐富。Siam BTS 站直達。', tags:['Siam BTS','頂級百貨','保養專櫃','水族館'], maps:'https://maps.google.com/?q=Siam+Paragon+Bangkok' },
