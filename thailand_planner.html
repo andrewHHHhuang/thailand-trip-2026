@@ -213,6 +213,8 @@ body { font-family: 'Segoe UI', system-ui, -apple-system, sans-serif; background
 .chip.attractions:hover{ background: #FB923C; color: white; }
 .chip.transport  { background: #F3F4F6; color: #6B7280; border-color: #D1D5DB; }
 .chip.transport:hover  { background: #9CA3AF; color: white; }
+.chip.party      { background: #FCE7F3; color: #BE185D; border-color: #FBCFE8; }
+.chip.party:hover      { background: #EC4899; color: white; }
 
 .chip-wrap { display: inline-flex; align-items: center; gap: 3px; }
 .chip-info-btn {
@@ -329,8 +331,8 @@ body { font-family: 'Segoe UI', system-ui, -apple-system, sans-serif; background
       <div class="stat-label">天後出發</div>
     </div>
     <div class="stat-card">
-      <div class="stat-value">🌤 32°C</div>
-      <div class="stat-label">芭達雅天氣</div>
+      <div class="stat-value">8<span style="font-size:18px;">天</span>7<span style="font-size:18px;">夜</span></div>
+      <div class="stat-label">芭達雅 + 曼谷</div>
     </div>
   </div>
 </div>
@@ -545,6 +547,10 @@ body { font-family: 'Segoe UI', system-ui, -apple-system, sans-serif; background
         <div class="pool-cat">💆 放鬆</div>
         <div class="chips" id="pool-pattaya-relax"></div>
       </div>
+      <div class="pool-card">
+        <div class="pool-cat">🎉 派對</div>
+        <div class="chips" id="pool-pattaya-party"></div>
+      </div>
     </div>
   </div>
 
@@ -638,6 +644,10 @@ body { font-family: 'Segoe UI', system-ui, -apple-system, sans-serif; background
     <div class="modal-section">
       <div class="modal-section-title">💆 放鬆</div>
       <div class="chips" id="mc-pattaya-relax"></div>
+    </div>
+    <div class="modal-section">
+      <div class="modal-section-title">🎉 派對</div>
+      <div class="chips" id="mc-pattaya-party"></div>
     </div>
 
     <div class="custom-row">
@@ -763,6 +773,22 @@ body { font-family: 'Segoe UI', system-ui, -apple-system, sans-serif; background
 </div>
 
 <script>
+// 安全的 localStorage 包裝：在沙箱／無痕模式存取失敗時退回記憶體，避免整頁初始化中斷
+const _ls = (function () {
+  try {
+    const s = (typeof window !== 'undefined' ? window : globalThis).localStorage;
+    const t = '__ls_test__'; s.setItem(t, '1'); s.removeItem(t);
+    return s;
+  } catch (e) {
+    const mem = {};
+    return {
+      getItem: k => Object.prototype.hasOwnProperty.call(mem, k) ? mem[k] : null,
+      setItem: (k, v) => { mem[k] = String(v); },
+      removeItem: k => { delete mem[k]; }
+    };
+  }
+})();
+
 // ── Tab Switching ──
 function switchTab(tabId) {
   // 隱藏所有 tab content
@@ -911,7 +937,7 @@ const ACTIVITY_INFO = {
   '農農熱帶花園 Nong Nooch':        { label:'農農熱帶花園', cat:'pattaya-att', catLabel:'芭達雅景點', desc:'世界級熱帶植物園，占地廣闊，含仙人掌園、蝴蝶園與每日泰式文化表演（象秀、武術）。距市中心約 15 km，Grab 約 30 分鐘，票價含表演約 600 THB。', tags:['植物園','象秀表演','距市中心 15km','600 THB'], maps:'https://maps.google.com/?q=Nong+Nooch+Tropical+Garden+Pattaya' },
   '芭達雅觀景台 Pratumnak Hill':    { label:'觀景台', cat:'pattaya-att', catLabel:'芭達雅景點', desc:'Pratumnak 山丘頂的芭達雅灣全景觀景台，可俯瞰整個芭達雅海灣與城市，日落時段最美。距 Central Pattaya 約 15 分鐘，免費參觀。', tags:['免費','日落景點','俯瞰芭達雅灣','15min 車程'], maps:'https://maps.google.com/?q=Pattaya+Viewpoint+Pratumnak+Hill' },
   '芭達雅水上市場 Floating Market': { label:'水上市場', cat:'pattaya-att', catLabel:'芭達雅景點', desc:'四方水上市場（Four Regions Floating Market），以木橋連接各區，販售泰國四地區傳統食物與手工藝品。距市中心約 30 分鐘，票價 200 THB，每日開放。', tags:['四方市場','傳統工藝','200 THB','距市中心 ~30min'], maps:'https://maps.google.com/?q=Four+Regions+Floating+Market+Pattaya' },
-  'Tiffany\'s Show 人妖秀':         { label:"Tiffany's Show", cat:'pattaya-att', catLabel:'芭達雅景點', desc:'泰國最經典、規模最大的跨性別歌舞秀，舞台華麗、服裝精緻，具備極高的娛樂與文化代表性。位於北芭達雅，距 The Zign Hotel 約 10 分鐘，票價約 700–1,200 THB，每晚 18:00、19:30、21:00 三場。', tags:['北芭達雅','距飯店 ~10min','三場演出','700–1,200 THB'], maps:'https://maps.google.com/?q=Tiffany+Show+Pattaya' },
+  '蒂芬妮人妖秀 Tiffany\'s Show':         { label:"Tiffany's Show", cat:'pattaya-att', catLabel:'芭達雅景點', desc:'泰國最經典、規模最大的跨性別歌舞秀，舞台華麗、服裝精緻，具備極高的娛樂與文化代表性。位於北芭達雅，距 The Zign Hotel 約 10 分鐘，票價約 700–1,200 THB，每晚 18:00、19:30、21:00 三場。', tags:['北芭達雅','距飯店 ~10min','三場演出','700–1,200 THB'], maps:'https://maps.google.com/?q=Tiffany+Show+Pattaya' },
   '芭達雅 3D 美術館':               { label:'Art in Paradise', cat:'pattaya-att', catLabel:'芭達雅景點', desc:'室內冷氣景點，透過視覺錯位技術繪製的大型 3D 壁畫，與畫面互動拍出視覺錯覺照片。距飯店約 10 分鐘，適合喜歡互動藝術的行程安排。票價約 400 THB。', tags:['室內冷氣','3D互動','打卡拍照','票價 400 THB'], maps:'https://maps.google.com/?q=Art+in+Paradise+3D+Museum+Pattaya' },
   '迷你暹羅 Mini Siam':             { label:'迷你暹羅', cat:'pattaya-att', catLabel:'芭達雅景點', desc:'匯集泰國歷史名勝（大皇宮、鄭王廟）與世界知名建築的微縮模型園區，適合快速瀏覽各國地標。距飯店約 10 分鐘。票價約 300 THB。', tags:['微縮模型','世界地標','300 THB','10 分鐘'], maps:'https://maps.google.com/?q=Mini+Siam+Pattaya' },
   '大佛山 Khao Phra Bat':           { label:'大佛山', cat:'pattaya-att', catLabel:'芭達雅景點', desc:'山丘上的大型金色佛像，可俯瞰芭達雅城市與海灣，山頂亦有寺廟群。位於北芭達雅，免費參觀，需步行上山，建議早上前往避免烈日。', tags:['免費','北芭達雅','金色大佛','需步行上山'], maps:'https://maps.google.com/?q=Wat+Khao+Phra+Bat+Pattaya+Big+Buddha' },
@@ -919,17 +945,17 @@ const ACTIVITY_INFO = {
   '芭達雅飛機夜市':                 { label:'芭達雅飛機夜市', cat:'pattaya-att', catLabel:'芭達雅景點', desc:'以退役飛機為裝置藝術的特色夜市，結合街頭美食、飲料攤與網紅打卡區。位於 Jomtien 區，每日傍晚開放，Grab 約 20 分鐘。', tags:['退役飛機裝置','打卡夜市','每日傍晚','Grab ~20min'], maps:'https://maps.google.com/?q=Pattaya+Airplane+Night+Market+Jomtien' },
   '按摩街 Pattaya 2nd Road':        { label:'按摩街', cat:'pattaya-att', catLabel:'芭達雅景點', desc:'Pattaya 2nd Road 集中大量按摩店，提供泰式按摩、足底按摩、油壓等服務。1 小時約 200–350 THB，品質參差，建議選擇評價較高的店面，全天開放。', tags:['200–350 THB/hr','全天開放','中央芭達雅','評價需確認'], maps:'https://maps.google.com/?q=Pattaya+2nd+Road+massage+shops' },
   // ── 芭達雅按摩（一般不限客群）──
-  'Siladon Spa Pattaya':            { label:'Siladon Spa', cat:'pattaya-att', catLabel:'芭達雅景點', desc:'距 The Zign Hotel 極近。位於傳統泰式柚木高腳屋內，環境古色古香，精油按摩與身體磨砂服務口碑極佳。人均約 800–2,000 THB，建議電話提前預約。', tags:['距飯店極近','柚木高腳屋','精油磨砂','800–2,000 THB'], maps:'https://maps.google.com/?q=Siladon+Spa+Pattaya' },
-  'Health Land Pattaya':            { label:'Health Land Pattaya', cat:'pattaya-att', catLabel:'芭達雅景點', desc:'位於北芭達雅主要幹道，佔地極廣，與曼谷分店同樣提供高性價比的標準泰式按摩，按壓力道充足，品質穩定。人均約 600–1,200 THB。', tags:['北芭達雅','連鎖穩定品質','600–1,200 THB','按壓充足'], maps:'https://maps.google.com/?q=Health+Land+Pattaya' },
-  'Let\'s Relax Spa（芭達雅）':     { label:"Let's Relax (Terminal 21)", cat:'pattaya-att', catLabel:'芭達雅景點', desc:'位於 Terminal 21 百貨內，逛街後前往極為順路，環境明亮整潔。泰式按摩 1 小時約 800–1,500 THB，品質與曼谷分店一樣穩定，建議線上預約。', tags:['Terminal 21 內','逛街順路','800–1,500 THB','連鎖穩定'], maps:'https://maps.google.com/?q=Let\'s+Relax+Spa+Terminal+21+Pattaya' },
-  'Grace Spa Pattaya':              { label:'Grace Spa', cat:'pattaya-att', catLabel:'芭達雅景點', desc:'鄰近 The Zign Hotel 區域，全獨立小木屋包廂，私密性極高。以熱石按摩（Hot Stone）與草藥球熱敷為招牌。人均約 1,000–2,500 THB。', tags:['鄰近飯店','木屋包廂','熱石草藥球','1,000–2,500 THB'], maps:'https://maps.google.com/?q=Grace+Spa+Pattaya' },
-  'Yunomori Onsen Pattaya':         { label:'Yunomori Onsen Pattaya', cat:'pattaya-att', catLabel:'芭達雅景點', desc:'設施規模龐大的日式溫泉會館，位於 Thepprasit 區。提供最安全、乾淨且徹底放鬆的環境。Onsen 入場約 500 THB，加按摩套餐約 1,000–2,000 THB。', tags:['日式溫泉','Thepprasit','大型設施','1,000–2,000 THB'], maps:'https://maps.google.com/?q=Yunomori+Onsen+Spa+Pattaya' },
+  'Siladon Spa Pattaya':            { label:'Siladon Spa', cat:'relax', catLabel:'放鬆', desc:'距 The Zign Hotel 極近。位於傳統泰式柚木高腳屋內，環境古色古香，精油按摩與身體磨砂服務口碑極佳。人均約 800–2,000 THB，建議電話提前預約。', tags:['距飯店極近','柚木高腳屋','精油磨砂','800–2,000 THB'], maps:'https://maps.google.com/?q=Siladon+Spa+Pattaya' },
+  'Health Land Pattaya':            { label:'Health Land Pattaya', cat:'relax', catLabel:'放鬆', desc:'位於北芭達雅主要幹道，佔地極廣，與曼谷分店同樣提供高性價比的標準泰式按摩，按壓力道充足，品質穩定。人均約 600–1,200 THB。', tags:['北芭達雅','連鎖穩定品質','600–1,200 THB','按壓充足'], maps:'https://maps.google.com/?q=Health+Land+Pattaya' },
+  'Let\'s Relax Spa（芭達雅）':     { label:"Let's Relax (Terminal 21)", cat:'relax', catLabel:'放鬆', desc:'位於 Terminal 21 百貨內，逛街後前往極為順路，環境明亮整潔。泰式按摩 1 小時約 800–1,500 THB，品質與曼谷分店一樣穩定，建議線上預約。', tags:['Terminal 21 內','逛街順路','800–1,500 THB','連鎖穩定'], maps:'https://maps.google.com/?q=Let\'s+Relax+Spa+Terminal+21+Pattaya' },
+  'Grace Spa Pattaya':              { label:'Grace Spa', cat:'relax', catLabel:'放鬆', desc:'鄰近 The Zign Hotel 區域，全獨立小木屋包廂，私密性極高。以熱石按摩（Hot Stone）與草藥球熱敷為招牌。人均約 1,000–2,500 THB。', tags:['鄰近飯店','木屋包廂','熱石草藥球','1,000–2,500 THB'], maps:'https://maps.google.com/?q=Grace+Spa+Pattaya' },
+  'Yunomori Onsen Pattaya':         { label:'Yunomori Onsen Pattaya', cat:'relax', catLabel:'放鬆', desc:'設施規模龐大的日式溫泉會館，位於 Thepprasit 區。提供最安全、乾淨且徹底放鬆的環境。Onsen 入場約 500 THB，加按摩套餐約 1,000–2,000 THB。', tags:['日式溫泉','Thepprasit','大型設施','1,000–2,000 THB'], maps:'https://maps.google.com/?q=Yunomori+Onsen+Spa+Pattaya' },
   // ── 芭達雅按摩（男同志／熊族取向）⚠️ 集中於南區 Jomtien，距飯店 20–30 分鐘 ──
   'Harem Men\'s Spa ⚠️遠':         { label:'Harem Men\'s Spa ⚠️遠', cat:'pattaya-att', catLabel:'芭達雅景點', desc:'⚠️ 位於 Jomtien Complex（南區），距 The Zign Hotel 約 20–30 分鐘車程。芭達雅最知名的同志按摩會館，師傅人數多，涵蓋一般體態至肌肉壯碩型，環境維護良好。人均約 1,000–2,000 THB。', tags:['⚠️南區Jomtien','同志會館','肌肉/壯碩型','1,000–2,000 THB'], maps:'https://maps.google.com/?q=Harem+Mens+Spa+Jomtien+Pattaya' },
   'Spartacus Men\'s Massage ⚠️遠': { label:'Spartacus Men\'s Massage ⚠️遠', cat:'pattaya-att', catLabel:'芭達雅景點', desc:'⚠️ 位於 Boyztown（南區），距 The Zign Hotel 約 20–30 分鐘。主打體格健壯與肌肉型師傅，提供多種力道偏重的深層組織按摩選項。人均約 1,200–2,500 THB。', tags:['⚠️南區Boyztown','肌肉型師傅','深層組織','1,200–2,500 THB'], maps:'https://maps.google.com/?q=Spartacus+Mens+Massage+Pattaya+Boyztown' },
-  'Relax @ Me ⚠️遠':               { label:'Relax @ Me ⚠️遠', cat:'pattaya-att', catLabel:'芭達雅景點', desc:'⚠️ 位於南區 Soi Day Night，距飯店約 20–30 分鐘。由訓練有素的男技師提供足部按摩與泰式油壓，房間乾淨且設有隔簾，價格合理。人均約 800–1,500 THB。', tags:['⚠️南區','男技師','足部油壓','800–1,500 THB'], maps:'https://maps.google.com/?q=Relax+Me+Massage+Pattaya+Soi+Day+Night' },
-  'Sensations Massage ⚠️遠':       { label:'Sensations Massage ⚠️遠', cat:'pattaya-att', catLabel:'芭達雅景點', desc:'⚠️ 位於 Jomtien Complex（南區），距飯店約 20–30 分鐘。老字號同志按摩，氛圍輕鬆，具備不同體型師傅可選。人均約 1,000–2,000 THB。', tags:['⚠️Jomtien Complex','老字號','輕鬆氛圍','1,000–2,000 THB'], maps:'https://maps.google.com/?q=Sensations+Massage+Jomtien+Pattaya' },
-  'TBMI Pattaya ⚠️遠':             { label:'TBMI 盲人按摩 ⚠️遠', cat:'pattaya-att', catLabel:'芭達雅景點', desc:'⚠️ 位於 Jomtien Complex（南區），距飯店約 20–30 分鐘。雖非純同志店，但在同志社群中極受歡迎。提供高 CP 值專業盲人按摩，可指定男師傅，設有私人包廂。人均約 300–600 THB。', tags:['⚠️Jomtien Complex','盲人按摩','高CP值','300–600 THB'], maps:'https://maps.google.com/?q=TBMI+Thai+Blind+Massage+Jomtien+Pattaya' },
+  'Relax @ Me ⚠️遠':               { label:'Relax @ Me ⚠️遠', cat:'relax', catLabel:'放鬆', desc:'⚠️ 位於南區 Soi Day Night，距飯店約 20–30 分鐘。由訓練有素的男技師提供足部按摩與泰式油壓，房間乾淨且設有隔簾，價格合理。人均約 800–1,500 THB。', tags:['⚠️南區','男技師','足部油壓','800–1,500 THB'], maps:'https://maps.google.com/?q=Relax+Me+Massage+Pattaya+Soi+Day+Night' },
+  'Sensations Massage ⚠️遠':       { label:'Sensations Massage ⚠️遠', cat:'relax', catLabel:'放鬆', desc:'⚠️ 位於 Jomtien Complex（南區），距飯店約 20–30 分鐘。老字號同志按摩，氛圍輕鬆，具備不同體型師傅可選。人均約 1,000–2,000 THB。', tags:['⚠️Jomtien Complex','老字號','輕鬆氛圍','1,000–2,000 THB'], maps:'https://maps.google.com/?q=Sensations+Massage+Jomtien+Pattaya' },
+  'TBMI Pattaya ⚠️遠':             { label:'TBMI 盲人按摩 ⚠️遠', cat:'relax', catLabel:'放鬆', desc:'⚠️ 位於 Jomtien Complex（南區），距飯店約 20–30 分鐘。雖非純同志店，但在同志社群中極受歡迎。提供高 CP 值專業盲人按摩，可指定男師傅，設有私人包廂。人均約 300–600 THB。', tags:['⚠️Jomtien Complex','盲人按摩','高CP值','300–600 THB'], maps:'https://maps.google.com/?q=TBMI+Thai+Blind+Massage+Jomtien+Pattaya' },
 
   // ── 芭達雅美食（20 精選＋遠距選項）──
   // 以 The Zign Hotel (北芭達雅 Naklua Soi 12) 為出發點
@@ -997,34 +1023,26 @@ const ACTIVITY_INFO = {
   'The Oxygen Beach':           { label:'The Oxygen Beach', cat:'pattaya-att', catLabel:'芭達雅景點', desc:'Jomtien Complex 內的海灘酒吧，提供調酒、啤酒與輕食，可邊看海邊放鬆。氣氛悠閒，適合傍晚前往。', tags:['海灘酒吧','Jomtien','調酒','傍晚推薦'], maps:'https://maps.google.com/?q=The+Oxygen+Beach+Jomtien+Pattaya' },
 };
 
-// Pool category mapping
-const POOL_CATS = {
-  bangkok: {
-    nightlife: ['BEEF 夜店','Barber（週一公休）','Mania Sauna（每日）','Heaven Sauna（桑拿）','Cake（週一二公休）','HUGs 熊吧（週一二公休）','DJ Station','GOD 酒吧'],
-    shopping: ['ICONSIAM','Siam Paragon','CentralWorld','EmSphere','Siam Discovery','MBK Center','Chatuchak 週末市集','Jodd Fairs (Rama 9)','Asiatique 河濱夜市','Don Don Donki Thong Lo','Central Chidlom','Big C Supercenter','NaRaYa 曼谷包','Karmakamet 香氛'],
-    food: ['蒙天海南雞飯 Ruenton','Charoen Saeng Silom','Hai Somtam Convent','Jok Prince 王子粥','新記烤鴨 Prachak','Khao Soi Convent','榮泰豬肉粉 Rung Rueang','Tuang Dim Sum','午餐：Copper','Or Tor Kor 有機市場','Nahm 泰式米其林','Laem Charoen Seafood','Somboon Seafood 建興酒家','Supanniga Eating Room','Baan Phadthai','Here Hai 蟹肉炒飯','Krua Apsorn','Le Du 米其林一星','100 Mahaseth','中國城 Yaowarat 夜食','Jay Fai 米其林炒蟹','Thip Samai 炒河粉','Bo.lan 精緻泰菜','Gaggan Anand','Yakiniku Great','Seiniku-ten','Katsushin 勝利豬排','Mensho Tokyo BKK','No Name Noodle','Jidori Cuisine Ken','郭炎松牛肉粉 Wattana Panich','王春盛牛肉火鍋','Tasty Congee 正斗','CQK Mala Hotpot','ChaTraMue 手標茶','Peace Oriental Teahouse','Roots Coffee','Mae Varee 芒果糯米飯','After You Dessert Cafe','朱拉隆功大學美食街','巴哥咖啡廳','Savoey 海鮮'],
-    culture: ['臥佛寺 Wat Pho','鄭王廟 Wat Arun','大皇宮 Grand Palace','湄南河船遊','Jim Thompson House','四面佛 Erawan Shrine','River City 藝文展覽','MOCA 曼谷當代藝術館','龍蓮寺 Wat Mangkon'],
-    relax: ['Health Land Sathorn','Divana Virtue Spa','Yunomori Onsen Bangkok','Perception Blind Massage','V Club Men\'s Spa','The Prime Men\'s Spa','The Prime Massage','Senso Men\'s Club','Prince Men\'s Spa','The Six Men\'s Club','Uranus Men\'s Spa','飯店泳池','咖啡廳放空','健身房'],
-    transport: ['搭 BTS 捷運','Grab 叫車','嘟嘟車體驗','船班（昭披耶河）','Bolt 叫車']
-  },
-  pattaya: {
-    food: ['Mum Aroi 海鮮餐廳','蘭坡海鮮市場 Lan Pho','The Seafood Naklua 12','Ronin 日式料理','Izakaya BAKU 燒肉','Jae To 牛肉麵','Glass House Silver','Surf & Turf 海灘俱樂部','Radius @ Cape Dara','Somtum Na Mueang','La Baguette 法式烘焙','Terminal 21 美食街（芭達雅）','The Beach Club Pullman','Fat Coco 池畔餐廳','Jangwon 韓式燒烤','Siam Elephant 泰菜','Somtum Villa 泰北料理',"Jasmin's Café",'Khao Tom Pla 鮮魚湯飯','Shelter Coffee 精品咖啡','The Sky Gallery 鳥巢餐廳','3 Mermaids 鳥巢餐廳','Eak Fish Balls 魚丸','Khun Sri 美食','Rimpa Lapin ⚠️遠','Pupen Seafood ⚠️遠','Cabbages & Condoms ⚠️遠','Cafe des Amis ⚠️遠','Lobster Pot ⚠️觀光客店'],
-    attractions: ['真理聖殿 Sanctuary of Truth','珊瑚島 Koh Larn','農農熱帶花園 Nong Nooch','芭達雅觀景台 Pratumnak Hill','芭達雅水上市場 Floating Market','蒂芬妮人妖秀 Tiffany\'s Show','芭達雅 3D 美術館','迷你暹羅 Mini Siam','大佛山 Khao Phra Bat','月光市場 Thepprasit','芭達雅飛機夜市','芭達雅海灘','Terminal 21 Pattaya','La marche 購物','The Light 夜市','6996 成人秀','99 Show','89 Show','Walking Street','BoyzTown','綠山野生動物園','芭提雅私人定製一日遊','Jomtien Complex','The Oxygen Beach'],
-    relax: ['Siladon Spa Pattaya','Health Land Pattaya','Let\'s Relax Spa（芭達雅）','Grace Spa Pattaya','Yunomori Onsen Pattaya','Soda Massage（Jomtien）','Foxy Smile Massage','Burirom Massage','#1 Health Massage','Copa Body Club（Boyztown）','Relax @ Me ⚠️遠','Sensations Massage ⚠️遠','TBMI Pattaya ⚠️遠']
-  }
-};
+// Pool category mapping — 由 ACTIVITIES 深拷貝衍生，避免兩份清單不一致
+const POOL_CATS = JSON.parse(JSON.stringify(ACTIVITIES));
+
+// ── 🎉 派對活動（芭達雅 Zign circuit；放進活動池供編輯細節，排程時段仍為鎖定）──
+POOL_CATS.pattaya.party = ['Opening Night Party','Aftersun Pool + Beach Party','Night Party','Main Event: Beach Party'];
+ACTIVITIES.pattaya.party = POOL_CATS.pattaya.party.slice();
+Object.assign(ACTIVITY_INFO, {
+  'Opening Night Party':         { label:'Opening Night Party', cat:'party', catLabel:'派對', desc:'開幕之夜派對。地點 The Zign Ballroom，All-Access 票可入場，約 22:00 開始。', tags:['6/19','The Zign Ballroom','All-Access','約22:00'], maps:'https://maps.google.com/?q=The+Zign+Hotel+Pattaya' },
+  'Aftersun Pool + Beach Party': { label:'Aftersun Pool + Beach Party', cat:'party', catLabel:'派對', desc:'日落泳池與沙灘派對。地點 The Zign Pool，票價約 THB 3,000，約 15:00 開始。', tags:['6/20','The Zign Pool','THB 3,000','約15:00'], maps:'https://maps.google.com/?q=The+Zign+Hotel+Pattaya' },
+  'Night Party':                 { label:'Night Party', cat:'party', catLabel:'派對', desc:'夜間派對。地點 The Zign Ballroom，All-Access 票可入場，約 22:00 開始。', tags:['6/20','The Zign Ballroom','All-Access','約22:00'], maps:'https://maps.google.com/?q=The+Zign+Hotel+Pattaya' },
+  'Main Event: Beach Party':     { label:'Main Event: Beach Party', cat:'party', catLabel:'派對', desc:'主場沙灘派對（Main Event）。地點 The Zign Private Beach，票價約 THB 3,000，約 17:00 開始。', tags:['6/21','The Zign Private Beach','THB 3,000','約17:00'], maps:'https://maps.google.com/?q=The+Zign+Hotel+Pattaya' }
+});
 
 const LOCKED_ITEMS = {
   'g18-am':  ['🛫 CI 831 09:25（TPE）→ 12:10 抵達 BKK'],
   'g18-pm':  ['🚗 包車前往芭達雅', '🍵 手標茶・換匯（BKK 機場）'],
   'g19-am':  ['🍳 飯店早餐'],
   'g19-eve': ['🏷 Circuit 手環領取 15:00–19:00｜The Zign Lobby'],
-  'g19-ngt': ['🎉 Opening Night Party｜The Zign Ballroom（All-Access・約 22:00）'],
   'g20-am':  ['🍳 飯店早餐'],
-  'g20-pm':  ['🏊 Aftersun Pool + Beach Party｜The Zign Pool（THB 3,000・約 15:00）'],
-  'g20-ngt': ['🎉 Night Party｜The Zign Ballroom（All-Access・約 22:00）'],
   'g21-am':  ['🍳 飯店早餐'],
-  'g21-eve': ['🏝 Main Event: The Beach Party｜The Zign Private Beach（THB 3,000・約 17:00）'],
   'g22-am':  ['🏨 芭達雅退房（10:30–11:00）→ 曼谷'],
   'g22-noon':['🚗 抵達 Passa Hotel（13:00–13:30）入住/寄放行李'],
   'g22-eve': ['🍽 Copper Beyond Buffet｜Gaysorn Amarin 3F（17:00 場次，約 19:00 結束）'],
@@ -1034,6 +1052,21 @@ const LOCKED_ITEMS = {
   'g23-pm':  ['🚗 前往機場（最遲 14:00 出發，15:00 抵達 BKK）'],
   'g23-eve': ['✈ CI 836 17:30 各自回台（Suvarnabhumi Airport）'],
 };
+
+// 派對預設排入時段：與活動池為同一項目（可在活動池編輯細節，亦可於時段移除）。
+// 僅在該時段「從未被動過」(undefined) 時填入，因此移除後不會再跑回來。
+const DEFAULT_ITEMS = {
+  'g19-ngt': ['Opening Night Party'],
+  'g20-pm':  ['Aftersun Pool + Beach Party'],
+  'g20-ngt': ['Night Party'],
+  'g21-eve': ['Main Event: Beach Party']
+};
+function seedDefaultItems() {
+  if (!state.items) state.items = {};
+  Object.keys(DEFAULT_ITEMS).forEach(slot => {
+    if (state.items[slot] === undefined) state.items[slot] = DEFAULT_ITEMS[slot].slice();
+  });
+}
 
 const SLOTS = [
   'g18-am','g18-noon','g18-pm','g18-eve','g18-ngt',
@@ -1055,8 +1088,9 @@ const SYNC_TOKEN = 'doraeteam-th2026-7Kq9';
 
 // ── Init ──
 function init() {
-  const saved = localStorage.getItem('thailand2026');
+  const saved = _ls.getItem('thailand2026');
   if (saved) state = JSON.parse(saved);
+  seedDefaultItems();
   renderAll();
   ['g18','g19','g20','g21','g22','g23','d24','d25'].forEach(d => {
     const el = document.getElementById('note-' + d);
@@ -1104,7 +1138,12 @@ function renderSlot(slotId) {
     items.forEach((item, i) => {
       const tag = document.createElement('span');
       tag.className = 'tag';
-      tag.innerHTML = `${item} <span class="tag-remove" onclick="removeItem('${slotId}',${i},event)">✕</span>`;
+      tag.textContent = item + ' ';  // 使用者自訂內容以純文字插入，避免 XSS
+      const rm = document.createElement('span');
+      rm.className = 'tag-remove';
+      rm.textContent = '✕';
+      rm.onclick = (e) => removeItem(slotId, i, e);
+      tag.appendChild(rm);
       el.appendChild(tag);
     });
   }
@@ -1133,7 +1172,7 @@ function populateModal() {
   const catColors = {
     nightlife:'nightlife', shopping:'shopping', food:'food',
     culture:'culture', relax:'relax', transport:'transport',
-    attractions:'pattaya-att'
+    attractions:'pattaya-att', party:'party'
   };
 
   // 遍歷兩個區域：bangkok 和 pattaya
@@ -1321,9 +1360,9 @@ function autoSync() {
     const el = document.getElementById('note-' + d);
     if (el) state.notes[d] = el.value;
   });
-  localStorage.setItem('thailand2026', JSON.stringify(state));
+  _ls.setItem('thailand2026', JSON.stringify(state));
   // 標記本機有尚未同步到雲端的編輯
-  localStorage.setItem('thailand2026_dirty', '1');
+  _ls.setItem('thailand2026_dirty', '1');
 
   // 清除之前的計時器
   if (syncTimeout) clearTimeout(syncTimeout);
@@ -1341,16 +1380,17 @@ function save() {
 }
 
 function clearAll() {
-  if (!confirm('確定要清除所有行程嗎？')) return;
-  state = { items: {}, notes: {} };
+  if (!confirm('確定要清除所有「行程安排」嗎？\n\n• 會清空：各時段已排的活動、每日備註\n• 會保留：活動池的自訂活動與刪除設定\n\n此動作會同步給所有團員。')) return;
+  // 只清行程，保留 customActivities / deletedActivities
+  state.items = {};
+  state.notes = {};
   ['g18','g19','g20','g21','g22','g23','d24','d25'].forEach(d => {
     const el = document.getElementById('note-' + d);
     if (el) el.value = '';
   });
   renderAll();
-  localStorage.removeItem('thailand2026');
-  localStorage.removeItem('thailand2026_dirty');
-  updateStatus('已清除');
+  autoSync();  // 儲存並同步清空後的行程（保留活動池）
+  updateStatus('已清除行程安排（活動池保留）');
 }
 
 function updateStatus(msg) {
@@ -1359,7 +1399,7 @@ function updateStatus(msg) {
 
 // ── Cloud Sync ──
 function openSyncSettings() {
-  const url = localStorage.getItem('syncUrl') || '';
+  const url = _ls.getItem('syncUrl') || '';
   document.getElementById('sync-url-input').value = url;
   document.getElementById('sync-settings-overlay').style.display = 'flex';
 }
@@ -1411,6 +1451,7 @@ function updateCategoryOptions() {
     categorySelect.innerHTML += '<option value="food">🍜 美食</option>';
     categorySelect.innerHTML += '<option value="attractions">🎡 景點</option>';
     categorySelect.innerHTML += '<option value="relax">💆 放鬆</option>';
+    categorySelect.innerHTML += '<option value="party">🎉 派對</option>';
   }
 }
 
@@ -1489,7 +1530,7 @@ function saveSyncSettings() {
     alert('請輸入 Google Apps Script Web App URL');
     return;
   }
-  localStorage.setItem('syncUrl', url);
+  _ls.setItem('syncUrl', url);
   updateStatus('✓ 雲端設定已儲存');
   closeSyncSettings();
 }
@@ -1497,12 +1538,12 @@ function saveSyncSettings() {
 async function syncToCloud() {
   // 預設 URL（如果 localStorage 沒有設定）
   const defaultUrl = 'https://script.google.com/macros/s/AKfycbyynUqSDqIz8OjuVMl71Tnmo7nd2lcP1E8Ae_hsen8Fg8dvPalnkdrKIX8yx4gtQcpq/exec';
-  let url = localStorage.getItem('syncUrl');
+  let url = _ls.getItem('syncUrl');
 
   // 如果沒有設定，使用預設 URL 並儲存
   if (!url) {
     url = defaultUrl;
-    localStorage.setItem('syncUrl', url);
+    _ls.setItem('syncUrl', url);
   }
 
   // 先儲存到 localStorage
@@ -1524,7 +1565,7 @@ async function syncToCloud() {
 
     if (result.success) {
       // 已成功上傳，清除未同步標記
-      localStorage.removeItem('thailand2026_dirty');
+      _ls.removeItem('thailand2026_dirty');
       updateStatus('✓ 已同步到雲端 ' + new Date().toLocaleTimeString('zh-TW'));
     } else {
       updateStatus('✗ 同步失敗：' + (result.error || '未知錯誤'));
@@ -1540,12 +1581,12 @@ async function syncToCloud() {
 async function syncFromCloud(silent = false) {
   // 預設 URL（如果 localStorage 沒有設定）
   const defaultUrl = 'https://script.google.com/macros/s/AKfycbyynUqSDqIz8OjuVMl71Tnmo7nd2lcP1E8Ae_hsen8Fg8dvPalnkdrKIX8yx4gtQcpq/exec';
-  let url = localStorage.getItem('syncUrl');
+  let url = _ls.getItem('syncUrl');
 
   // 如果沒有設定，使用預設 URL 並儲存
   if (!url) {
     url = defaultUrl;
-    localStorage.setItem('syncUrl', url);
+    _ls.setItem('syncUrl', url);
   }
 
   updateStatus('☁️ 正在從雲端載入...');
@@ -1565,7 +1606,7 @@ async function syncFromCloud(silent = false) {
     if (data && (data.items || data.notes)) {
       const localHasData = state && ((state.items && Object.keys(state.items).length) ||
         (state.notes && Object.keys(state.notes).length));
-      const dirty = localStorage.getItem('thailand2026_dirty') === '1';
+      const dirty = _ls.getItem('thailand2026_dirty') === '1';
       // 需先確認再覆寫的情況：
       //   手動載入(!silent) 且本機有資料；或 自動載入(silent) 但本機有未同步編輯(dirty)
       const needConfirm = localHasData && (!silent || dirty);
@@ -1579,15 +1620,16 @@ async function syncFromCloud(silent = false) {
         }
       }
       state = data;
+      seedDefaultItems();
       renderAll();
       // 合併雲端帶回的自訂活動／刪除清單，並重繪活動池與 modal 清單
       applyCustomActivities();
       applyDeletedActivities();
       renderPool();
       populateModal();
-      localStorage.setItem('thailand2026', JSON.stringify(state));
+      _ls.setItem('thailand2026', JSON.stringify(state));
       // 已與雲端一致，清除未同步標記
-      localStorage.removeItem('thailand2026_dirty');
+      _ls.removeItem('thailand2026_dirty');
       updateStatus('✓ 已從雲端載入 ' + new Date().toLocaleTimeString('zh-TW'));
     } else {
       if (!silent) {
@@ -1723,7 +1765,7 @@ function renderPool() {
   const catColors = {
     nightlife:'nightlife', shopping:'shopping', food:'food',
     culture:'culture', relax:'relax', transport:'transport',
-    attractions:'pattaya-att'
+    attractions:'pattaya-att', party:'party'
   };
 
   // 遍歷兩個區域：bangkok 和 pattaya
@@ -1766,8 +1808,8 @@ function showInfo(key) {
   if (!info) return;
   currentInfoKey = key;
 
-  const catLabels = { nightlife:'🍸 夜生活', shopping:'🛍 購物', food:'🍜 美食', culture:'🏛 文化', relax:'💆 放鬆', transport:'🚖 交通', pattaya:'🦞 芭達雅美食', 'pattaya-att':'🏝 芭達雅景點', attractions:'🎡 景點' };
-  const catColors = { nightlife:'#FC8181', shopping:'#F59E0B', food:'#22C55E', culture:'#3B82F6', relax:'#14B8A6', transport:'#8B5CF6', pattaya:'#F97316', 'pattaya-att':'#0E7490', attractions:'#EA580C' };
+  const catLabels = { nightlife:'🍸 夜生活', shopping:'🛍 購物', food:'🍜 美食', culture:'🏛 文化', relax:'💆 放鬆', transport:'🚖 交通', pattaya:'🦞 芭達雅美食', 'pattaya-att':'🏝 芭達雅景點', attractions:'🎡 景點', party:'🎉 派對' };
+  const catColors = { nightlife:'#FC8181', shopping:'#F59E0B', food:'#22C55E', culture:'#3B82F6', relax:'#14B8A6', transport:'#8B5CF6', pattaya:'#F97316', 'pattaya-att':'#0E7490', attractions:'#EA580C', party:'#EC4899' };
   const color = catColors[info.cat] || '#9CA3AF';
 
   const badge = document.getElementById('info-badge');
