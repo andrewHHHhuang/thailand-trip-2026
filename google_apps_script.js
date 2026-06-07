@@ -1,7 +1,18 @@
 // Google Apps Script - 部署為 Web App
 // 用於泰國行程規劃器的資料同步
 
+// 共享權杖：須與 thailand_planner.html 內的 SYNC_TOKEN 完全相同。
+// 修改後請重新部署（部署 → 管理部署作業 → 編輯 → 新版本）才會生效。
+const SYNC_TOKEN = 'doraeteam-th2026-7Kq9';
+
+function unauthorized() {
+  return ContentService.createTextOutput(JSON.stringify({ error: 'Unauthorized' }))
+    .setMimeType(ContentService.MimeType.JSON);
+}
+
 function doGet(e) {
+  if (!e || !e.parameter || e.parameter.token !== SYNC_TOKEN) return unauthorized();
+
   const sheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName('thailand_data');
 
   if (!sheet) {
@@ -17,6 +28,8 @@ function doGet(e) {
 }
 
 function doPost(e) {
+  if (!e || !e.parameter || e.parameter.token !== SYNC_TOKEN) return unauthorized();
+
   const sheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName('thailand_data');
 
   if (!sheet) {

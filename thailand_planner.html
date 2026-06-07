@@ -347,6 +347,7 @@ body { font-family: 'Segoe UI', system-ui, -apple-system, sans-serif; background
   <button class="tab-btn" onclick="switchTab('tab-624')">6/24 曼谷 (Solo)</button>
   <button class="tab-btn" onclick="switchTab('tab-625')">6/25 返台</button>
   <button class="tab-btn" onclick="switchTab('tab-pool')">🎯 活動池</button>
+  <button class="tab-btn" onclick="switchTab('tab-expense')">💰 記帳</button>
 </div>
 
 <!-- ── Tab: 注意事項 ── -->
@@ -550,6 +551,23 @@ body { font-family: 'Segoe UI', system-ui, -apple-system, sans-serif; background
 </div>
 </div>
 
+<!-- ── Tab: 記帳 ── -->
+<div id="tab-expense" class="tab-content section">
+  <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; flex-wrap: wrap; gap: 8px;">
+    <div class="section-title" style="margin: 0;">💰 旅費記帳</div>
+    <a class="btn btn-primary" href="https://andrewhhhhuang.github.io/travel-expense-tracker/?trip=%E6%B3%B0%E5%9C%8B2026"
+       target="_blank" rel="noopener" style="padding: 8px 16px; font-size: 13px; text-decoration: none;">↗ 開新分頁</a>
+  </div>
+  <div style="font-size: 12px; color: #78716C; margin-bottom: 12px;">
+    共用記帳本「泰國2026」。若下方無法顯示，請點右上「↗ 開新分頁」。
+  </div>
+  <iframe
+    src="https://andrewhhhhuang.github.io/travel-expense-tracker/?trip=%E6%B3%B0%E5%9C%8B2026"
+    title="旅費記帳"
+    style="width: 100%; height: 78vh; min-height: 560px; border: 1px solid #FED7AA; border-radius: 12px; background: white;">
+  </iframe>
+</div>
+
 <!-- ── Info Modal ── -->
 <div class="overlay" id="info-overlay">
   <div class="info-modal">
@@ -565,6 +583,10 @@ body { font-family: 'Segoe UI', system-ui, -apple-system, sans-serif; background
     <div class="info-modal-footer">
       <button class="btn-info-add" id="info-add-btn" onclick="infoQuickAdd()">＋ 加入行程</button>
       <a class="btn-maps" id="info-maps-btn" href="#" target="_blank" rel="noopener">📍 地圖</a>
+    </div>
+    <div class="info-modal-footer" style="margin-top: 8px;">
+      <button class="btn-info-close" onclick="infoEdit()">✏️ 編輯</button>
+      <button class="btn-info-close" onclick="infoDelete()" style="color:#DC2626;border-color:#FCA5A5;">🗑 刪除</button>
       <button class="btn-info-close" onclick="closeInfo()">關閉</button>
     </div>
   </div>
@@ -672,7 +694,7 @@ body { font-family: 'Segoe UI', system-ui, -apple-system, sans-serif; background
 <div class="overlay" id="add-activity-overlay" style="display:none;">
   <div class="modal" style="max-width: 500px;">
     <div class="modal-head">
-      <h3>➕ 新增活動</h3>
+      <h3 id="add-activity-title">➕ 新增活動</h3>
       <button class="modal-close" onclick="closeAddActivityModal()">×</button>
     </div>
     <div style="padding: 0 4px;">
@@ -724,7 +746,7 @@ body { font-family: 'Segoe UI', system-ui, -apple-system, sans-serif; background
 
       <div style="display: flex; gap: 8px; justify-content: flex-end;">
         <button class="btn btn-outline" onclick="closeAddActivityModal()">取消</button>
-        <button class="btn btn-primary" onclick="saveNewActivity()">✓ 新增</button>
+        <button class="btn btn-primary" id="add-activity-save" onclick="saveNewActivity()">✓ 新增</button>
       </div>
     </div>
   </div>
@@ -734,6 +756,7 @@ body { font-family: 'Segoe UI', system-ui, -apple-system, sans-serif; background
 <div class="save-bar">
   <span class="save-status" id="save-status">✓ 自動同步已啟用</span>
   <div class="btns">
+    <button class="btn btn-outline" onclick="syncFromCloud(false)">☁️ 從雲端載入</button>
     <button class="btn btn-outline" onclick="openSyncSettings()">⚙️ 雲端設定</button>
     <button class="btn btn-outline" onclick="clearAll()">清除重設</button>
   </div>
@@ -748,9 +771,11 @@ function switchTab(tabId) {
   document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
 
   // 顯示目標 tab
-  document.getElementById(tabId).classList.add('active');
-  // 高亮對應 button
-  event.target.classList.add('active');
+  const content = document.getElementById(tabId);
+  if (content) content.classList.add('active');
+  // 高亮對應 button（依 onclick 對應，不再依賴全域 event）
+  const btn = document.querySelector('.tab-btn[onclick*="' + tabId + '"]');
+  if (btn) btn.classList.add('active');
 }
 
 // ── 倒數計算 ──
@@ -1017,37 +1042,43 @@ const SLOTS = [
   'g21-am','g21-noon','g21-pm','g21-eve','g21-ngt',
   'g22-am','g22-noon','g22-pm','g22-eve','g22-ngt',
   'g23-am','g23-noon','g23-pm','g23-eve','g23-ngt',
-  'd23-am','d23-pm','d23-eve','d23-ngt',
   'd24-am','d24-pm','d24-eve','d24-ngt',
   'd25-am','d25-pm'
 ];
 let state = { items: {}, notes: {} };
 let currentSlot = null;
+let editingKey = null;  // 編輯活動時暫存被編輯的活動名稱（null 表示新增模式）
+
+// 雲端同步共享權杖：須與 google_apps_script.js 內的 SYNC_TOKEN 相同。
+// 注意：此為「降低被亂打端點」的基本門檻，非強式驗證（頁面原始碼公開即可見）。
+const SYNC_TOKEN = 'doraeteam-th2026-7Kq9';
 
 // ── Init ──
 function init() {
   const saved = localStorage.getItem('thailand2026');
   if (saved) state = JSON.parse(saved);
   renderAll();
-  ['g18','g19','g20','g21','g22','g23','d23','d24','d25'].forEach(d => {
+  ['g18','g19','g20','g21','g22','g23','d24','d25'].forEach(d => {
     const el = document.getElementById('note-' + d);
     if (el) {
       if (state.notes[d]) el.value = state.notes[d];
       el.addEventListener('change', save);
     }
   });
+  applyCustomActivities();
+  applyDeletedActivities();
   populateModal();
   renderPool();
   updateStatus('✓ 自動同步已啟用');
 
-  // 自動從雲端載入（如果有設定 URL）
+  // 開頁自動從雲端拉取最新共享版本；若偵測到本機有未同步編輯（dirty）會先確認再覆寫
   syncFromCloud(true);
 }
 
 function renderAll() {
   SLOTS.forEach(slotId => renderSlot(slotId));
   // 同時渲染備註
-  ['g18','g19','g20','g21','g22','g23','d23','d24','d25'].forEach(d => {
+  ['g18','g19','g20','g21','g22','g23','d24','d25'].forEach(d => {
     const el = document.getElementById('note-' + d);
     if (el) el.value = state.notes[d] || '';
   });
@@ -1086,7 +1117,7 @@ function openModal(day, slot) {
   const days = {
     g18:'6/18 (四)', g19:'6/19 (五)', g20:'6/20 (六)',
     g21:'6/21 (日)', g22:'6/22 (一)', g23:'6/23 (二)',
-    d23:'6/23 (二)', d24:'6/24 (三)', d25:'6/25 (四)'
+    d24:'6/24 (三)', d25:'6/25 (四)'
   };
   document.getElementById('modal-title').textContent = `新增行程 — ${days[day] || day} ${labels[slot] || slot}`;
   document.getElementById('custom-input').value = '';
@@ -1206,12 +1237,6 @@ function openSlotPicker(item) {
       { id: 'g23-pm', label: '下午', icon: '🌤' },
       { id: 'g23-ngt', label: '晚上', icon: '🌙' }
     ]},
-    { date: '6/23 (二) 哆啦延伸', prefix: 'd23', slots: [
-      { id: 'd23-am', label: '早上', icon: '🌄' },
-      { id: 'd23-pm', label: '下午', icon: '🌤' },
-      { id: 'd23-eve', label: '傍晚', icon: '🌅' },
-      { id: 'd23-ngt', label: '晚上', icon: '🌙' }
-    ]},
     { date: '6/24 (三)', prefix: 'd24', slots: [
       { id: 'd24-am', label: '早上', icon: '🌄' },
       { id: 'd24-pm', label: '下午', icon: '🌤' },
@@ -1292,11 +1317,13 @@ let syncTimeout = null;
 // Debounce 函數：延遲執行，避免頻繁同步
 function autoSync() {
   // 先儲存到 localStorage
-  ['g18','g19','g20','g21','g22','g23','d23','d24','d25'].forEach(d => {
+  ['g18','g19','g20','g21','g22','g23','d24','d25'].forEach(d => {
     const el = document.getElementById('note-' + d);
     if (el) state.notes[d] = el.value;
   });
   localStorage.setItem('thailand2026', JSON.stringify(state));
+  // 標記本機有尚未同步到雲端的編輯
+  localStorage.setItem('thailand2026_dirty', '1');
 
   // 清除之前的計時器
   if (syncTimeout) clearTimeout(syncTimeout);
@@ -1316,12 +1343,13 @@ function save() {
 function clearAll() {
   if (!confirm('確定要清除所有行程嗎？')) return;
   state = { items: {}, notes: {} };
-  ['g18','g19','g20','g21','g22','g23','d23','d24','d25'].forEach(d => {
+  ['g18','g19','g20','g21','g22','g23','d24','d25'].forEach(d => {
     const el = document.getElementById('note-' + d);
     if (el) el.value = '';
   });
   renderAll();
   localStorage.removeItem('thailand2026');
+  localStorage.removeItem('thailand2026_dirty');
   updateStatus('已清除');
 }
 
@@ -1342,6 +1370,10 @@ function closeSyncSettings() {
 
 // ── Add Activity Modal ──
 function openAddActivityModal() {
+  // 重設為新增模式
+  editingKey = null;
+  document.getElementById('add-activity-title').textContent = '➕ 新增活動';
+  document.getElementById('add-activity-save').textContent = '✓ 新增';
   // 清空表單
   document.getElementById('add-region').value = '';
   document.getElementById('add-category').value = '';
@@ -1359,6 +1391,7 @@ function openAddActivityModal() {
 
 function closeAddActivityModal() {
   document.getElementById('add-activity-overlay').style.display = 'none';
+  editingKey = null;
 }
 
 function updateCategoryOptions() {
@@ -1407,48 +1440,47 @@ function saveNewActivity() {
   // 處理標籤
   const tags = tagsInput ? tagsInput.split(',').map(t => t.trim()).filter(t => t) : [];
 
-  // 確保 ACTIVITIES 和 ACTIVITY_INFO 存在對應結構
-  if (!ACTIVITIES[region]) {
-    ACTIVITIES[region] = {};
-  }
-  if (!ACTIVITIES[region][category]) {
-    ACTIVITIES[region][category] = [];
-  }
-
-  // 檢查活動是否已存在
-  if (ACTIVITIES[region][category].includes(fullname)) {
+  // 檢查活動是否已存在（編輯模式排除自己）
+  const existsArr = ACTIVITIES[region] && ACTIVITIES[region][category];
+  if (existsArr && existsArr.includes(fullname) && fullname !== editingKey) {
     alert('此活動已存在於活動池中');
     return;
   }
 
-  // 添加到 ACTIVITIES
-  ACTIVITIES[region][category].push(fullname);
+  // 編輯模式：先移除舊項目（視同刪除舊名稱，再以新內容重建）
+  if (editingKey) removeActivityEverywhere(editingKey);
 
-  // 添加到 ACTIVITY_INFO
-  ACTIVITY_INFO[fullname] = {
-    label: label || fullname,
-    desc: desc || '',
-    tags: tags,
-    maps: maps || ''
-  };
+  // 確保結構存在
+  if (!ACTIVITIES[region]) ACTIVITIES[region] = {};
+  if (!ACTIVITIES[region][category]) ACTIVITIES[region][category] = [];
+  if (!POOL_CATS[region]) POOL_CATS[region] = {};
+  if (!POOL_CATS[region][category]) POOL_CATS[region][category] = [];
 
-  // 重新渲染活動池
+  // 加入 ACTIVITIES（每日 modal 清單）與 POOL_CATS（活動池分頁）
+  if (!ACTIVITIES[region][category].includes(fullname)) ACTIVITIES[region][category].push(fullname);
+  if (!POOL_CATS[region][category].includes(fullname)) POOL_CATS[region][category].push(fullname);
+
+  // 說明資料（cat 供說明彈窗顯示分類顏色／標籤）
+  ACTIVITY_INFO[fullname] = { label: label || fullname, cat: category, desc: desc || '', tags, maps: maps || '' };
+
+  // 記錄到 state.customActivities（可儲存／同步），先去重避免重複
+  if (!state.customActivities) state.customActivities = [];
+  state.customActivities = state.customActivities.filter(a => a.fullname !== fullname);
+  state.customActivities.push({ region, category, fullname, label: label || fullname, desc: desc || '', tags, maps: maps || '' });
+
+  // 若此名稱曾被刪除，解除刪除標記
+  if (state.deletedActivities) state.deletedActivities = state.deletedActivities.filter(n => n !== fullname);
+
+  const wasEditing = !!editingKey;
+  editingKey = null;
+
+  // 重新渲染、同步、收尾
   renderPool();
-  renderModal();
-
-  // 自動同步
+  populateModal();
   autoSync();
-
-  // 關閉 modal
   closeAddActivityModal();
-
-  // 顯示成功訊息
-  updateStatus('✓ 活動已新增');
-
-  // 切換到活動池 tab
+  updateStatus(wasEditing ? '✓ 活動已更新' : '✓ 活動已新增');
   switchTab('tab-pool');
-  document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
-  document.querySelectorAll('.tab-btn')[1].classList.add('active');
 }
 
 function saveSyncSettings() {
@@ -1484,12 +1516,15 @@ async function syncToCloud() {
       headers: {
         'Content-Type': 'application/x-www-form-urlencoded',
       },
-      body: 'data=' + encodeURIComponent(JSON.stringify(state))
+      body: 'data=' + encodeURIComponent(JSON.stringify(state)) +
+        '&token=' + encodeURIComponent(SYNC_TOKEN)
     });
 
     const result = await response.json();
 
     if (result.success) {
+      // 已成功上傳，清除未同步標記
+      localStorage.removeItem('thailand2026_dirty');
       updateStatus('✓ 已同步到雲端 ' + new Date().toLocaleTimeString('zh-TW'));
     } else {
       updateStatus('✗ 同步失敗：' + (result.error || '未知錯誤'));
@@ -1516,7 +1551,8 @@ async function syncFromCloud(silent = false) {
   updateStatus('☁️ 正在從雲端載入...');
 
   try {
-    const response = await fetch(url);
+    const response = await fetch(url + (url.includes('?') ? '&' : '?') +
+      'token=' + encodeURIComponent(SYNC_TOKEN));
     const data = await response.json();
 
     if (data.error) {
@@ -1527,9 +1563,31 @@ async function syncFromCloud(silent = false) {
 
     // 如果資料不是空的，載入它
     if (data && (data.items || data.notes)) {
+      const localHasData = state && ((state.items && Object.keys(state.items).length) ||
+        (state.notes && Object.keys(state.notes).length));
+      const dirty = localStorage.getItem('thailand2026_dirty') === '1';
+      // 需先確認再覆寫的情況：
+      //   手動載入(!silent) 且本機有資料；或 自動載入(silent) 但本機有未同步編輯(dirty)
+      const needConfirm = localHasData && (!silent || dirty);
+      if (needConfirm) {
+        const msg = '從雲端載入會以雲端版本覆蓋本機目前的行程' +
+          (dirty ? '，而且本機似乎有尚未同步到雲端的編輯' : '') +
+          '。\n確定要繼續嗎？';
+        if (!confirm(msg)) {
+          updateStatus('已保留本機行程（未從雲端覆寫）');
+          return;
+        }
+      }
       state = data;
       renderAll();
+      // 合併雲端帶回的自訂活動／刪除清單，並重繪活動池與 modal 清單
+      applyCustomActivities();
+      applyDeletedActivities();
+      renderPool();
+      populateModal();
       localStorage.setItem('thailand2026', JSON.stringify(state));
+      // 已與雲端一致，清除未同步標記
+      localStorage.removeItem('thailand2026_dirty');
       updateStatus('✓ 已從雲端載入 ' + new Date().toLocaleTimeString('zh-TW'));
     } else {
       if (!silent) {
@@ -1549,6 +1607,116 @@ async function syncFromCloud(silent = false) {
     }
   }
 }
+
+// ── 自訂活動：把 state.customActivities 合併回活動清單字典 ──
+function applyCustomActivities() {
+  const list = (state && state.customActivities) || [];
+  list.forEach(a => {
+    if (!a || !a.region || !a.category || !a.fullname) return;
+    // ACTIVITIES（每日 modal 清單）
+    if (!ACTIVITIES[a.region]) ACTIVITIES[a.region] = {};
+    if (!ACTIVITIES[a.region][a.category]) ACTIVITIES[a.region][a.category] = [];
+    if (!ACTIVITIES[a.region][a.category].includes(a.fullname)) {
+      ACTIVITIES[a.region][a.category].push(a.fullname);
+    }
+    // POOL_CATS（活動池分頁）
+    if (!POOL_CATS[a.region]) POOL_CATS[a.region] = {};
+    if (!POOL_CATS[a.region][a.category]) POOL_CATS[a.region][a.category] = [];
+    if (!POOL_CATS[a.region][a.category].includes(a.fullname)) {
+      POOL_CATS[a.region][a.category].push(a.fullname);
+    }
+    // ACTIVITY_INFO（說明彈窗）
+    if (!ACTIVITY_INFO[a.fullname]) {
+      ACTIVITY_INFO[a.fullname] = {
+        label: a.label || a.fullname, cat: a.category,
+        desc: a.desc || '', tags: a.tags || [], maps: a.maps || ''
+      };
+    }
+  });
+}
+
+// ── 套用刪除清單：把 state.deletedActivities 從活動字典中移除 ──
+function applyDeletedActivities() {
+  const del = (state && state.deletedActivities) || [];
+  if (!del.length) return;
+  [ACTIVITIES, POOL_CATS].forEach(dict => {
+    Object.values(dict).forEach(cats => {
+      Object.keys(cats).forEach(cat => {
+        cats[cat] = cats[cat].filter(n => !del.includes(n));
+      });
+    });
+  });
+}
+
+// ── 從所有即時字典與自訂清單移除某活動（內建活動會記入刪除清單）──
+function removeActivityEverywhere(key) {
+  [ACTIVITIES, POOL_CATS].forEach(dict => {
+    Object.values(dict).forEach(cats => {
+      Object.keys(cats).forEach(cat => {
+        cats[cat] = cats[cat].filter(n => n !== key);
+      });
+    });
+  });
+  const wasCustom = !!(state.customActivities && state.customActivities.some(a => a.fullname === key));
+  if (state.customActivities) {
+    state.customActivities = state.customActivities.filter(a => a.fullname !== key);
+  }
+  // 內建活動：記入刪除清單，否則下次載入又會出現
+  if (!wasCustom) {
+    if (!state.deletedActivities) state.deletedActivities = [];
+    if (!state.deletedActivities.includes(key)) state.deletedActivities.push(key);
+  }
+}
+
+// ── 找出某活動所屬的區域／分類 ──
+function findActivityLocation(key) {
+  const loc = { region: '', category: '' };
+  [ACTIVITIES, POOL_CATS].forEach(dict => {
+    Object.entries(dict).forEach(([r, cats]) => {
+      Object.entries(cats).forEach(([c, arr]) => {
+        if (arr.includes(key)) { loc.region = r; loc.category = c; }
+      });
+    });
+  });
+  return loc;
+}
+
+// ── 刪除活動 ──
+function deleteActivity(key) {
+  if (!key) return;
+  const info = ACTIVITY_INFO[key];
+  const label = (info && info.label) ? info.label : key;
+  if (!confirm('確定要從活動池刪除「' + label + '」嗎？\n（已排入行程的項目不受影響）')) return;
+  removeActivityEverywhere(key);
+  renderPool();
+  populateModal();
+  autoSync();
+  closeInfo();
+  updateStatus('🗑 已刪除活動');
+}
+
+// ── 開啟編輯活動（重用「新增活動」表單）──
+function openEditActivity(key) {
+  if (!key) return;
+  const info = ACTIVITY_INFO[key] || {};
+  const loc = findActivityLocation(key);
+  editingKey = key;
+  document.getElementById('add-activity-title').textContent = '✏️ 編輯活動';
+  document.getElementById('add-activity-save').textContent = '✓ 儲存';
+  document.getElementById('add-region').value = loc.region;
+  updateCategoryOptions();
+  document.getElementById('add-category').value = loc.category;
+  document.getElementById('add-fullname').value = key;
+  document.getElementById('add-label').value = (info.label && info.label !== key) ? info.label : '';
+  document.getElementById('add-desc').value = info.desc || '';
+  document.getElementById('add-tags').value = (info.tags || []).join(', ');
+  document.getElementById('add-maps').value = info.maps || '';
+  closeInfo();
+  document.getElementById('add-activity-overlay').style.display = 'flex';
+}
+
+function infoEdit() { if (currentInfoKey) openEditActivity(currentInfoKey); }
+function infoDelete() { if (currentInfoKey) deleteActivity(currentInfoKey); }
 
 // ── Pool Rendering ──
 function renderPool() {
@@ -1637,8 +1805,9 @@ function closeInfo() {
 
 function infoQuickAdd() {
   if (!currentInfoKey) return;
-  quickAdd(currentInfoKey);
+  const key = currentInfoKey;
   closeInfo();
+  openSlotPicker(key);
 }
 
 
